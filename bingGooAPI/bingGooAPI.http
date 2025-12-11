@@ -1,0 +1,6 @@
+@bingGooAPI_HostAddress = http://localhost:5189
+
+GET {{bingGooAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
