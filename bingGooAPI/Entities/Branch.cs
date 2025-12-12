@@ -2,7 +2,7 @@
 {
     public class Branch : BaseEntity
     {
-        public string BranchCode { get; set; }
+        public string? BranchCode { get; set; }
         public string BranchName { get; set; }
 
         public string Phone { get; set; }

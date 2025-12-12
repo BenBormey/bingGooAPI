@@ -32,7 +32,7 @@ namespace bingGooAPI.Services
         {
             var sql = @"
 INSERT INTO Category (CategoryCode, CategoryName, Active, CreatedAt)
-VALUES (@CategoryCode, @CategoryName, @Active, @CreatedAt);
+VALUES (@CategoryCode, @CategoryName, @Active, getdate());
 SELECT CAST(SCOPE_IDENTITY() as int);";
 
             model.CreatedAt = DateTime.Now;
@@ -62,3 +62,6 @@ WHERE Id = @Id";
         }
     }
 }
+
+
+
