@@ -2,6 +2,7 @@
 using bingGooAPI.Interfaces;
 using bingGooAPI.Entities;
 using System.Threading.Tasks;
+using bingGooAPI.Models.Branch;
 
 namespace bingGooAPI.Controllers
 {
@@ -32,7 +33,7 @@ namespace bingGooAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Branch model)
+        public async Task<IActionResult> Create(CreateBranch model)
         {
             var created = await _service.CreateAsync(model);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);

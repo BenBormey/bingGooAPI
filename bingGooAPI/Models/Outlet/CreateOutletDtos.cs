@@ -2,7 +2,7 @@
 
 namespace bingGooAPI.Models.Outlet
 {
-    public class OutletRequest
+    public class CreateOutletDtos
     {
         [Required]
         [MaxLength(50)]
@@ -31,17 +31,13 @@ namespace bingGooAPI.Models.Outlet
         public decimal? Latitude { get; set; }
         public decimal? Longitude { get; set; }
 
-        public bool HeadOffice { get; set; }
+        public bool HeadOffice { get; set; } = false;
 
-        [MaxLength(50)]
-        public string? OutletType { get; set; }
 
-        [MaxLength(100)]
-        public string? ContactPerson { get; set; }
 
-        [MaxLength(255)]
-        public string? Remark { get; set; }
+    
+        public int CreatedBy { get; set; }
 
-        public bool IsActive { get; set; } = true;
+    
     }
 }

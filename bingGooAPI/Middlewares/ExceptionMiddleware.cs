@@ -1,0 +1,63 @@
+﻿using System.Net;
+using System.Text.Json;
+
+namespace bingGooAPI.Middlewares
+{
+    public class ExceptionMiddleware
+    {
+        private readonly RequestDelegate _next;
+        private readonly ILogger<ExceptionMiddleware> _logger;
+
+        public ExceptionMiddleware(
+            RequestDelegate next,
+            ILogger<ExceptionMiddleware> logger)
+        {
+            _next = next;
+            _logger = logger;
+        }
+
+        public async Task InvokeAsync(HttpContext context)
+        {
+            try
+            {
+                // Go to next middleware
+                await _next(context);
+            }
+            catch (Exception ex)
+            {
+                // Log error
+                _logger.LogError(ex, ex.Message);
+
+                // Handle error
+                await HandleExceptionAsync(context, ex);
+            }
+        }
+
+        private static Task HandleExceptionAsync(
+            HttpContext context,
+            Exception exception)
+        {
+            context.Response.ContentType = "application/json";
+
+            int statusCode = exception switch
+            {
+                UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
+                KeyNotFoundException => StatusCodes.Status404NotFound,
+                ArgumentException => StatusCodes.Status400BadRequest,
+                _ => StatusCodes.Status500InternalServerError
+            };
+
+            context.Response.StatusCode = statusCode;
+
+            var response = new
+            {
+                statusCode = statusCode,
+                message = exception.Message
+            };
+
+            return context.Response.WriteAsync(
+                JsonSerializer.Serialize(response)
+            );
+        }
+    }
+}

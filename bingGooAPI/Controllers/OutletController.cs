@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using bingGooAPI.Interfaces;
-using bingGooAPI.Entities;
 using bingGooAPI.Models.Outlet;
 
 namespace bingGooAPI.Controllers
@@ -18,17 +17,18 @@ namespace bingGooAPI.Controllers
 
         // GET: api/outlet
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<List<OutletListDto>>> GetAll()
         {
             var outlets = await _outletRepository.GetAllAsync();
             return Ok(outlets);
         }
 
-        // GET: api/outlet/{id}
+        // GET: api/outlet/5
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<ActionResult<OutletListDto>> GetById(int id)
         {
             var outlet = await _outletRepository.GetByIdAsync(id);
+
             if (outlet == null)
                 return NotFound("Outlet not found");
 
@@ -37,64 +37,41 @@ namespace bingGooAPI.Controllers
 
         // POST: api/outlet
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] OutletRequest request)
+        public async Task<IActionResult> Create([FromBody] CreateOutletDtos request)
         {
-            // check duplicate code
-            var existing = await _outletRepository.GetByCodeAsync(request.OutletCode);
-            if (existing != null)
-                return BadRequest("Outlet code already exists");
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            var outlet = new Outlet
-            {
-                OutletCode = request.OutletCode,
-                OutletName = request.OutletName,
-                Province = request.Province,
-                Phone = request.Phone,
-                Manager = request.Manager,
-                Address = request.Address,
-                HeadOffice = request.HeadOffice
-            };
+          await _outletRepository.AddAsync(request);
 
-            await _outletRepository.AddAsync(outlet);
-            await _outletRepository.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetById), new { id = outlet.Id }, outlet);
+            return Ok(new {message ="Create Outlet complete"});
         }
 
-        // PUT: api/outlet/{id}
+        // PUT: api/outlet/5
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update(int id, [FromBody] OutletRequest request)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateOutletDto request)
         {
-            var outlet = await _outletRepository.GetByIdAsync(id);
-            if (outlet == null)
-                return NotFound("Outlet not found");
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            outlet.OutletCode = request.OutletCode;
-            outlet.OutletName = request.OutletName;
-            outlet.Province = request.Province;
-            outlet.Phone = request.Phone;
-            outlet.Manager = request.Manager;
-            outlet.Address = request.Address;
-            outlet.HeadOffice = request.HeadOffice;
+            if (id != request.Id)
+                return BadRequest("Id mismatch");
 
-            await _outletRepository.UpdateAsync(outlet);
-            await _outletRepository.SaveChangesAsync();
+        await _outletRepository.UpdateAsync(request);
 
-            return Ok(outlet);
+            return Ok(new { message = "Update Outlet complete" });
         }
 
-        // DELETE: api/outlet/{id}
+        // DELETE: api/outlet/5
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var outlet = await _outletRepository.GetByIdAsync(id);
-            if (outlet == null)
-                return NotFound("Outlet not found");
+           await _outletRepository.DeleteAsync(id);
 
-            await _outletRepository.DeleteAsync(outlet);
-            await _outletRepository.SaveChangesAsync();
 
-            return NoContent();
+
+            return Ok(new { message = "Delete Outlet complete" });
+
         }
     }
 }

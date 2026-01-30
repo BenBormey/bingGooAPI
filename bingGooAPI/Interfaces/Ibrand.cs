@@ -1,4 +1,5 @@
 ﻿using bingGooAPI.Entities;
+using bingGooAPI.Models.Branch;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace bingGooAPI.Interfaces
     {
         Task<IEnumerable<Branch>> GetAllAsync();
         Task<Branch?> GetByIdAsync(int id);
-        Task<Branch> CreateAsync(Branch model);
+        Task<Branch> CreateAsync(CreateBranch model);
         Task<bool> UpdateAsync(Branch model);
         Task<bool> DeleteAsync(int id);
     }

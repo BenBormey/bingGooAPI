@@ -3,12 +3,20 @@
     public class User
     {
         public int Id { get; set; }
+
         public string Username { get; set; } = default!;
-        public string PasswordHash { get; set; } = default!;   
-        public string FullName { get; set; } = default!;
-        public string Role { get; set; } = "User";           
+        public string PasswordHash { get; set; } = default!;
+
+        public string FullName { get; set; } = default!;      
+        public string FullNameKh { get; set; } = default!;   
+
+        public int RoleId { get; set; }
+        public string RoleName { get; set; } = null!;
+
         public bool IsActive { get; set; } = true;
 
+        public int outLetId { get; set; }   
+        public string OutLetName { get; set; } = null!;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? LastLoginAt { get; set; }
     }

@@ -2,15 +2,13 @@
 
 namespace bingGooAPI.Models.Outlet
 {
-    public class OutletRequest
+    public class UpdateOutletDto
     {
         [Required]
-        [MaxLength(50)]
-        public string OutletCode { get; set; } = null!;
+        public int Id { get; set; }
 
-        [Required]
         [MaxLength(150)]
-        public string OutletName { get; set; } = null!;
+        public string? OutletName { get; set; }
 
         [MaxLength(100)]
         public string? Province { get; set; }
@@ -31,17 +29,13 @@ namespace bingGooAPI.Models.Outlet
         public decimal? Latitude { get; set; }
         public decimal? Longitude { get; set; }
 
-        public bool HeadOffice { get; set; }
+        public bool? HeadOffice { get; set; }
 
-        [MaxLength(50)]
-        public string? OutletType { get; set; }
 
-        [MaxLength(100)]
-        public string? ContactPerson { get; set; }
 
-        [MaxLength(255)]
-        public string? Remark { get; set; }
+  
 
-        public bool IsActive { get; set; } = true;
+
+        public bool? IsActive { get; set; }
     }
 }

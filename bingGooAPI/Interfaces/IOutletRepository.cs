@@ -1,17 +1,17 @@
 ﻿using bingGooAPI.Entities;
+using bingGooAPI.Models.Outlet;
 
 namespace bingGooAPI.Interfaces
 {
     public interface IOutletRepository
     {
-        Task<IEnumerable<Outlet>> GetAllAsync();
-        Task<Outlet?> GetByIdAsync(int id);
-        Task<Outlet?> GetByCodeAsync(string outletCode);
+        Task<IEnumerable<OutletListDto>> GetAllAsync();
+        Task<OutletListDto?> GetByIdAsync(int id);
+        Task<OutletListDto?> GetByCodeAsync(string outletCode);
 
-        Task AddAsync(Outlet outlet);
-        Task UpdateAsync(Outlet outlet);
-        Task DeleteAsync(Outlet outlet);
+        Task AddAsync(CreateOutletDtos outlet);
+        Task UpdateAsync(UpdateOutletDto outlet);
+        Task DeleteAsync(int id );
 
-        Task<bool> SaveChangesAsync();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using bingGooAPI.Entities;
 using bingGooAPI.Interfaces;
+using bingGooAPI.Models;
 
 namespace bingGooAPI.Services
 {
@@ -17,7 +18,7 @@ namespace bingGooAPI.Services
         }
 
         public async Task<(bool Success, string Message, string? Token, User? User)>
-            LoginAsync(string username, string password)
+      LoginAsync(string username, string password)
         {
             var user = await _users.GetByUsernameAsync(username);
 
@@ -27,8 +28,9 @@ namespace bingGooAPI.Services
             if (!user.IsActive)
                 return (false, "User is inactive", null, null);
 
-          
-            if (user.PasswordHash != password)
+            
+            bool isValidPassword = PasswordHasher.VerifyPassword(user.PasswordHash, password);
+            if (!isValidPassword)
                 return (false, "Invalid username or password", null, null);
 
             await _users.UpdateLastLoginAsync(user.Id);
@@ -37,5 +39,6 @@ namespace bingGooAPI.Services
 
             return (true, "Login success", token, user);
         }
+
     }
 }

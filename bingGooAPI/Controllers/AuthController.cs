@@ -33,7 +33,7 @@ namespace bingGooAPI.Controllers
                     result.User!.Id,
                     result.User.Username,
                     result.User.FullName,
-                    result.User.Role
+                    result.User.RoleName
                 }
             });
         }
