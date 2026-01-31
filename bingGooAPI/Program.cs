@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 // DB + Repositories
 builder.Services.AddInfoConfiguration(builder.Configuration);
 builder.Services.RegisterServices();
+builder.WebHost.UseUrls("http://*:5189");
 
 // JWT Authentication
 builder.Services.AddJwtAuthentication(builder.Configuration);

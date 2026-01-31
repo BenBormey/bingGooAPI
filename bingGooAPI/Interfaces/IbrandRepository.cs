@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace bingGooAPI.Interfaces
 {
-    public interface Ibrand
+    public interface IbrandRepository
     {
         Task<IEnumerable<Branch>> GetAllAsync();
         Task<Branch?> GetByIdAsync(int id);

@@ -10,9 +10,9 @@ namespace bingGooAPI.Controllers
     [ApiController]
     public class BrandController : ControllerBase
     {
-        private readonly Ibrand _service;
+        private readonly IbrandRepository _service;
 
-        public BrandController(Ibrand service)
+        public BrandController(IbrandRepository service)
         {
             _service = service;
         }
