@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace bingGooAPI.Controllers
 {
+   
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase

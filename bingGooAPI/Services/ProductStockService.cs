@@ -5,23 +5,23 @@ using System.Data;
 
 namespace bingGooAPI.Services
 {
-    public class ProductService : IProductStockRepository
+    public class ProductStockService : IProductStockRepository
     {
         private readonly IDbConnection _connection;
 
-        public ProductService(IDbConnection connection)
+        public ProductStockService(IDbConnection connection)
         {
             _connection = connection;
         }
 
-        // CREATE
+        
         public async Task<int> CreateAsync(CreateProductStockDto dto)
         {
             var sql = @"
                 INSERT INTO ProductStocks
-                    (ProductID, BranchId, StockQty, LastUpdated)
+                    (ProductID, BranchId, OutletId, StockQty, LastUpdated)
                 VALUES
-                    (@ProductID, @BranchId, @StockQty, GETDATE());
+                    (@ProductID, @BranchId, @OutletId, @StockQty, GETDATE());
 
                 SELECT CAST(SCOPE_IDENTITY() AS INT);
             ";
@@ -29,7 +29,9 @@ namespace bingGooAPI.Services
             return await _connection.ExecuteScalarAsync<int>(sql, dto);
         }
 
+        // =========================
         // DELETE
+        // =========================
         public async Task<bool> DeleteAsync(int stockId)
         {
             var sql = @"
@@ -45,35 +47,58 @@ namespace bingGooAPI.Services
             return rows > 0;
         }
 
+        // =========================
         // GET ALL
+        // =========================
         public async Task<IEnumerable<ProductStockDto>> GetAllAsync()
         {
             var sql = @"
-                SELECT
-                    StockID,
-                    ProductID,
-                    BranchId,
-                    StockQty,
-                    LastUpdated
-                FROM ProductStocks
-                ORDER BY StockID DESC
+      SELECT  ps.[StockID]
+      ,ps.[ProductID]
+      ,ps.[BranchId]
+      ,ps.[StockQty]
+      ,ps.[LastUpdated]
+      ,ps.[OutletId],
+	  o.OutletName,
+	  b.BranchName,
+	  p.ProductName
+
+	  
+	  
+  FROM [DBAuthentication].[dbo].[ProductStocks] ps
+  inner join Branch b on b.Id = ps.BranchId 
+  inner join Outlet o on o.Id = ps.[OutletId]
+  inner join Products p on p.ProductID = ps.ProductID
+
+                ORDER BY  ps.StockID DESC
             ";
 
             return await _connection.QueryAsync<ProductStockDto>(sql);
         }
 
+        // =========================
         // GET BY ID
+        // =========================
         public async Task<ProductStockDto> GetByIdAsync(int stockId)
         {
             var sql = @"
-                SELECT
-                    StockID,
-                    ProductID,
-                    BranchId,
-                    StockQty,
-                    LastUpdated
-                FROM ProductStocks
-                WHERE StockID = @StockID
+      SELECT  ps.[StockID]
+      ,ps.[ProductID]
+      ,ps.[BranchId]
+      ,ps.[StockQty]
+      ,ps.[LastUpdated]
+      ,ps.[OutletId],
+	  o.OutletName,
+	  b.BranchName,
+	  p.ProductName
+
+	  
+	  
+  FROM [DBAuthentication].[dbo].[ProductStocks] ps
+  inner join Branch b on b.Id = ps.BranchId 
+  inner join Outlet o on o.Id = ps.[OutletId]
+  inner join Products p on p.ProductID = ps.ProductID
+                WHERE ps.[StockID] = @StockID
             ";
 
             return await _connection.QueryFirstOrDefaultAsync<ProductStockDto>(
@@ -82,19 +107,34 @@ namespace bingGooAPI.Services
             );
         }
 
-        // GET BY PRODUCT + BRANCH
-        public async Task<ProductStockDto> GetByProductAndBranchAsync(int productId, int branchId)
+        // =========================
+        // GET BY PRODUCT + BRANCH + OUTLET
+        // =========================
+        public async Task<ProductStockDto> GetByProductBranchOutletAsync(
+            int productId,
+            int branchId,
+            int outletId)
         {
             var sql = @"
-                SELECT
-                    StockID,
-                    ProductID,
-                    BranchId,
-                    StockQty,
-                    LastUpdated
-                FROM ProductStocks
+  SELECT  ps.[StockID]
+      ,ps.[ProductID]
+      ,ps.[BranchId]
+      ,ps.[StockQty]
+      ,ps.[LastUpdated]
+      ,ps.[OutletId],
+	  o.OutletName,
+	  b.BranchName,
+	  p.ProductName
+
+	  
+	  
+  FROM [DBAuthentication].[dbo].[ProductStocks] ps
+  inner join Branch b on b.Id = ps.BranchId 
+  inner join Outlet o on o.Id = ps.[OutletId]
+  inner join Products p on p.ProductID = ps.ProductID
                 WHERE ProductID = @ProductID
                   AND BranchId = @BranchId
+                  AND OutletId = @OutletId
             ";
 
             return await _connection.QueryFirstOrDefaultAsync<ProductStockDto>(
@@ -102,12 +142,12 @@ namespace bingGooAPI.Services
                 new
                 {
                     ProductID = productId,
-                    BranchId = branchId
+                    BranchId = branchId,
+                    OutletId = outletId
                 }
             );
         }
 
-        // UPDATE
         public async Task<bool> UpdateAsync(UpdateProductStockDto dto)
         {
             var sql = @"
@@ -115,6 +155,7 @@ namespace bingGooAPI.Services
                 SET
                     ProductID = @ProductID,
                     BranchId = @BranchId,
+                    OutletId = @OutletId,
                     StockQty = @StockQty,
                     LastUpdated = GETDATE()
                 WHERE StockID = @StockID

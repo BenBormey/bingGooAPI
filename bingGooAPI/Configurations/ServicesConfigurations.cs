@@ -20,7 +20,7 @@ namespace bingGooAPI.Configurations
             services.AddScoped<ICurrency, CurrencyService>();
             services.AddScoped<ICategory, CategoryService>();
             services.AddScoped<IbrandRepository, BranchService>();
-            services.AddScoped<IProductStockRepository, ProductService>();
+            services.AddScoped<IProductStockRepository, ProductStockService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IJwtTokenService, JwtTokenService>();

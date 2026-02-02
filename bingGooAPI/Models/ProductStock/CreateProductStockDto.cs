@@ -7,5 +7,6 @@
         public int BranchId { get; set; }
 
         public int StockQty { get; set; }
+        public int OutletId { get; set; }
     }
 }

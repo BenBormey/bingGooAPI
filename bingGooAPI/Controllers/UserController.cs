@@ -1,11 +1,12 @@
 ﻿using bingGooAPI.Interfaces;
 using bingGooAPI.Models;
+using bingGooAPI.Models.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace bingGooAPI.Controllers
 {
-    //[Authorize(Roles = "Admin")]
     [ApiController]
     [Route("api/users")]
     public class UserController : ControllerBase
@@ -17,7 +18,9 @@ namespace bingGooAPI.Controllers
             _service = service;
         }
 
-        // GET: api/users
+
+
+       [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -25,16 +28,19 @@ namespace bingGooAPI.Controllers
             return Ok(users);
         }
 
-        // GET: api/users/5
+        [Authorize]
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
             var user = await _service.GetByIdAsync(id);
-            if (user == null) return NotFound("User not found");
+
+            if (user == null)
+                return NotFound("User not found");
+
             return Ok(user);
         }
 
-        // POST: api/users
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUserRequest req)
         {
@@ -46,19 +52,19 @@ namespace bingGooAPI.Controllers
             return Ok(new { message = result.Message });
         }
 
-        // PUT: api/users/5
+        [Authorize]
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateUserRequest req)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateUserDto req)
         {
             var result = await _service.UpdateAsync(id, req);
 
             if (!result.Success)
-                return NotFound(result.Message);
+                return BadRequest(result.Message);
 
             return Ok(new { message = result.Message });
         }
 
-        // DELETE: api/users/5
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -68,6 +74,39 @@ namespace bingGooAPI.Controllers
                 return NotFound("User not found");
 
             return Ok(new { message = "User deleted" });
+        }
+
+        [Authorize]
+        [HttpPut("change-password")]
+        public async Task<IActionResult> ChangePassword(
+            [FromBody] ChangePasswordDto dto)
+        {
+            var userId = int.Parse(
+                User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+            var result = await _service
+                .ChangePasswordAsync(userId, dto.OldPassword, dto.NewPassword);
+
+            if (!result.Success)
+                return BadRequest(result.Message);
+
+            return Ok(new { message = result.Message });
+        }
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("{id:int}/reset-password")]
+        public async Task<IActionResult> ResetPassword(
+            int id,
+            [FromBody] ResetPasswordDto dto)
+        {
+            var result = await _service
+                .ResetPasswordAsync(id, dto.NewPassword);
+
+            if (!result.Success)
+                return BadRequest(result.Message);
+
+            return Ok(new { message = result.Message });
         }
     }
 }

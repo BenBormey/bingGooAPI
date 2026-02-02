@@ -1,6 +1,8 @@
 ﻿using bingGooAPI.Entities;
 using bingGooAPI.Interfaces;
+using bingGooAPI.Models.User;
 using Dapper;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace bingGooAPI.Services
@@ -14,7 +16,6 @@ namespace bingGooAPI.Services
             _db = db;
         }
 
-
         public async Task<User?> GetByUsernameAsync(string username)
         {
             var sql = @"
@@ -25,17 +26,21 @@ SELECT
     u.FullName,
     u.FullNameKh,
     u.RoleId,
-    r.RoleName,         
+    r.RoleName,
+    u.Phone,
+    u.email AS Email,
+    u.address AS Address,
+    u.addressKh AS AddressKh,
     u.IsActive,
     u.CreatedAt,
     u.LastLoginAt,
-	o.OutletName
-	,o.Id as outLetId
+    o.OutletName,
+    o.Id AS OutletId
 FROM Users u
 JOIN Roles r ON u.RoleId = r.Id
-join Outlet o 
-on o.Id = u.[OutletId]
+JOIN Outlet o ON o.Id = u.OutletId
 WHERE u.Username = @Username
+and u.IsActive =1
 ";
 
             return await _db.QueryFirstOrDefaultAsync<User>(
@@ -44,95 +49,157 @@ WHERE u.Username = @Username
             );
         }
 
-
-
-
-        public Task<User?> GetByIdAsync(int id) =>
-            _db.QueryFirstOrDefaultAsync<User>(@"
-SELECT  u.*,
-        r.Id as RoleId,
-        r.RoleName,
-		o.Id as outletId,
-		o.OutletName
-FROM Users u
-JOIN Roles r ON u.RoleId = r.Id
-join Outlet o 
-on o.Id = u.[OutletId]
-WHERE u.Id = @Id
-",
-            new { Id = id });
-
-        public Task<int> CreateAsync(User user)
+      
+        public async Task<User?> GetByIdAsync(int id)
         {
             var sql = @"
-INSERT INTO Users 
+SELECT 
+    u.*,
+    r.RoleName,
+    o.OutletName
+FROM Users u
+JOIN Roles r ON u.RoleId = r.Id
+JOIN Outlet o ON o.Id = u.OutletId
+WHERE u.Id = @Id and  u.IsActive =1
+";
+
+            return await _db.QueryFirstOrDefaultAsync<User>(sql, new { Id = id });
+        }
+
+        public async Task<int> CreateAsync(User user)
+        {
+            var sql = @"
+INSERT INTO Users
 (
     Username,
     PasswordHash,
     FullName,
     FullNameKh,
     RoleId,
+    Phone,
+    email,
+    address,
+    addressKh,
     IsActive,
     CreatedAt,
     OutletId
 )
-VALUES 
+VALUES
 (
     @Username,
     @PasswordHash,
     @FullName,
     @FullNameKh,
     @RoleId,
+    @Phone,
+    @Email,
+    @Address,
+    @AddressKh,
     @IsActive,
     @CreatedAt,
-    @outLetId
+    @OutletId
 );
 
-SELECT CAST(SCOPE_IDENTITY() AS int);
+SELECT CAST(SCOPE_IDENTITY() AS INT);
 ";
 
-            return _db.ExecuteScalarAsync<int>(sql, user);
+            return await _db.ExecuteScalarAsync<int>(sql, user);
         }
 
-        public Task<bool> UpdateLastLoginAsync(int id) =>
-            _db.ExecuteAsync(
+
+        public async Task<bool> UpdateLastLoginAsync(int id)
+        {
+            var rows = await _db.ExecuteAsync(
                 "UPDATE Users SET LastLoginAt = GETUTCDATE() WHERE Id = @Id",
                 new { Id = id }
-            ).ContinueWith(t => t.Result > 0);
+            );
 
-     
-        public Task<IEnumerable<User>> GetAllAsync() =>
-            _db.QueryAsync<User>(@"
-SELECT  u.*,
-        r.Id as RoleId,
-        r.RoleName,
-		o.Id as outletId,
-		o.OutletName
+            return rows > 0;
+        }
+
+        public async Task<IEnumerable<User>> GetAllAsync()
+        {
+            var sql = @"
+SELECT 
+    u.*,
+    r.RoleName,
+    o.OutletName
 FROM Users u
 JOIN Roles r ON u.RoleId = r.Id
-join Outlet o 
-on o.Id = u.[OutletId]
-");
+JOIN Outlet o ON o.Id = u.OutletId
 
-     
-        public Task<bool> UpdateAsync(User user) =>
-            _db.ExecuteAsync(@"
+where u.IsActive =1
+";
+
+            return await _db.QueryAsync<User>(sql);
+        }
+
+
+        public async Task<bool> UpdateAsync(UpdateUserDto user)
+        {
+            var sql = @"
 UPDATE Users
 SET 
-    Username @Username,
+    Username   = @Username,
     FullName   = @FullName,
     FullNameKh = @FullNameKh,
     RoleId     = @RoleId,
+    Phone      = @Phone,
+    email      = @Email,
+    address    = @Address,
+    addressKh  = @AddressKh,
     IsActive   = @IsActive,
-    OutLetId   = @OutLetId
+    OutletId   = @OutletId
 WHERE Id = @Id
-", user).ContinueWith(t => t.Result > 0);
+";
 
-        
-        public Task<bool> DeleteAsync(int id) =>
-            _db.ExecuteAsync(
-                "DELETE FROM Users WHERE Id = @Id",
+            var rows = await _db.ExecuteAsync(sql, user);
+
+            return rows > 0;
+        }
+
+
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var rows = await _db.ExecuteAsync(
+                "UPDATE Users SET IsActive = 0 WHERE Id = @Id",
                 new { Id = id }
-            ).ContinueWith(t => t.Result > 0);
+            );
+
+            return rows > 0;
+        }
+
+        public async Task<bool> ChangePasswordAsync(int id, string passwordHash)
+        {
+            var sql = @"UPDATE Users 
+                SET PasswordHash = @PasswordHash 
+                WHERE Id = @Id";
+
+            var result = await _db.ExecuteAsync(sql, new
+            {
+                Id = id,
+                PasswordHash = passwordHash
+            });
+
+            return result > 0;
+        }
+
+
+
+        public async Task<bool> ResetPasswordAsync(int id, string passwordHash)
+        {
+            var sql = @"UPDATE Users 
+                SET PasswordHash = @PasswordHash 
+                WHERE Id = @Id";
+
+            var result = await _db.ExecuteAsync(sql, new
+            {
+                Id = id,
+                PasswordHash = passwordHash
+            });
+
+            return result > 0;
+        }
+
     }
 }
