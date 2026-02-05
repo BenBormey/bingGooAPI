@@ -66,12 +66,11 @@ namespace bingGooAPI.Services
             if (user == null)
                 return (false, "User not found");
 
-            // Map Request → DTO
             var dto = new UpdateUserDto
             {
                 Id = id,
 
-                Username = user.Username, // Keep old username
+                Username = user.Username, 
 
                 FullName = req.FullName,
                 FullNameKh = req.FullNameKh,

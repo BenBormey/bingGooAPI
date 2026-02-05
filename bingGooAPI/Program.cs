@@ -72,7 +72,7 @@ if (app.Environment.IsDevelopment())
 
 // Global Exception
 app.UseMiddleware<ExceptionMiddleware>();
-
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();   // FIRST

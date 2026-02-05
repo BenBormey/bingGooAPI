@@ -28,14 +28,19 @@ namespace bingGooAPI.Controllers
             {
                 access_token = result.Token,
                 token_type = "Bearer",
+
                 user = new
                 {
-                    result.User!.Id,
-                    result.User.Username,
-                    result.User.FullName,
-                    result.User.RoleName
+                    id = result.User!.Id,
+                    username = result.User.Username,
+                    fullName = result.User.FullName,
+                    roleName = result.User.RoleName,
+
+                    // ✅ ADD THIS
+                    outletId = result.User.outLetId
                 }
             });
         }
+
     }
 }

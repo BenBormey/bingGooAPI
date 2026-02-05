@@ -26,10 +26,13 @@ namespace bingGooAPI.Configurations
             services.AddScoped<IJwtTokenService, JwtTokenService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<ISupplierRepository, SupplierRepository>();
+            services.AddScoped<ICartRepository, CartRepository>();
             services.AddScoped<IOutletRepository, OutletRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
         }
 
-        // ================= JWT CONFIG =================
+        
         public static IServiceCollection AddJwtAuthentication(
             this IServiceCollection services,
             IConfiguration configuration)
