@@ -158,6 +158,16 @@ namespace bingGooAPI.Controllers
                 imageUrl = imageUrl
             });
         }
+        [HttpGet("pos")]
+        public async Task<IActionResult> GetForPOS()
+        {
+            int outletId = int.Parse(User.FindFirst("OutletId")!.Value);
+
+
+            var products = await _product.GetForPosAsync(outletId);
+
+            return Ok(products);
+        }
 
 
     }

@@ -22,8 +22,8 @@ namespace bingGooAPI.Services
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Username),
-
-                // ✅ Use Role.Name instead of Role string
+                new Claim("OutletId", user.outLetId.ToString()),
+          
                 new Claim(ClaimTypes.Role, user.RoleName)
             };
 

@@ -172,5 +172,71 @@ WHERE ProductID = @Id;
 
             return count > 0;
         }
+
+        public async Task<List<ProductPosDto>> GetForPosAsync(int outletId)
+        {
+            var sql = $@"
+DECLARE @OutletId INT = {outletId}; 
+
+SELECT 
+    p.ProductID,
+    p.ProductCode,
+    p.ProductName,
+
+    p.BrandID,
+    b.BranchName AS BrandName,
+
+    p.CategoryId,
+    c.CategoryName,
+
+    p.SupplierId,
+    s.SupplierName,
+
+    p.ImageUrl,
+    p.CostPrice,
+    p.SellPrice AS SellingPrice,
+
+    p.DiscountPercent,
+    p.DiscountAmount,
+    p.TaxPercent,
+
+    p.Status,
+    p.CreatedAt,
+    p.UpdatedAt,
+
+    ISNULL(ps.StockQty, 0) AS StockQty,
+    o.OutletName
+
+FROM Products p
+
+INNER JOIN Suppliers s 
+    ON s.SupplierID = p.SupplierId
+
+INNER JOIN Branch b 
+    ON b.Id = p.BrandID
+
+INNER JOIN Category c 
+    ON c.Id = p.CategoryId
+
+
+INNER JOIN ProductStocks ps
+    ON ps.ProductID = p.ProductID
+    AND ps.OutletId = @OutletId
+
+INNER JOIN Outlet o
+    ON o.Id = ps.OutletId
+
+WHERE p.Status = 1
+
+ORDER BY p.ProductName;
+
+    ";
+
+            var data = await _connection.QueryAsync<ProductPosDto>(
+                sql);
+
+            return data.ToList();
+        }
+
     }
 }
