@@ -76,9 +76,11 @@ namespace bingGooAPI.Services
 
         public async Task AddCartItemAsync(CartItem item)
         {
-            CalculateItem(item);
+            try
+            {
+                CalculateItem(item);
 
-            var sql = @"
+                var sql = @"
                 INSERT INTO CartItems
                 (
                     CartID, ProductID,
@@ -102,9 +104,16 @@ namespace bingGooAPI.Services
                     GETDATE()
                 )";
 
-            await _connection.ExecuteAsync(sql, item);
+                await _connection.ExecuteAsync(sql, item);
 
-            await UpdateCartTotal(item.CartID);
+               await UpdateCartTotal(item.CartID);
+            }
+            catch (Exception ex)
+            {
+                 Console.WriteLine($"Error adding cart item: {ex.Message}");
+                throw;
+            }
+          
         }
 
    
@@ -117,13 +126,10 @@ namespace bingGooAPI.Services
                 SET
                     Quantity = @Quantity,
                     UnitPrice = @UnitPrice,
-
                     DiscountPercent = @DiscountPercent,
                     DiscountAmount = @DiscountAmount,
-
                     TaxPercent = @TaxPercent,
                     TaxAmount = @TaxAmount,
-
                     SubTotal = @SubTotal,
                     TotalPrice = @TotalPrice
                 WHERE CartItemID = @CartItemID";
@@ -147,9 +153,7 @@ namespace bingGooAPI.Services
             await UpdateCartTotal(cartId);
         }
 
-        // ===============================
-        // Update Cart
-        // ===============================
+      
         public async Task UpdateCartAsync(Cart cart)
         {
             var sql = @"
@@ -170,9 +174,6 @@ namespace bingGooAPI.Services
             return Task.CompletedTask;
         }
 
-        // ==================================================
-        // PRIVATE HELPERS
-        // ==================================================
 
         private async Task LoadItems(Cart cart)
         {

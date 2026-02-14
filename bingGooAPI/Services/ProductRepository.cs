@@ -15,9 +15,6 @@ namespace bingGooAPI.Services
         {
             _connection = connection;
         }
-
-      
-
         public async Task<Product> CreateAsync(Product product)
         {
             var sql = @"
@@ -63,8 +60,6 @@ SELECT CAST(SCOPE_IDENTITY() as int);
 
             return product;
         }
-
-    
         public async Task<List<ProductListDto>> GetAllAsync()
         {
             var sql = @"
@@ -173,11 +168,12 @@ WHERE ProductID = @Id;
             return count > 0;
         }
 
-        public async Task<List<ProductPosDto>> GetForPosAsync(int outletId)
+        public async Task<List<ProductPosDto>> GetForPosAsync(
+     int outletId,
+     int? categoryId
+ )
         {
-            var sql = $@"
-DECLARE @OutletId INT = {outletId}; 
-
+            var sql = @"
 SELECT 
     p.ProductID,
     p.ProductCode,
@@ -208,35 +204,32 @@ SELECT
     o.OutletName
 
 FROM Products p
-
-INNER JOIN Suppliers s 
-    ON s.SupplierID = p.SupplierId
-
-INNER JOIN Branch b 
-    ON b.Id = p.BrandID
-
-INNER JOIN Category c 
-    ON c.Id = p.CategoryId
-
-
-INNER JOIN ProductStocks ps
+INNER JOIN Suppliers s ON s.SupplierID = p.SupplierId
+INNER JOIN Branch b ON b.Id = p.BrandID
+INNER JOIN Category c ON c.Id = p.CategoryId
+INNER JOIN ProductStocks ps 
     ON ps.ProductID = p.ProductID
     AND ps.OutletId = @OutletId
+INNER JOIN Outlet o ON o.Id = ps.OutletId
 
-INNER JOIN Outlet o
-    ON o.Id = ps.OutletId
-
-WHERE p.Status = 1
+WHERE 
+    p.Status = 1
+    AND (@CategoryId IS NULL OR p.CategoryId = @CategoryId)
 
 ORDER BY p.ProductName;
-
-    ";
+";
 
             var data = await _connection.QueryAsync<ProductPosDto>(
-                sql);
+                sql,
+                new
+                {
+                    OutletId = outletId,
+                    CategoryId = categoryId
+                });
 
             return data.ToList();
         }
+
 
     }
 }

@@ -159,15 +159,15 @@ namespace bingGooAPI.Controllers
             });
         }
         [HttpGet("pos")]
-        public async Task<IActionResult> GetForPOS()
+        public async Task<IActionResult> GetForPOS([FromQuery] int? categoryId)
         {
             int outletId = int.Parse(User.FindFirst("OutletId")!.Value);
 
-
-            var products = await _product.GetForPosAsync(outletId);
+            var products = await _product.GetForPosAsync(outletId, categoryId);
 
             return Ok(products);
         }
+
 
 
     }

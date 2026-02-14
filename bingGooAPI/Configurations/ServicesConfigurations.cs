@@ -30,9 +30,14 @@ namespace bingGooAPI.Configurations
             services.AddScoped<ICartRepository, CartRepository>();
             services.AddScoped<IOutletRepository, OutletRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
+            services.AddScoped<IReportRepository, ReportRepository>();
+     
+
         }
 
-        
+
         public static IServiceCollection AddJwtAuthentication(
             this IServiceCollection services,
             IConfiguration configuration)

@@ -16,6 +16,6 @@ namespace bingGooAPI.Interfaces
         Task<bool> DeleteAsync(int id);
 
         Task<bool> ExistsAsync(int id);
-        Task<List<ProductPosDto>> GetForPosAsync(int outletId);
+        Task<List<ProductPosDto>> GetForPosAsync(int outletId,int? categoryid);
     }
 }
