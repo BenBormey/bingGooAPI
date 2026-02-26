@@ -17,7 +17,7 @@ namespace bingGooAPI.Interfaces
 
 
         //Task<List<InventoryReportDto>> GetInventoryReportAsync(DateTime asOfDate);
-        Task<List<SalesReportDto>> GetSalesReportAsync(DateTime from, DateTime to);
+        Task<List<SalesReportDto>> GetSalesReportAsync(DateTime from, DateTime to,int? outletid);
 
     }
 }

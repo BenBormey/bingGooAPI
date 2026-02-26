@@ -29,9 +29,6 @@ namespace bingGooAPI.Services
             return await _connection.ExecuteScalarAsync<int>(sql, dto);
         }
 
-        // =========================
-        // DELETE
-        // =========================
         public async Task<bool> DeleteAsync(int stockId)
         {
             var sql = @"

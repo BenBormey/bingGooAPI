@@ -35,8 +35,6 @@ namespace bingGooAPI.Controllers
                     username = result.User.Username,
                     fullName = result.User.FullName,
                     roleName = result.User.RoleName,
-
-                    // ✅ ADD THIS
                     outletId = result.User.outLetId
                 }
             });

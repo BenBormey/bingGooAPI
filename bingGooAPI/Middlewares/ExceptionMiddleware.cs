@@ -20,15 +20,15 @@ namespace bingGooAPI.Middlewares
         {
             try
             {
-                // Go to next middleware
+              
                 await _next(context);
             }
             catch (Exception ex)
             {
-                // Log error
+         
                 _logger.LogError(ex, ex.Message);
 
-                // Handle error
+          
                 await HandleExceptionAsync(context, ex);
             }
         }

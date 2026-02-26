@@ -34,16 +34,22 @@ namespace bingGooAPI.Controllers
             var data = await _repo.GetBalanceSheetAsync(asOfDate);
             return Ok(data);
         }
+      
         [HttpGet("sales")]
         public async Task<IActionResult> GetSalesReport(
-        [FromQuery] DateTime from,
-        [FromQuery] DateTime to)
+    [FromQuery] DateTime from,
+    [FromQuery] DateTime to,
+    [FromQuery] int? outletId)
         {
             if (from > to)
                 return BadRequest("From date must be <= To date");
 
-            var data = await _repo.GetSalesReportAsync(from, to);
+            var data = await _repo.GetSalesReportAsync(from, to, outletId);
+
             return Ok(data);
         }
+
+
+
     }
 }

@@ -18,7 +18,7 @@ namespace bingGooAPI.Controllers
             _roleRepository = roleRepository;
         }
 
-        // GET: api/role
+  
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -26,7 +26,7 @@ namespace bingGooAPI.Controllers
             return Ok(result);
         }
 
-        // GET: api/role/1
+ 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -38,7 +38,7 @@ namespace bingGooAPI.Controllers
             return Ok(role);
         }
 
-        // POST: api/role
+   
         [HttpPost]
         public async Task<IActionResult> Create(CreateRoleDto dto)
         {
@@ -51,7 +51,7 @@ namespace bingGooAPI.Controllers
             });
         }
 
-        // PUT: api/role/1
+  
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, UpdateRoleDto dto)
         {
@@ -63,7 +63,6 @@ namespace bingGooAPI.Controllers
             return Ok("Role updated successfully");
         }
 
-        // DELETE: api/role/1
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

@@ -55,8 +55,6 @@ namespace bingGooAPI.Services
 
             return newCart;
         }
-
-   
         public async Task<CartItem?> GetCartItemAsync(int cartId, int productId)
         {
             var sql = @"
@@ -85,10 +83,8 @@ namespace bingGooAPI.Services
                 (
                     CartID, ProductID,
                     Quantity, UnitPrice,
-
                     DiscountPercent, DiscountAmount,
                     TaxPercent, TaxAmount,
-
                     SubTotal, TotalPrice,
                     CreatedAt
                 )
@@ -96,10 +92,8 @@ namespace bingGooAPI.Services
                 (
                     @CartID, @ProductID,
                     @Quantity, @UnitPrice,
-
                     @DiscountPercent, @DiscountAmount,
                     @TaxPercent, @TaxAmount,
-
                     @SubTotal, @TotalPrice,
                     GETDATE()
                 )";
@@ -206,12 +200,13 @@ namespace bingGooAPI.Services
         {
             var sql = @"
                 SELECT
-                    ISNULL(SUM(SubTotal),0) AS SubTotal,
-                    ISNULL(SUM(DiscountAmount),0) AS DiscountAmount,
-                    ISNULL(SUM(TaxAmount),0) AS TaxAmount,
-                    ISNULL(SUM(TotalPrice),0) AS GrandTotal
-                FROM CartItems
-                WHERE CartID=@CartID";
+    ISNULL(SUM(SubTotal), 0) AS SubTotal,
+    ISNULL(SUM(DiscountAmount), 0) AS DiscountAmount,
+    ISNULL(SUM(TaxAmount), 0) AS TaxAmount,
+    ISNULL(SUM(TotalPrice), 0) AS GrandTotal
+    FROM CartItems
+    WHERE CartID = @CartID;
+";
 
             var totals = await _connection.QuerySingleAsync<Cart>(sql,
                 new { CartID = cartId });

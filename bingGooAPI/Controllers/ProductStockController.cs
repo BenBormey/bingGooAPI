@@ -15,10 +15,7 @@ namespace bingGooAPI.Controllers
             _service = service;
         }
 
-        // =========================
-        // CREATE
-        // POST: api/ProductStock
-        // =========================
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateProductStockDto dto)
         {
@@ -34,10 +31,6 @@ namespace bingGooAPI.Controllers
             });
         }
 
-        // =========================
-        // GET ALL
-        // GET: api/ProductStock
-        // =========================
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -46,10 +39,7 @@ namespace bingGooAPI.Controllers
             return Ok(data);
         }
 
-        // =========================
-        // GET BY ID
-        // GET: api/ProductStock/5
-        // =========================
+      
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -61,10 +51,6 @@ namespace bingGooAPI.Controllers
             return Ok(data);
         }
 
-        // =========================
-        // GET BY PRODUCT + BRANCH + OUTLET
-        // GET: api/ProductStock/search?productId=1&branchId=2&outletId=3
-        // =========================
         [HttpGet("search")]
         public async Task<IActionResult> GetByProductBranchOutlet(
             int productId,
@@ -80,10 +66,7 @@ namespace bingGooAPI.Controllers
             return Ok(data);
         }
 
-        // =========================
-        // UPDATE
-        // PUT: api/ProductStock/5
-        // =========================
+       
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(
             int id,
@@ -103,10 +86,7 @@ namespace bingGooAPI.Controllers
             });
         }
 
-        // =========================
-        // DELETE
-        // DELETE: api/ProductStock/5
-        // =========================
+ 
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

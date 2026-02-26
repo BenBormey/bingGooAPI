@@ -132,33 +132,25 @@ JOIN Products pr ON ps.ProductID = pr.ProductID
             return data.ToList();
         }
 
-        public async Task<List<SalesReportDto>> GetSalesReportAsync(DateTime from, DateTime to)
+        public async Task<List<SalesReportDto>> GetSalesReportAsync(
+           DateTime from,
+           DateTime to,
+           int? outletId)
         {
-            var sql = @"
-        SELECT
-            CAST(o.CreatedAt AS DATE) AS SaleDate,
-            COUNT(DISTINCT o.OrderID) AS TotalOrders,
-            ISNULL(SUM(oi.Quantity), 0) AS TotalQuantity,
-            ISNULL(SUM(p.AmountPaid), 0) AS TotalSales
-        FROM Orders o
-        JOIN OrderItems oi ON o.OrderID = oi.OrderID
-        JOIN Payments p ON o.OrderID = p.OrderID
-        WHERE o.OrderStatus = 'Paid'
-          AND o.CreatedAt BETWEEN @From AND @To
-        GROUP BY CAST(o.CreatedAt AS DATE)
-        ORDER BY SaleDate
-    ";
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@FromDate", from.Date);
+            parameters.Add("@ToDate", to.Date);
+            parameters.Add("@OutletId", outletId);
 
             var data = await _connection.QueryAsync<SalesReportDto>(
-                sql,
-                new
-                {
-                    From = from,
-                    To = to
-                });
+                "rptSaleReportByOutlet",
+                parameters,
+                commandType: CommandType.StoredProcedure);
 
             return data.ToList();
         }
+
 
     }
 }

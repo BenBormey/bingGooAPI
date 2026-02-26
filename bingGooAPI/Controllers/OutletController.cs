@@ -35,7 +35,7 @@ namespace bingGooAPI.Controllers
             return Ok(outlet);
         }
 
-        // POST: api/outlet
+   
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateOutletDtos request)
         {
@@ -47,7 +47,7 @@ namespace bingGooAPI.Controllers
             return Ok(new {message ="Create Outlet complete"});
         }
 
-        // PUT: api/outlet/5
+
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateOutletDto request)
         {
@@ -62,7 +62,7 @@ namespace bingGooAPI.Controllers
             return Ok(new { message = "Update Outlet complete" });
         }
 
-        // DELETE: api/outlet/5
+        
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

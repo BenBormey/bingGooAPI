@@ -23,8 +23,8 @@ namespace bingGooAPI.Controllers
         {
             var cart = await _cartRepo.GetActiveCartByUserAsync(userId);
 
-            if (cart == null)
-                return NotFound("No active cart found");
+            //if (cart == null)
+            //    return NotFound("No active cart found");
 
             return Ok(cart);
         }
