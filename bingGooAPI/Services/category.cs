@@ -7,7 +7,7 @@ using Dapper;
 
 namespace bingGooAPI.Services
 {
-    public class CategoryService : ICategory
+    public class CategoryService : IcategoryRepository
     {
         private readonly IDbConnection _connection;
 

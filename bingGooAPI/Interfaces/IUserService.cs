@@ -10,7 +10,7 @@ public interface IUserService
     Task<(bool Success, string Message)> UpdateAsync(int id, UpdateUserDto req);
     Task<bool> DeleteAsync(int id);
 
-    // 🔐 Password
+
     Task<(bool Success, string Message)> ChangePasswordAsync(
         int userId,
         string oldPassword,

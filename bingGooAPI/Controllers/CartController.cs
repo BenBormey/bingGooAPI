@@ -104,7 +104,7 @@ namespace bingGooAPI.Controllers
             if (item == null)
                 return NotFound("Item not found");
 
-            // ✅ If qty <= 0 → remove
+           
             if (request.Quantity <= 0)
             {
                 await _cartRepo.RemoveCartItemAsync(item);
@@ -173,10 +173,6 @@ namespace bingGooAPI.Controllers
             await _cartRepo.UpdateCartAsync(cart);
         }
     }
-
-
-
-
 
 
 }

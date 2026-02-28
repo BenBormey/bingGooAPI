@@ -17,8 +17,8 @@ namespace bingGooAPI.Configurations
     {
         public static void RegisterServices(this IServiceCollection services)
         {
-            services.AddScoped<ICurrency, CurrencyService>();
-            services.AddScoped<ICategory, CategoryService>();
+            services.AddScoped<IcurrencyRepository, CurrencyService>();
+            services.AddScoped<IcategoryRepository, CategoryService>();
             services.AddScoped<IbrandRepository, BranchService>();
             services.AddScoped<IProductStockRepository, ProductStockService>();
             services.AddScoped<IUserRepository, UserRepository>();
@@ -75,7 +75,6 @@ namespace bingGooAPI.Configurations
             return services;
         }
 
-        // ================= DB CONFIG =================
         public static IServiceCollection AddInfoConfiguration(
             this IServiceCollection services,
             IConfiguration configuration)

@@ -10,9 +10,9 @@ namespace bingGooAPI.Controllers
     [ApiController]
     public class CurrencyController : ControllerBase
     {
-        private readonly ICurrency _service;
+        private readonly IcurrencyRepository _service;
 
-        public CurrencyController(ICurrency service)
+        public CurrencyController(IcurrencyRepository service)
         {
             _service = service;
         }

@@ -7,7 +7,7 @@ using Dapper;
 
 namespace bingGooAPI.Services
 {
-    public class CurrencyService : ICurrency
+    public class CurrencyService : IcurrencyRepository
     {
         private readonly IDbConnection _connection;
 

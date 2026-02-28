@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace bingGooAPI.Interfaces
 {
-    public interface ICategory
+    public interface IcategoryRepository
     {
         Task<IEnumerable<Category>> GetAllAsync();
         Task<Category?> GetByIdAsync(int id);

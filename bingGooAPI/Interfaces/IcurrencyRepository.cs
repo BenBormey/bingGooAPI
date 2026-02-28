@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace bingGooAPI.Interfaces
 {
-    public interface ICurrency
+    public interface IcurrencyRepository
     {
         Task<IEnumerable<Currency>> GetAllAsync();
         Task<Currency?> GetByIdAsync(int id);

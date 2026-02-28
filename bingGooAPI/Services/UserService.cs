@@ -70,7 +70,7 @@ namespace bingGooAPI.Services
             {
                 Id = id,
 
-                Username = user.Username, 
+                Username = req.Username, 
 
                 FullName = req.FullName,
                 FullNameKh = req.FullNameKh,

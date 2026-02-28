@@ -11,12 +11,12 @@ namespace UnitTest
 {
     public class CategoryTest
     {
-        private readonly Mock<ICategory> _mockService;
+        private readonly Mock<IcategoryRepository> _mockService;
         private readonly CategoryController _controller;
 
         public CategoryTest()
         {
-            _mockService = new Mock<ICategory>();
+            _mockService = new Mock<IcategoryRepository>();
             _controller = new CategoryController(_mockService.Object);
         }
 

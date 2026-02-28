@@ -10,9 +10,9 @@ namespace bingGooAPI.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly ICategory _service;
+        private readonly IcategoryRepository _service;
 
-        public CategoryController(ICategory service)
+        public CategoryController(IcategoryRepository service)
         {
             _service = service;
         }

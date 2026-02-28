@@ -14,11 +14,11 @@ namespace UnitTest
 {
     public class CurrencyTest
     {
-        private readonly Mock<ICurrency> _mockService;
+        private readonly Mock<IcurrencyRepository> _mockService;
         private readonly CurrencyController _controller;
         public CurrencyTest()
         {
-            _mockService = new Mock<ICurrency>();
+            _mockService = new Mock<IcurrencyRepository>();
             _controller = new CurrencyController(_mockService.Object);
         }
 
