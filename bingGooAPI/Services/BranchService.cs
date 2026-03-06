@@ -31,7 +31,7 @@ namespace bingGooAPI.Services
             return await _connection.QuerySingleAsync<Branch>(sql, model);
         }
 
-        // DELETE
+
         public async Task<bool> DeleteAsync(int id)
         {
             var sql = @"
@@ -44,7 +44,6 @@ namespace bingGooAPI.Services
             return rows > 0;
         }
 
-        // GET ALL
         public async Task<IEnumerable<Branch>> GetAllAsync()
         {
             var sql = @"
@@ -61,7 +60,7 @@ namespace bingGooAPI.Services
             return await _connection.QueryAsync<Branch>(sql);
         }
 
-        // GET BY ID
+      
         public async Task<Branch?> GetByIdAsync(int id)
         {
             var sql = @"
@@ -81,7 +80,7 @@ namespace bingGooAPI.Services
             );
         }
 
-        // UPDATE
+
         public async Task<bool> UpdateAsync(Branch model)
         {
             var sql = @"

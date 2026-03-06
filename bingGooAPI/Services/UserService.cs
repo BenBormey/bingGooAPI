@@ -29,7 +29,7 @@ namespace bingGooAPI.Services
             if (exist != null)
                 return (false, "Username already exists");
 
-            // Map DTO → Entity
+      
             var user = new User
             {
                 Username = req.Username,
@@ -110,11 +110,11 @@ namespace bingGooAPI.Services
             if (user == null)
                 return (false, "User not found");
 
-            // ✅ Verify old password
+
             if (!PasswordHasher.VerifyPassword(user.PasswordHash, oldPassword))
                 return (false, "Old password incorrect");
 
-            // ✅ Hash new password
+
             var newHash = PasswordHasher.HashPassword(newPassword);
 
             var ok = await _repo.ChangePasswordAsync(userId, newHash);

@@ -36,7 +36,7 @@ namespace bingGooAPI.Helpers
 
             byte[] cipherText = ms.ToArray();
 
-            // Combine: salt + iv + cipher
+       
             byte[] result = new byte[salt.Length + iv.Length + cipherText.Length];
             Buffer.BlockCopy(salt, 0, result, 0, salt.Length);
             Buffer.BlockCopy(iv, 0, result, salt.Length, iv.Length);

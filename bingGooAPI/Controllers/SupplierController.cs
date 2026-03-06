@@ -25,7 +25,7 @@ namespace bingGooAPI.Controllers
             return Ok(suppliers);
         }
 
-        // ================= GET BY ID =================
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -37,7 +37,7 @@ namespace bingGooAPI.Controllers
             return Ok(supplier);
         }
 
-        // ================= CREATE =================
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateSupplierDto dto)
         {

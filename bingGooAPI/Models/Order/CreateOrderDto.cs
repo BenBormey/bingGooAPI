@@ -8,10 +8,10 @@
 
         public int CartId { get; set; }
 
-        // Optional (future)
+
         public string? Note { get; set; }
 
-        // Payment Method (future use)
+
         public string? PaymentMethod { get; set; }
     }
 }

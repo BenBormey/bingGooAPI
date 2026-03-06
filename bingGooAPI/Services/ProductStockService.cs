@@ -44,9 +44,7 @@ namespace bingGooAPI.Services
             return rows > 0;
         }
 
-        // =========================
-        // GET ALL
-        // =========================
+     
         public async Task<IEnumerable<ProductStockDto>> GetAllAsync()
         {
             var sql = @"
@@ -73,9 +71,7 @@ namespace bingGooAPI.Services
             return await _connection.QueryAsync<ProductStockDto>(sql);
         }
 
-        // =========================
-        // GET BY ID
-        // =========================
+       
         public async Task<ProductStockDto> GetByIdAsync(int stockId)
         {
             var sql = @"
@@ -104,9 +100,7 @@ namespace bingGooAPI.Services
             );
         }
 
-        // =========================
-        // GET BY PRODUCT + BRANCH + OUTLET
-        // =========================
+    
         public async Task<ProductStockDto> GetByProductBranchOutletAsync(
             int productId,
             int branchId,

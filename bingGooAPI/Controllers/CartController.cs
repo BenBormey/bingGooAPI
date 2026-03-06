@@ -58,7 +58,7 @@ namespace bingGooAPI.Controllers
                
                 existingItem.Quantity += request.Quantity;
 
-                CalculateItem(existingItem);
+           //     CalculateItem(existingItem);
 
                 await _cartRepo.UpdateCartItemAsync(existingItem);
             }
@@ -76,7 +76,7 @@ namespace bingGooAPI.Controllers
                     TaxPercent = request.TaxPercent
                 };
 
-                CalculateItem(item);
+              //  CalculateItem(item);
 
                 await _cartRepo.AddCartItemAsync(item);
             }
@@ -117,7 +117,7 @@ namespace bingGooAPI.Controllers
    
             item.Quantity = request.Quantity;
 
-            CalculateItem(item);
+       //     CalculateItem(item);
 
             await _cartRepo.UpdateCartItemAsync(item);
 
@@ -143,21 +143,21 @@ namespace bingGooAPI.Controllers
 
   
 
-        private void CalculateItem(CartItem item)
-        {
-            item.SubTotal = item.Quantity * item.UnitPrice;
+        //private void CalculateItem(CartItem item)
+        //{
+        //    item.SubTotal = item.Quantity * item.UnitPrice;
 
-            item.DiscountAmount =
-                item.SubTotal * item.DiscountPercent / 100;
+        //    item.DiscountAmount =
+        //        item.SubTotal * item.DiscountPercent / 100;
 
-            var afterDiscount = item.SubTotal - item.DiscountAmount;
+        //    var afterDiscount = item.SubTotal - item.DiscountAmount;
 
-            item.TaxAmount =
-                afterDiscount * item.TaxPercent / 100;
+        //    item.TaxAmount =
+        //        afterDiscount * item.TaxPercent / 100;
 
-            item.TotalPrice =
-                afterDiscount + item.TaxAmount;
-        }
+        //    item.TotalPrice =
+        //        afterDiscount + item.TaxAmount;
+        //}
 
         private async Task RecalculateCart(int cartId)
         {

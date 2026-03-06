@@ -14,7 +14,6 @@ namespace bingGooAPI.Interfaces
 
         Task UpdateOrderStatusAsync(int orderId, string status);
 
-        // ✅ For Checkout (Procedure)
         Task<int> CheckoutAsync(int cartId);
     }
 }

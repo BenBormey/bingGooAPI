@@ -14,9 +14,7 @@ namespace bingGooAPI.Controllers
             _repo = repo;
         }
 
-        // =========================
-        // PROFIT & LOSS
-        // =========================
+ 
         [HttpGet("pnl")]
         public async Task<IActionResult> GetPnL(
             [FromQuery] DateTime from,

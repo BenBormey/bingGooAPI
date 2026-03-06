@@ -31,7 +31,7 @@ builder.Services.AddSwaggerGen(c =>
         Version = "v1"
     });
 
-    // ?? JWT Support
+
     c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -70,13 +70,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// Global Exception
+
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseStaticFiles();
 app.UseHttpsRedirection();
 
-app.UseAuthentication();   // FIRST
-app.UseAuthorization();    // SECOND
+app.UseAuthentication();  
+app.UseAuthorization();   
 
 app.MapControllers();
 
