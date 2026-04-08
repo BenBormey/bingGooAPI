@@ -14,7 +14,7 @@
 
         Task<ProductStockDto> GetByIdAsync(int stockId);
 
-        Task<ProductStockDto> GetByProductBranchOutletAsync(int productId, int branchId,int outletId);
+        Task<ProductStockDto> GetByProductBranchOutletAsync(int productId,int outletId);
 
 
         Task<bool> UpdateAsync(UpdateProductStockDto dto);

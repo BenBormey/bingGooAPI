@@ -49,7 +49,6 @@ namespace bingGooAPI.Services
                     @UserID, @OutletID,
                     @Status, GETDATE()
                 )";
-
             var newCart = await _connection
                 .QuerySingleAsync<Cart>(sql, cart);
 
@@ -207,15 +206,13 @@ namespace bingGooAPI.Services
     FROM CartItems
     WHERE CartID = @CartID;
 ";
-
-            var totals = await _connection.QuerySingleAsync<Cart>(sql,
+            var totals = await _connection. QuerySingleAsync<Cart>(sql,
                 new { CartID = cartId });
 
             totals.CartID = cartId;
 
             await UpdateCartAsync(totals);
         }
-
         private async Task RecalculateAndSave(Cart cart)
         {
             cart.SubTotal = cart.CartItems.Sum(x => x.SubTotal);

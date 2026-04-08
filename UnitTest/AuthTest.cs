@@ -23,7 +23,7 @@ namespace UnitTest
         [Fact]
         public async Task Login_ReturnsOk_WhenSuccess()
         {
-            // Arrange
+
             var request = new LoginRequest
             {
                 Username = "admin",
@@ -52,7 +52,6 @@ namespace UnitTest
 
             var accessTokenProperty = value.GetType().GetProperty("access_token");
             var accessToken = accessTokenProperty.GetValue(value)?.ToString();
-
             var userProperty = value.GetType().GetProperty("user");
             var userObject = userProperty.GetValue(value);
 

@@ -19,9 +19,9 @@ namespace bingGooAPI.Services
         {
             var sql = @"
                 INSERT INTO ProductStocks
-                    (ProductID, BranchId, OutletId, StockQty, LastUpdated)
+                    (ProductID, OutletId, StockQty, LastUpdated)
                 VALUES
-                    (@ProductID, @BranchId, @OutletId, @StockQty, GETDATE());
+                    (@ProductID, @OutletId, @StockQty, GETDATE());
 
                 SELECT CAST(SCOPE_IDENTITY() AS INT);
             ";
@@ -50,18 +50,18 @@ namespace bingGooAPI.Services
             var sql = @"
       SELECT  ps.[StockID]
       ,ps.[ProductID]
-      ,ps.[BranchId]
+
       ,ps.[StockQty]
       ,ps.[LastUpdated]
       ,ps.[OutletId],
 	  o.OutletName,
-	  b.BranchName,
+
 	  p.ProductName
 
 	  
 	  
   FROM [DBAuthentication].[dbo].[ProductStocks] ps
-  inner join Branch b on b.Id = ps.BranchId 
+
   inner join Outlet o on o.Id = ps.[OutletId]
   inner join Products p on p.ProductID = ps.ProductID
 
@@ -77,18 +77,18 @@ namespace bingGooAPI.Services
             var sql = @"
       SELECT  ps.[StockID]
       ,ps.[ProductID]
-      ,ps.[BranchId]
+
       ,ps.[StockQty]
       ,ps.[LastUpdated]
       ,ps.[OutletId],
 	  o.OutletName,
-	  b.BranchName,
+
 	  p.ProductName
 
 	  
 	  
   FROM [DBAuthentication].[dbo].[ProductStocks] ps
-  inner join Branch b on b.Id = ps.BranchId 
+  
   inner join Outlet o on o.Id = ps.[OutletId]
   inner join Products p on p.ProductID = ps.ProductID
                 WHERE ps.[StockID] = @StockID
@@ -103,28 +103,28 @@ namespace bingGooAPI.Services
     
         public async Task<ProductStockDto> GetByProductBranchOutletAsync(
             int productId,
-            int branchId,
+  
             int outletId)
         {
             var sql = @"
   SELECT  ps.[StockID]
       ,ps.[ProductID]
-      ,ps.[BranchId]
+ 
       ,ps.[StockQty]
       ,ps.[LastUpdated]
       ,ps.[OutletId],
 	  o.OutletName,
-	  b.BranchName,
+	
 	  p.ProductName
 
 	  
 	  
   FROM [DBAuthentication].[dbo].[ProductStocks] ps
-  inner join Branch b on b.Id = ps.BranchId 
+
   inner join Outlet o on o.Id = ps.[OutletId]
   inner join Products p on p.ProductID = ps.ProductID
                 WHERE ProductID = @ProductID
-                  AND BranchId = @BranchId
+               
                   AND OutletId = @OutletId
             ";
 
@@ -133,7 +133,7 @@ namespace bingGooAPI.Services
                 new
                 {
                     ProductID = productId,
-                    BranchId = branchId,
+                 
                     OutletId = outletId
                 }
             );
@@ -145,7 +145,6 @@ namespace bingGooAPI.Services
                 UPDATE ProductStocks
                 SET
                     ProductID = @ProductID,
-                    BranchId = @BranchId,
                     OutletId = @OutletId,
                     StockQty = @StockQty,
                     LastUpdated = GETDATE()

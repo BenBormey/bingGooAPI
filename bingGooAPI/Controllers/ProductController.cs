@@ -37,11 +37,11 @@ namespace bingGooAPI.Controllers
                 return NotFound(new { message = "Product not found" });
 
             return Ok(product);
-        }
+        } 
 
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateProductDto dto)
+        public async Task<IActionResult> Create([FromBody] CreateProductDto dto)  
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -86,10 +86,9 @@ namespace bingGooAPI.Controllers
             var exists = await _product.ExistsAsync(id);
 
             if (!exists)
-                return NotFound(new { message = "Product not found" });
+                return NotFound(new { message = "Product not found" });                                                 
 
-            // DTO → Entity Mapping
-            var product = new Product
+            var product = new Product                                                                                   
             {
                 ProductID = dto.ProductID,
                 ProductCode = dto.ProductCode,
@@ -149,7 +148,7 @@ namespace bingGooAPI.Controllers
             using var stream = new FileStream(path, FileMode.Create);
             await file.CopyToAsync(stream);
 
-            // Build Full URL
+           
             var baseUrl = $"{Request.Scheme}://{Request.Host}";
             var imageUrl = $"{baseUrl}/uploads/products/{fileName}";
 

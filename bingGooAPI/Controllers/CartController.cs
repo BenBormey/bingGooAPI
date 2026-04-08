@@ -58,7 +58,7 @@ namespace bingGooAPI.Controllers
                
                 existingItem.Quantity += request.Quantity;
 
-           //     CalculateItem(existingItem);
+                //     CalculateItem(existingItem);
 
                 await _cartRepo.UpdateCartItemAsync(existingItem);
             }
@@ -76,7 +76,7 @@ namespace bingGooAPI.Controllers
                     TaxPercent = request.TaxPercent
                 };
 
-              //  CalculateItem(item);
+                    //CalculateItem(item);
 
                 await _cartRepo.AddCartItemAsync(item);
             }

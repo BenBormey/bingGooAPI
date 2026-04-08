@@ -58,7 +58,7 @@ namespace bingGooAPI.Controllers
             int outletId)
         {
             var data = await _service
-                .GetByProductBranchOutletAsync(productId, branchId, outletId);
+                .GetByProductBranchOutletAsync(productId, outletId);
 
             if (data == null)
                 return NotFound(new { Message = "Stock not found" });
