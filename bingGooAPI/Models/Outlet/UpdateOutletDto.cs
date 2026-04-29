@@ -8,6 +8,7 @@ namespace bingGooAPI.Models.Outlet
         public int Id { get; set; }
 
         [MaxLength(150)]
+        public string OutletCode { get; set; }
         public string? OutletName { get; set; }
 
         [MaxLength(100)]
@@ -31,9 +32,12 @@ namespace bingGooAPI.Models.Outlet
 
         public bool? HeadOffice { get; set; }
 
+        public int? ProvinceId { get; set; }
 
-
-  
+ 
+        public string PhotoPath { get; set; } = null!;
+        public string VATNumber { get; set; }
+        public List<string> PhotoPaths { get; set; } = new List<string>();
 
 
         public bool? IsActive { get; set; }

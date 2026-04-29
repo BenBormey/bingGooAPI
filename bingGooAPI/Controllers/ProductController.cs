@@ -136,25 +136,24 @@ namespace bingGooAPI.Controllers
             if (file == null || file.Length == 0)
                 return BadRequest("No file uploaded");
 
-            var folder = Path.Combine("wwwroot", "uploads", "products");
+            var folder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "products");
 
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
 
-            var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
-
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(file.FileName)}";
             var path = Path.Combine(folder, fileName);
 
-            using var stream = new FileStream(path, FileMode.Create);
-            await file.CopyToAsync(stream);
+            await using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
 
-           
-            var baseUrl = $"{Request.Scheme}://{Request.Host}";
-            var imageUrl = $"{baseUrl}/uploads/products/{fileName}";
+            var imageUrl = $"{Request.Scheme}://{Request.Host}/bingoo/uploads/products/{fileName}";
 
             return Ok(new
             {
-                imageUrl = imageUrl
+                imageUrl
             });
         }
         [HttpGet("pos")]

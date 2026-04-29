@@ -60,7 +60,7 @@ namespace bingGooAPI.Services
 
 	  
 	  
-  FROM [DBAuthentication].[dbo].[ProductStocks] ps
+  FROM [dbo].[ProductStocks] ps
 
   inner join Outlet o on o.Id = ps.[OutletId]
   inner join Products p on p.ProductID = ps.ProductID
@@ -87,7 +87,7 @@ namespace bingGooAPI.Services
 
 	  
 	  
-  FROM [DBAuthentication].[dbo].[ProductStocks] ps
+  FROM [dbo].[ProductStocks] ps
   
   inner join Outlet o on o.Id = ps.[OutletId]
   inner join Products p on p.ProductID = ps.ProductID
@@ -119,7 +119,7 @@ namespace bingGooAPI.Services
 
 	  
 	  
-  FROM [DBAuthentication].[dbo].[ProductStocks] ps
+  FROM [dbo].[ProductStocks] ps
 
   inner join Outlet o on o.Id = ps.[OutletId]
   inner join Products p on p.ProductID = ps.ProductID

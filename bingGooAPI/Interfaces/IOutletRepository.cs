@@ -1,4 +1,4 @@
-﻿using bingGooAPI.Entities;
+﻿using bingGooAPI.Entities; 
 using bingGooAPI.Models.Outlet;
 
 namespace bingGooAPI.Interfaces
@@ -9,9 +9,12 @@ namespace bingGooAPI.Interfaces
         Task<OutletListDto?> GetByIdAsync(int id);
         Task<OutletListDto?> GetByCodeAsync(string outletCode);
 
-        Task AddAsync(CreateOutletDtos outlet);
-        Task UpdateAsync(UpdateOutletDto outlet);
-        Task DeleteAsync(int id );
+        Task<Outlet> AddAsync(CreateOutletDtos outletDto);
 
+       
+        Task<bool> UpdateAsync(UpdateOutletDto outletDto);
+        Task<bool> DeleteAsync(int id);
+
+        Task<bool> OutletExistsAsync(string outletCode);
     }
 }

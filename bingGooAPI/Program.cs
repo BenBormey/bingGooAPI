@@ -6,23 +6,20 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ================= SERVICES =================
 
-// DB + Repositories
 builder.Services.AddInfoConfiguration(builder.Configuration);
 builder.Services.RegisterServices();
-builder.WebHost.UseUrls("http://*:5189");
 
-// JWT Authentication
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
-// Authorization
+
 builder.Services.AddAuthorization();
 
-// Controllers
+
 builder.Services.AddControllers();
+
+
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new()
@@ -30,7 +27,6 @@ builder.Services.AddSwaggerGen(c =>
         Title = "bingGooAPI",
         Version = "v1"
     });
-
 
     c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
@@ -58,26 +54,23 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-
-
-
 var app = builder.Build();
 
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
-
+// Global Exception
 app.UseMiddleware<ExceptionMiddleware>();
+
+
 app.UseStaticFiles();
-app.UseHttpsRedirection();
 
-app.UseAuthentication();  
-app.UseAuthorization();   
 
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.UseStaticFiles();
 app.MapControllers();
 
 app.Run();

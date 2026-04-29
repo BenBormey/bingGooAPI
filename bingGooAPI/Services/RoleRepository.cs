@@ -58,7 +58,7 @@ namespace bingGooAPI.Services
       ,[IsActive]
       ,[CreatedAt]
       ,[UpdatedAt]
-  FROM [DBAuthentication].[dbo].[Roles] where IsActive = 1
+  FROM [dbo].[Roles] where IsActive = 1
 ";
             var result = await _context.QueryAsync(sqlget);
             return result.Select(r => new RoleDto

@@ -17,7 +17,7 @@ namespace bingGooAPI.Controllers
 
         // GET: api/outlet
         [HttpGet]
-        public async Task<ActionResult<List<OutletListDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<OutletListDto>>> GetAll()
         {
             var outlets = await _outletRepository.GetAllAsync();
             return Ok(outlets);
@@ -30,24 +30,29 @@ namespace bingGooAPI.Controllers
             var outlet = await _outletRepository.GetByIdAsync(id);
 
             if (outlet == null)
-                return NotFound("Outlet not found");
+                return NotFound(new { message = "Outlet not found" });
 
             return Ok(outlet);
         }
 
-   
+        // POST: api/outlet
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateOutletDtos request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-          await _outletRepository.AddAsync(request);
+            // ឆែកមើលថាមាន Outlet Code នេះរួចហើយឬនៅ
+            if (await _outletRepository.OutletExistsAsync(request.OutletCode))
+                return BadRequest(new { message = "Outlet Code already exists" });
 
-            return Ok(new {message ="Create Outlet complete"});
+            var result = await _outletRepository.AddAsync(request);
+
+            // បាញ់មកវិញនូវ Entity ដែលទើបបង្កើតរួច (រួមទាំង Id ថ្មី)
+            return CreatedAtAction(nameof(GetById), new { id = result.Id }, new { message = "Create Outlet complete", data = result });
         }
 
-
+        // PUT: api/outlet/5
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateOutletDto request)
         {
@@ -55,23 +60,27 @@ namespace bingGooAPI.Controllers
                 return BadRequest(ModelState);
 
             if (id != request.Id)
-                return BadRequest("Id mismatch");
+                return BadRequest(new { message = "Id mismatch" });
 
-        await _outletRepository.UpdateAsync(request);
+            // ឆែកមើលថាមានទិន្នន័យសម្រាប់ Update ឬអត់
+            var success = await _outletRepository.UpdateAsync(request);
+
+            if (!success)
+                return NotFound(new { message = "Outlet not found or no changes made" });
 
             return Ok(new { message = "Update Outlet complete" });
         }
 
-        
+        // DELETE: api/outlet/5
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
-           await _outletRepository.DeleteAsync(id);
+            var success = await _outletRepository.DeleteAsync(id);
 
-
+            if (!success)
+                return NotFound(new { message = "Outlet not found" });
 
             return Ok(new { message = "Delete Outlet complete" });
-
         }
     }
 }
