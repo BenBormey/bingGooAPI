@@ -44,5 +44,15 @@ namespace bingGooAPI.Controllers
             if (!result) return NotFound();
             return Ok();
         }
+        [HttpGet("by-date")]
+        public async Task<IActionResult> GetByDate([FromQuery] DateTime date)
+        {
+            var data = await _repo.GetByDateAsync(date);
+
+            if (data == null || !data.Any())
+                return Ok(false); // no data today
+
+            return Ok(true); // already exists
+        }
     }
 }

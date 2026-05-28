@@ -8,6 +8,7 @@ namespace bingGooAPI.Interfaces
         Task<ExchangeRate?> GetByIdAsync(int id);
         Task<ExchangeRate> CreateAsync(ExchangeRate model);
         Task<bool> DeleteAsync(int id);
+        Task<IEnumerable<ExchangeRate>> GetByDateAsync(DateTime date);
 
     }
 }

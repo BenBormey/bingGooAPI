@@ -44,7 +44,13 @@ namespace bingGooAPI.Models.Outlet
         [Required]
         public int CreatedBy { get; set; }
 
-  
+        /// <summary>
+        /// FranchiseId
+        /// </summary>
+        [Required]
+        public int FranchiseId { get; set; }
+
+
         public List<string> PhotoPaths { get; set; } = new List<string>();
     }
 }

@@ -35,6 +35,7 @@ namespace bingGooAPI.Configurations
             services.AddScoped<IReportRepository, ReportRepository>();
             services.AddScoped<IExchangeRateRepository, ExchangeRateService>();
             services.AddScoped<IProvincesRepository, ProvinceRepository>();
+            services.AddScoped<IFranchiseRepository, FranchiseRepository>();
 
 
         }

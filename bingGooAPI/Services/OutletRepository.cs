@@ -23,14 +23,14 @@ namespace bingGooAPI.Services
                 (
                     OutletCode, OutletName, Province, ProvinceId, Phone, Manager, 
                     Address, Email, Latitude, Longitude, HeadOffice, PhotoPath, 
-                    VATNumber, CreatedBy, CreatedAt, IsActive
+                    VATNumber, CreatedBy, CreatedAt, IsActive,FranchiseId
                 )
                 OUTPUT INSERTED.*
                 VALUES
                 (
                     @OutletCode, @OutletName, @Province, @ProvinceId, @Phone, @Manager, 
                     @Address, @Email, @Latitude, @Longitude, @HeadOffice, @PhotoPath, 
-                    @VATNumber, @CreatedBy, GETDATE(), 1
+                    @VATNumber, @CreatedBy, GETDATE(), 1, @FranchiseId
                 );";
 
             if (_dbConnection.State == ConnectionState.Closed) _dbConnection.Open();
@@ -76,7 +76,10 @@ namespace bingGooAPI.Services
                             HeadOffice = @HeadOffice,
                             PhotoPath = @PhotoPath, -- Update រូបភាពមេ
                             VATNumber = @VATNumber,
-                            UpdatedAt = GETDATE()
+                            UpdatedAt = GETDATE(),
+                            IsActive = @IsActive,
+                            FranchiseId = @FranchiseId
+                                                
                        
                         WHERE Id = @Id";
 
@@ -110,20 +113,54 @@ namespace bingGooAPI.Services
             }
         }
 
-        // --- កូដ GET ALL (ប្រាកដថាទាញ PhotoPath មកបង្ហាញ) ---
+    
         public async Task<IEnumerable<OutletListDto>> GetAllAsync()
         {
-           
-            var sql = @"SELECT 
-                            Id, OutletCode, OutletName, Province, Phone, Manager, 
-                            HeadOffice, PhotoPath, VATNumber, ProvinceId, IsActive 
-                        FROM [dbo].[Outlet] 
-                        WHERE IsActive = 1 
-                        ORDER BY Id DESC";
+            var sql = @"
+SELECT 
+    o.Id,
+    o.OutletCode,
+    o.OutletName,
+    o.Province,
+    o.Phone,
+    o.Manager,
+    o.HeadOffice,
+    o.PhotoPath,
+    o.VATNumber,
+    o.ProvinceId,
+    o.IsActive,
+    p.PhotoPath AS Photo,
+   o.franchiseId
+FROM [dbo].[Outlet] o
+LEFT JOIN [dbo].[OutletPhoto] p ON o.Id = p.OutletId
+WHERE o.IsActive = 1
+ORDER BY o.Id DESC";
 
-            return await _dbConnection.QueryAsync<OutletListDto>(sql);
+            var outletDict = new Dictionary<int, OutletListDto>();
+
+            var result = await _dbConnection.QueryAsync<OutletListDto, string, OutletListDto>(
+                sql,
+                (outlet, photo) =>
+                {
+                    if (!outletDict.TryGetValue(outlet.Id, out var current))
+                    {
+                        current = outlet;
+                        current.Photos = new List<string>();
+                        outletDict.Add(current.Id, current);
+                    }
+
+                    if (!string.IsNullOrEmpty(photo))
+                    {
+                        current.Photos.Add(photo);
+                    }
+
+                    return current;
+                },
+                splitOn: "Photo"
+            );
+
+            return outletDict.Values;
         }
-
         public async Task<OutletListDto?> GetByIdAsync(int id)
         {
             var sql = @"

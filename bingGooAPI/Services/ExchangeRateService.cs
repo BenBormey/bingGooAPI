@@ -1,7 +1,8 @@
-﻿using System.Data;
-using Dapper;
-using bingGooAPI.Entities;
+﻿using bingGooAPI.Entities;
 using bingGooAPI.Interfaces;
+using Dapper;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace bingGooAPI.Services
 {
@@ -125,6 +126,26 @@ WHERE CurrencyCode = @CurrencyCode";
             var sql = "DELETE FROM ExchangeRate WHERE Id = @Id";
             var affected = await _connection.ExecuteAsync(sql, new { Id = id });
             return affected > 0;
+        }
+
+        public async Task<IEnumerable<ExchangeRate>> GetByDateAsync(DateTime date)
+        {
+            var sql = @"
+        SELECT *
+        FROM ExchangeRate
+        WHERE RateDate >= @StartDate
+          AND RateDate < @EndDate";
+
+            var result = await _connection.QueryAsync<ExchangeRate>(
+                sql,
+                new
+                {
+                    StartDate = date.Date,
+                    EndDate = date.Date.AddDays(1)
+                }
+            );
+
+            return result;
         }
     }
 }

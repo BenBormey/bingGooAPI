@@ -38,10 +38,8 @@ namespace bingGooAPI.Controllers
             var created = await _service.CreateAsync(model);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
-
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> Update(int id, Branch model)
-        {
+        public async Task<IActionResult> Update(int id, Branch model) { 
             if (model.Id != id) return BadRequest();
             var ok = await _service.UpdateAsync(model);
             if (!ok) return NotFound();

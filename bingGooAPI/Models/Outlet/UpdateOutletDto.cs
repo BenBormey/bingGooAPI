@@ -38,7 +38,7 @@ namespace bingGooAPI.Models.Outlet
         public string PhotoPath { get; set; } = null!;
         public string VATNumber { get; set; }
         public List<string> PhotoPaths { get; set; } = new List<string>();
-
+        public int FranchiseId { get; set; }
 
         public bool? IsActive { get; set; }
     }
