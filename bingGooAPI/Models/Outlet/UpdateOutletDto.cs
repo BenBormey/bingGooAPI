@@ -33,8 +33,9 @@ namespace bingGooAPI.Models.Outlet
         public bool? HeadOffice { get; set; }
 
         public int? ProvinceId { get; set; }
+        public DateTime GrandOpeningDate { get; set; }
 
- 
+        public string Position { get; set; }   
         public string PhotoPath { get; set; } = null!;
         public string VATNumber { get; set; }
         public List<string> PhotoPaths { get; set; } = new List<string>();

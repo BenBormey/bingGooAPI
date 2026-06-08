@@ -17,13 +17,18 @@ namespace bingGooAPI.Services
         public async Task<List<Franchise>> GetAllAsync()
         {
             var sql = @"
-                SELECT 
-                    FranchiseId,
-                    Outlet,
-                    OutletName,
-                    FranchiseInformation
-                FROM Franchise
-                ORDER BY FranchiseId DESC
+         SELECT 
+     f.FranchiseId,
+     f.Outlet,
+     f.OutletName,
+     f.FranchiseInformation,
+     f.FranchiseTypeId,
+	 ft.TypeName
+ FROM Franchise f inner join franchise_type ft
+ on ft.Id  = f.FranchiseTypeId
+ ORDER BY f.FranchiseId DESC
+;
+
             ";
 
             var result = await _connection.QueryAsync<Franchise>(sql);
@@ -33,13 +38,24 @@ namespace bingGooAPI.Services
         public async Task<Franchise> GetByIdAsync(int id)
         {
             var sql = @"
-                SELECT 
-                    FranchiseId,
-                    Outlet,
-                    OutletName,
-                    FranchiseInformation
-                FROM Franchise
-                WHERE FranchiseId = @Id
+ SELECT 
+     f.FranchiseId,
+     f.Outlet,
+     f.OutletName,
+     f.FranchiseInformation,
+     f.FranchiseTypeId,
+	 ft.TypeName
+ FROM Franchise f inner join franchise_type ft
+ on ft.Id  = f.FranchiseTypeId
+ WHERE FranchiseId = @Id
+ ORDER BY f.FranchiseId DESC
+;
+
+
+                
+
+          
+
             ";
 
             return await _connection.QueryFirstOrDefaultAsync<Franchise>(
@@ -52,9 +68,9 @@ namespace bingGooAPI.Services
         {
             var sql = @"
                 INSERT INTO Franchise
-                    (Outlet, OutletName, FranchiseInformation)
+                    (Outlet, OutletName, FranchiseInformation,FranchiseTypeId)
                 VALUES
-                    (@Outlet, @OutletName, @FranchiseInformation)
+                    (@Outlet, @OutletName, @FranchiseInformation,@FranchiseTypeId)
             ";
 
             return await _connection.ExecuteAsync(sql, franchise);
@@ -67,7 +83,8 @@ namespace bingGooAPI.Services
                 SET 
                     Outlet = @Outlet,
                     OutletName = @OutletName,
-                    FranchiseInformation = @FranchiseInformation
+                    FranchiseInformation = @FranchiseInformation,
+                    FranchiseTypeId = @FranchiseTypeId
                 WHERE FranchiseId = @FranchiseId
             ";
 

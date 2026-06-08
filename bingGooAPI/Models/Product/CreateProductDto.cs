@@ -2,7 +2,7 @@
 {
     public class CreateProductDto
     {
-
+        public int prodid { get; set; }
         public string ProductCode { get; set; }
 
         public string ProductName { get; set; }
@@ -26,5 +26,7 @@
         public decimal TaxPercent { get; set; }
 
         public bool Status { get; set; } = true;
+        //public int StockQty { get; set; }
+        //public int OutletId { get; set; }
     }
 }

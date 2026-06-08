@@ -2,6 +2,7 @@
 using bingGooAPI.Interfaces;
 using bingGooAPI.Models.Product;
 using Dapper;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
@@ -15,50 +16,82 @@ namespace bingGooAPI.Services
         {
             _connection = connection;
         }
-        public async Task<Product> CreateAsync(Product product)
+        public async Task<CreateProductDto> CreateAsync(CreateProductDto product)
         {
-            var sql = @"
-INSERT INTO Products
-(
-    ProductCode,
-    ProductName,
-    BrandID,
-    CategoryId,
-    SupplierId,
-    ImageUrl,
-    CostPrice,
-    SellPrice,
-    DiscountPercent,
-    DiscountAmount,
-    TaxPercent,
-    Status,
-    CreatedAt
-)
-VALUES
-(
-    @ProductCode,
-    @ProductName,
-    @BrandID,
-    @CategoryId,
-    @SupplierId,
-    @ImageUrl,
-    @CostPrice,
-    @SellingPrice,
-    @DiscountPercent,
-    @DiscountAmount,
-    @TaxPercent,
-    @Status,
-    GETDATE()
-);
+            if (_connection.State != ConnectionState.Open)
+                _connection.Open();
 
-SELECT CAST(SCOPE_IDENTITY() as int);
-";
+            using (var transaction = _connection.BeginTransaction())
+            {
+                try
+                {
 
-            var id = await _connection.ExecuteScalarAsync<int>(sql, product);
+                    var exists = await _connection.ExecuteScalarAsync<int>(
+                        @"SELECT COUNT(*)
+                  FROM Products
+                  WHERE ProductCode = @ProductCode",
+                        new { product.ProductCode },
+                        transaction);
 
-            product.ProductID = id;
+                    if (exists > 0)
+                    {
+                        throw new Exception("Product Code already exists.");
+                    }
 
-            return product;
+                    var sql = @"
+                INSERT INTO Products
+                (
+                    ProductCode,
+                    ProductName,
+                    BrandID,
+                    CategoryId,
+                    SupplierId,
+                    ImageUrl,
+                    CostPrice,
+                    SellPrice,
+                    DiscountPercent,
+                    DiscountAmount,
+                    TaxPercent,
+                    Status,
+                    CreatedAt
+                )
+                VALUES
+                (
+                    @ProductCode,
+                    @ProductName,
+                    @BrandID,
+                    @CategoryId,
+                    @SupplierId,
+                    @ImageUrl,
+                    @CostPrice,
+                    @SellingPrice,
+                    @DiscountPercent,
+                    @DiscountAmount,
+                    @TaxPercent,
+                    @Status,
+                    GETDATE()
+                );
+
+                SELECT CAST(SCOPE_IDENTITY() AS INT);
+            ";
+
+                    var id = await _connection.ExecuteScalarAsync<int>(
+                        sql,
+                        product,
+                        transaction);
+
+                    transaction.Commit();
+
+                    product.prodid = id;
+
+                    return product;
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    throw;
+                }
+            }
         }
         public async Task<List<ProductListDto>> GetAllAsync()
         {
@@ -75,21 +108,24 @@ SELECT
     s.SupplierName,
     p.ImageUrl,
     p.CostPrice,
-    p.SellPrice as SellingPrice,
+    p.SellPrice AS SellingPrice,
     p.DiscountPercent,
     p.DiscountAmount,
     p.TaxPercent,
     p.Status,
     p.CreatedAt,
     p.UpdatedAt
-
 FROM Products p
-INNER JOIN Suppliers s ON s.SupplierID = p.SupplierId
-INNER JOIN Branch b ON b.Id = p.BrandID
-INNER JOIN Category c ON c.Id = p.CategoryId
-where p.Status = 1
+INNER JOIN Suppliers s 
+    ON s.SupplierID = p.SupplierId
+INNER JOIN Branch b 
+    ON b.Id = p.BrandID
+INNER JOIN Category c 
+    ON c.Id = p.CategoryId
+WHERE p.Status = 1;
 
 ;
+
 ";
 
             var data = await _connection.QueryAsync<ProductListDto>(sql);
@@ -110,12 +146,17 @@ where p.Status = 1
         }
 
 
-        //SellingPrice
         public async Task<bool> UpdateAsync(Product product)
         {
-            var sql = @"
-UPDATE Products SET
+            if (_connection.State != ConnectionState.Open)
+                _connection.Open();
 
+            using (var transaction = _connection.BeginTransaction())
+            {
+                try
+                {
+                    var sql = @"
+UPDATE Products SET
     ProductCode = @ProductCode,
     ProductName = @ProductName,
     BrandID = @BrandID,
@@ -129,13 +170,31 @@ UPDATE Products SET
     TaxPercent = @TaxPercent,
     Status = @Status,
     UpdatedAt = GETDATE()
-
 WHERE ProductID = @ProductID;
 ";
 
-            var rows = await _connection.ExecuteAsync(sql, product);
+                    await _connection.ExecuteAsync(sql, product, transaction);
 
-            return rows > 0;
+                 
+//                    var stockSql = @"
+//UPDATE ProductStocks
+//SET 
+//    StockQty = @StockQty,
+//    LastUpdated = GETDATE()
+//WHERE ProductID = @ProductID AND OutletId = @OutletId;
+//";
+
+//                    await _connection.ExecuteAsync(stockSql, product, transaction);
+
+                    transaction.Commit();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    throw new Exception("Error updating product: " + ex.Message);
+                }
+            }
         }
 
 

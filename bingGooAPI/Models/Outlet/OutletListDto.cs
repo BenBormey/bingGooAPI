@@ -16,9 +16,14 @@
         public string PhotoPath { get;set; } = null!;
         public string VATNumber { get; set; }
         public int FranchiseId { get; set; }
+        public string Position { get; set; } = null!;
+        public DateTime GrandOpeningDate { get; set; }
+        //public string Position { get; set; } = null!;
 
-        public List<string> Photos { get; set; } = new List<string>();
+        //    public List<string> Photos { get; set; } = new List<string>();
 
+        public List<Photo> Photos { get; set; } = new List<Photo>();
+        public string? TypeName { get; set; }
         public bool IsActive { get; set; }
     }
 }

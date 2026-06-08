@@ -5,7 +5,7 @@ namespace bingGooAPI.Interfaces
 {
     public interface IProductRepository
     {
-        Task<Product> CreateAsync(Product product);
+        Task<CreateProductDto> CreateAsync(CreateProductDto product);
 
         Task<List<ProductListDto>> GetAllAsync();
 

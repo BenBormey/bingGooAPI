@@ -11,10 +11,10 @@
         public string? Address { get; set; }
         public string? Email { get; set; }
 
-        // បន្ថែម VAT Number (លេខអត្តសញ្ញាណកម្មពន្ធ)
+
         public string? VatNumber { get; set; }
 
-        // បន្ថែមរូបភាព (រក្សាទុកជា URL ឬ Path នៃរូបភាព)
+
         public string? PhotoUrl { get; set; }
 
         public decimal? Latitude { get; set; }
@@ -27,6 +27,7 @@
 
         // បើក IsActive ឡើងវិញ ប្រសិនបើអ្នកត្រូវការប្រើវា
         public bool IsActive { get; set; } = true;
+        public DateTime GrandOpeningDate { get; set; }
         public List<OutletPhoto> Images { get; set; } = new List<OutletPhoto>();
     }
 }

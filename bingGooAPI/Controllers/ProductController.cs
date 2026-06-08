@@ -47,27 +47,13 @@ namespace bingGooAPI.Controllers
                 return BadRequest(ModelState);
 
        
-            var product = new Product
-            {
-                ProductCode = dto.ProductCode,
-                ProductName = dto.ProductName,
-                BrandID = dto.BrandId,
-                CategoryId = dto.CategoryId,
-                SupplierId = dto.SupplierId,
-                ImageUrl = dto.ImageUrl,
-                CostPrice = dto.CostPrice,
-                SellingPrice = dto.SellingPrice,
-                DiscountPercent = dto.DiscountPercent,
-                DiscountAmount = dto.DiscountAmount,
-                TaxPercent = dto.TaxPercent,
-                Status = dto.Status
-            };
+       
 
-            var created = await _product.CreateAsync(product);
+            var created = await _product.CreateAsync(dto);
 
             return CreatedAtAction(
                 nameof(GetById),
-                new { id = created.ProductID },
+                new { id = created.prodid },
                 created
             );
         }
@@ -102,7 +88,12 @@ namespace bingGooAPI.Controllers
                 DiscountPercent = dto.DiscountPercent,
                 DiscountAmount = dto.DiscountAmount,
                 TaxPercent = dto.TaxPercent,
-                Status = dto.Status
+                Status = dto.Status,
+                OutletId = dto.OutletId,
+                StockQty = dto.StockQty,
+
+
+
             };
 
             var result = await _product.UpdateAsync(product);
@@ -149,7 +140,7 @@ namespace bingGooAPI.Controllers
                 await file.CopyToAsync(stream);
             }
 
-            var imageUrl = $"{Request.Scheme}://{Request.Host}/bingoo/uploads/products/{fileName}";
+            var imageUrl = $"{Request.Scheme}://{Request.Host}/uploads/products/{fileName}";
 
             return Ok(new
             {

@@ -50,7 +50,8 @@ namespace bingGooAPI.Models.Outlet
         [Required]
         public int FranchiseId { get; set; }
 
-
+        public string Position { get;set; } = null!;
+        public DateTime GrandOpeningDate { get; set; }
         public List<string> PhotoPaths { get; set; } = new List<string>();
     }
 }

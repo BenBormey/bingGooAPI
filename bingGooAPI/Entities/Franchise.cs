@@ -9,5 +9,7 @@
         public string OutletName { get; set; }
 
         public string FranchiseInformation { get; set; }
+        public int FranchiseTypeId { get; set; }
+        public string TypeName { get; set; }
     }
 }

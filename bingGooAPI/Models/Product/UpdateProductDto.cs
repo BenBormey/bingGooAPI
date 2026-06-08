@@ -28,6 +28,8 @@
             public decimal TaxPercent { get; set; }
 
             public bool Status { get; set; }
+            public int OutletId { get; set; }
+            public int StockQty { get; set; }
         }
     }
 
