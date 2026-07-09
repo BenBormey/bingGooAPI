@@ -12,6 +12,7 @@
 
         public int RoleId { get; set; }
         public string RoleName { get; set; } = null!;
+        public string RoleCode { get; set; } = null!;
         public string Phone { get; set; }
         public string address { get; set; }
         public string addressKh { get; set; }

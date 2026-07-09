@@ -29,6 +29,8 @@ namespace bingGooAPI.Configurations
             services.AddScoped<ISupplierRepository, SupplierRepository>();
             services.AddScoped<ICartRepository, CartRepository>();
             services.AddScoped<IOutletRepository, OutletRepository>();
+            services.AddScoped<IOutletCodeRepository, OutletCodeRepository>();
+            services.AddScoped<ITermDayRepository, TermDayRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
@@ -43,6 +45,8 @@ namespace bingGooAPI.Configurations
             services.AddScoped<ISupplierReportRepository, SupplierReportService>();
             services.AddScoped<IMenuItemRepository, MenuItemRepository>();
             services.AddScoped<IUomRepository, UomRepository>();
+            services.AddScoped<IOutletProductRepository, OutletProductService>();
+            services.AddScoped<IShelfLifeRepository, ShelfLifeRepository>();
         }
 
 

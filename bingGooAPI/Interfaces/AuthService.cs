@@ -1,6 +1,7 @@
 ﻿using bingGooAPI.Entities;
 using bingGooAPI.Interfaces;
 using bingGooAPI.Models;
+using System.Linq;
 
 namespace bingGooAPI.Services
 {
@@ -32,6 +33,24 @@ namespace bingGooAPI.Services
             bool isValidPassword = PasswordHasher.VerifyPassword(user.PasswordHash, password);
             if (!isValidPassword)
                 return (false, "Invalid username or password", null, null);
+
+            await _users.UpdateLastLoginAsync(user.Id);
+
+            var token = _jwt.GenerateToken(user);
+
+            return (true, "Login success", token, user);
+        }
+
+        public async Task<(bool Success, string Message, string? Token, User? User)>
+      LoginMdAsync(string password)
+        {
+            var mdUsers = await _users.GetByRoleCodeAsync("ADMIN");
+
+            var user = mdUsers.FirstOrDefault(u =>
+                PasswordHasher.VerifyPassword(u.PasswordHash, password));
+
+            if (user == null)
+                return (false, "Invalid password", null, null);
 
             await _users.UpdateLastLoginAsync(user.Id);
 

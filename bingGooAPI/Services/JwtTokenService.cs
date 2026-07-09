@@ -24,7 +24,7 @@ namespace bingGooAPI.Services
                 new Claim(ClaimTypes.Name, user.Username),
                 new Claim("OutletId", user.outLetId.ToString()),
           
-                new Claim(ClaimTypes.Role, user.RoleName)
+                new Claim(ClaimTypes.Role, user.RoleCode)
             };
 
             var key = new SymmetricSecurityKey(

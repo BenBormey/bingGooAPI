@@ -64,7 +64,7 @@ namespace bingGooAPI.Controllers
             return Ok(new { message = result.Message });
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "ADMIN")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -94,7 +94,7 @@ namespace bingGooAPI.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "ADMIN")]
         [HttpPut("{id:int}/reset-password")]
         public async Task<IActionResult> ResetPassword(
             int id,

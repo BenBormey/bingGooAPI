@@ -11,6 +11,10 @@ namespace bingGooAPI.Interfaces
 
         Task<ProductListDto?> GetByIdAsync(int id);
 
+        Task<List<ProductListDto>> SearchByNameAsync(string name);
+
+        Task<List<ProductListDto>> SearchBySkuAsync(string sku);
+
         Task<bool> UpdateAsync(UpdateProductDto product);
 
         Task<bool> DeleteAsync(int id);

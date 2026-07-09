@@ -27,6 +27,30 @@ namespace bingGooAPI.Controllers
 
 
 
+        [HttpGet("search")]
+        public async Task<IActionResult> SearchByName([FromQuery] string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return BadRequest(new { message = "Search name is required" });
+
+            var products = await _product.SearchByNameAsync(name);
+
+            return Ok(products);
+        }
+
+
+        [HttpGet("search-sku")]
+        public async Task<IActionResult> SearchBySku([FromQuery] string sku)
+        {
+            if (string.IsNullOrWhiteSpace(sku))
+                return BadRequest(new { message = "Search sku is required" });
+
+            var products = await _product.SearchBySkuAsync(sku);
+
+            return Ok(products);
+        }
+
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {

@@ -286,6 +286,200 @@ ORDER BY p.ProID DESC;";
             return result.ToList();
         }
 
+        public async Task<List<ProductListDto>> SearchByNameAsync(string name)
+        {
+            var sql = @"
+SELECT
+    p.ProID,
+    p.ProNumY,
+    p.ProNumS,
+    p.ProNumYP,
+		c.Id AS categoryId,
+    p.ProNumYC,
+    p.Sup1,
+    p.Sup2,
+    p.ProName,
+    p.KhmerNameUnicode,
+    p.ProDes,
+    p.ProCat,
+    c.CategoryName,
+    p.ProPacksize,
+    p.ProCurr,
+    p.ProImpPri,
+    p.ProRecLev,
+    p.ProRecOrder,
+    p.KhmerName,
+    p.ProRem,
+    p.Auto,
+    p.ProfitAuto,
+    p.ProTotQty,
+    p.ProMadein,
+    p.ProQtyPCase,
+    p.ProQtyPPack,
+    p.ProPckPri,
+    p.ProPckDis,
+    p.ProPckAllDis,
+    p.ProRecomLev,
+    p.Promotion,
+    p.FormDLanded,
+    p.ProUPriBY,
+    p.ProAllowDisW,
+    p.ProAllowDisU,
+    p.ProDis,
+    p.ExciseTax,
+    p.PublicLightingTax,
+    p.ProVAT,
+    p.ProFinBuyin,
+    p.ProUPrSE,
+    p.ProProPer,
+    p.ProUPriSeH,
+    p.ProHolesaleper,
+    p.ProHoleSalePP,
+    p.ProRecPer,
+    p.ProSKU,
+    p.Average,
+    p.BirthDate,
+    p.AverSalePmonth,
+    p.WHcode,
+    p.Sampling,
+    p.FactoryCurrency,
+    p.FOB_CIF,
+    p.FOBCIFCost,
+    p.ShelfLifeOfProduct,
+    p.VOP,
+    p.ProImage,
+
+    s.Id,
+    s.ProId,
+    s.CTNPerPallet,
+    s.UOMCode,
+    s.Width,
+    s.Length,
+    s.Height,
+    s.CBMPerCTN,
+    s.NetWeight,
+    s.GrossWeight,
+    s.CreatedDate,
+    s.Status
+
+FROM TPRProducts p
+LEFT JOIN TblProductsScale s
+    ON p.ProID = s.ProId
+	inner join Category c
+	on c.Id = p.ProCat
+WHERE p.ProName LIKE @Name
+ORDER BY p.ProID DESC;";
+
+            var result = await _connection.QueryAsync<ProductListDto, ProductScaleDto, ProductListDto>(
+                sql,
+                (product, scale) =>
+                {
+                    product.ProductScale = scale;
+                    return product;
+                },
+                new { Name = $"%{name}%" },
+                splitOn: "Id");
+
+            return result.ToList();
+        }
+
+        public async Task<List<ProductListDto>> SearchBySkuAsync(string sku)
+        {
+            var sql = @"
+SELECT
+    p.ProID,
+    p.ProNumY,
+    p.ProNumS,
+    p.ProNumYP,
+		c.Id AS categoryId,
+    p.ProNumYC,
+    p.Sup1,
+    p.Sup2,
+    p.ProName,
+    p.KhmerNameUnicode,
+    p.ProDes,
+    p.ProCat,
+    c.CategoryName,
+    p.ProPacksize,
+    p.ProCurr,
+    p.ProImpPri,
+    p.ProRecLev,
+    p.ProRecOrder,
+    p.KhmerName,
+    p.ProRem,
+    p.Auto,
+    p.ProfitAuto,
+    p.ProTotQty,
+    p.ProMadein,
+    p.ProQtyPCase,
+    p.ProQtyPPack,
+    p.ProPckPri,
+    p.ProPckDis,
+    p.ProPckAllDis,
+    p.ProRecomLev,
+    p.Promotion,
+    p.FormDLanded,
+    p.ProUPriBY,
+    p.ProAllowDisW,
+    p.ProAllowDisU,
+    p.ProDis,
+    p.ExciseTax,
+    p.PublicLightingTax,
+    p.ProVAT,
+    p.ProFinBuyin,
+    p.ProUPrSE,
+    p.ProProPer,
+    p.ProUPriSeH,
+    p.ProHolesaleper,
+    p.ProHoleSalePP,
+    p.ProRecPer,
+    p.ProSKU,
+    p.Average,
+    p.BirthDate,
+    p.AverSalePmonth,
+    p.WHcode,
+    p.Sampling,
+    p.FactoryCurrency,
+    p.FOB_CIF,
+    p.FOBCIFCost,
+    p.ShelfLifeOfProduct,
+    p.VOP,
+    p.ProImage,
+
+    s.Id,
+    s.ProId,
+    s.CTNPerPallet,
+    s.UOMCode,
+    s.Width,
+    s.Length,
+    s.Height,
+    s.CBMPerCTN,
+    s.NetWeight,
+    s.GrossWeight,
+    s.CreatedDate,
+    s.Status
+
+FROM TPRProducts p
+LEFT JOIN TblProductsScale s
+    ON p.ProID = s.ProId
+	inner join Category c
+	on c.Id = p.ProCat
+WHERE p.ProSKU LIKE @Sku
+ORDER BY p.ProID DESC;";
+
+            var result = await _connection.QueryAsync<ProductListDto, ProductScaleDto, ProductListDto>(
+                sql,
+                (product, scale) =>
+                {
+                    product.ProductScale = scale;
+                    return product;
+                },
+                new { Sku = $"%{sku}%" },
+                splitOn: "Id");
+
+            return result.ToList();
+        }
+
         public async Task<ProductListDto?> GetByIdAsync(int id)
         {
             var sql = @"

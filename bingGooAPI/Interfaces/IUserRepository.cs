@@ -6,6 +6,7 @@ public interface IUserRepository
 
     Task<User?> GetByUsernameAsync(string username);
     Task<User?> GetByIdAsync(int id);
+    Task<IEnumerable<User>> GetByRoleCodeAsync(string roleCode);
     Task<int> CreateAsync(User user);
     Task<bool> UpdateLastLoginAsync(int id);
 

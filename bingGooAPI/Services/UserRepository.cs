@@ -27,6 +27,7 @@ SELECT
     u.FullNameKh,
     u.RoleId,
     r.RoleName,
+    r.RoleCode,
     u.Phone,
     u.email AS Email,
     u.address AS Address,
@@ -49,17 +50,52 @@ AND u.IsActive = 1
             );
         }
 
-      
+        public async Task<IEnumerable<User>> GetByRoleCodeAsync(string roleCode)
+        {
+            var sql = @"
+SELECT
+    u.Id,
+    u.Username,
+    u.PasswordHash,
+    u.FullName,
+    u.FullNameKh,
+    u.RoleId,
+    r.RoleName,
+    r.RoleCode,
+    u.Phone,
+    u.email AS Email,
+    u.address AS Address,
+    u.addressKh AS AddressKh,
+    u.IsActive,
+    u.CreatedAt,
+    u.LastLoginAt,
+    o.OutletName,
+    u.OutletId
+FROM Users u
+JOIN Roles r ON u.RoleId = r.Id
+LEFT JOIN Outlet o ON o.Id = u.OutletId
+WHERE r.RoleCode = @RoleCode
+AND u.IsActive = 1
+";
+
+            return await _db.QueryAsync<User>(
+                sql,
+                new { RoleCode = roleCode }
+            );
+        }
+
+
         public async Task<User?> GetByIdAsync(int id)
         {
             var sql = @"
-SELECT 
+SELECT
     u.*,
     r.RoleName,
+    r.RoleCode,
     o.OutletName
 FROM Users u
 JOIN Roles r ON u.RoleId = r.Id
-JOIN Outlet o ON o.Id = u.OutletId
+LEFT JOIN Outlet o ON o.Id = u.OutletId
 WHERE u.Id = @Id and  u.IsActive =1
 ";
 
@@ -120,13 +156,14 @@ SELECT CAST(SCOPE_IDENTITY() AS INT);
         public async Task<IEnumerable<User>> GetAllAsync()
         {
             var sql = @"
-SELECT 
+SELECT
     u.*,
     r.RoleName,
+    r.RoleCode,
     o.OutletName
 FROM Users u
 JOIN Roles r ON u.RoleId = r.Id
-JOIN Outlet o ON o.Id = u.OutletId
+LEFT JOIN Outlet o ON o.Id = u.OutletId
 
 where u.IsActive =1
 ";

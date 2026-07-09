@@ -8,5 +8,9 @@ namespace bingGooAPI.Interfaces
             string username,
             string password
         );
+
+        Task<(bool Success, string Message, string? Token, User? User)> LoginMdAsync(
+            string password
+        );
     }
 }

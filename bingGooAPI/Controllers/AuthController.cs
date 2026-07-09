@@ -35,6 +35,32 @@ namespace bingGooAPI.Controllers
                     username = result.User.Username,
                     fullName = result.User.FullName,
                     roleName = result.User.RoleName,
+                    roleCode = result.User.RoleCode,
+                    outletId = result.User.outLetId
+                }
+            });
+        }
+
+        [HttpPost("md-login")]
+        public async Task<IActionResult> MdLogin(MdLoginRequest req)
+        {
+            var result = await _auth.LoginMdAsync(req.Password);
+
+            if (!result.Success)
+                return Unauthorized(result.Message);
+
+            return Ok(new
+            {
+                access_token = result.Token,
+                token_type = "Bearer",
+
+                user = new
+                {
+                    id = result.User!.Id,
+                    username = result.User.Username,
+                    fullName = result.User.FullName,
+                    roleName = result.User.RoleName,
+                    roleCode = result.User.RoleCode,
                     outletId = result.User.outLetId
                 }
             });
