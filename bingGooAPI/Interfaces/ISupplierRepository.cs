@@ -15,5 +15,6 @@ namespace bingGooAPI.Interfaces
         Task<bool> UpdateAsync(Supplier supplier);
 
         Task<bool> DeleteAsync(int id);
+        Task<bool> ExistsByNameAsync(string supplierName);
     }
 }

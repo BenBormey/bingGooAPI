@@ -14,10 +14,16 @@ namespace bingGooAPI.Services
             _connection = connection;
         }
 
+        
+
+
+
+
+
         public async Task<Supplier> CreateAsync(Supplier supplier)
         {
             var sql = @"
-                INSERT INTO Suppliers
+                INSERT INTO [DBJuJuBi].[dbo].[Suppliers]
                 (
                     SupplierCode,
                     SupplierName,
@@ -26,8 +32,23 @@ namespace bingGooAPI.Services
                     Email,
                     Address,
                     TaxNumber,
+                    KhmerSupAddress,
+                    Country,
+                    FaxLine2,
+                    Website,
+                    LEAOTime,
+                    Note,
+                    ChequeName,
+                    Term,
+                    DayOrder,
+                    CountryOfPurchase,
+                    SetPercentOrderLevel,
+                    VATTEMP,
                     Status,
-                    CreatedAt
+                    CreatedAt,
+                    SupplierNamekh,
+TermId
+
                 )
                 VALUES
                 (
@@ -38,8 +59,22 @@ namespace bingGooAPI.Services
                     @Email,
                     @Address,
                     @TaxNumber,
+                    @KhmerSupAddress,
+                    @Country,
+                    @FaxLine2,
+                    @Website,
+                    @LEAOTime,
+                    @Note,
+                    @ChequeName,
+                    @Term,
+                    @DayOrder,
+                    @CountryOfPurchase,
+                    @SetPercentOrderLevel,
+                    @VATTEMP,
                     @Status,
-                    GETDATE()
+                    GETDATE(),
+                    @SupplierNamekh ,
+@TermId
                 );
 
                 SELECT CAST(SCOPE_IDENTITY() as int);
@@ -52,31 +87,87 @@ namespace bingGooAPI.Services
             return supplier;
         }
 
-
         public async Task<IEnumerable<Supplier>> GetAllAsync()
         {
             var sql = @"
-                SELECT *
-                FROM Suppliers
-                WHERE Status = 1
-                ORDER BY CreatedAt DESC
+                SELECT
+    s.SupplierID,
+    s.SupplierCode,
+    s.SupplierName,
+    s.ContactName,
+    s.Phone,
+    s.Email,
+    s.Address,
+    s.TaxNumber,
+    s.KhmerSupAddress,
+    s.Country,
+    s.FaxLine2,
+    s.Website,
+    s.LEAOTime,
+    s.Note,
+    s.ChequeName,
+    s.Term,
+    s.DayOrder,
+    s.CountryOfPurchase,
+    s.SetPercentOrderLevel,
+    s.VATTEMP,
+    s.Status,
+    s.CreatedAt,
+    s.SupplierNamekh,
+    s.TermId,
+    t.CountDay
+FROM Suppliers AS s
+LEFT JOIN tblTermDay AS t
+    ON s.TermId = t.Id
+ORDER BY s.CreatedAt DESC;
             ";
 
             return await _connection.QueryAsync<Supplier>(sql);
         }
 
-  
         public async Task<Supplier?> GetByIdAsync(int id)
         {
             var sql = @"
-                SELECT *
-                FROM Suppliers
-                WHERE SupplierID = @Id
+              SELECT
+    s.SupplierID,
+    s.SupplierCode,
+    s.SupplierName,
+    s.ContactName,
+    s.Phone,
+    s.Email,
+    s.Address,
+    s.TaxNumber,
+    s.KhmerSupAddress,
+    s.Country,
+    s.FaxLine2,
+    s.Website,
+    s.LEAOTime,
+    s.Note,
+    s.ChequeName,
+    s.Term,
+    s.DayOrder,
+    s.CountryOfPurchase,
+    s.SetPercentOrderLevel,
+    s.VATTEMP,
+    s.Status,
+    s.CreatedAt,
+    s.SupplierNamekh,
+    s.TermId,
+    t.CountDay
+FROM Suppliers AS s
+LEFT JOIN tblTermDay AS t
+    ON s.TermId = t.Id
+
+
+ WHERE s.SupplierID = @Id
+ORDER BY s.CreatedAt DESC;
+               
             ";
 
-            return await _connection.QueryFirstOrDefaultAsync<Supplier>(sql, new { Id = id });
+            return await _connection.QueryFirstOrDefaultAsync<Supplier>(
+                sql,
+                new { Id = id });
         }
-
 
         public async Task<bool> UpdateAsync(Supplier supplier)
         {
@@ -90,7 +181,21 @@ namespace bingGooAPI.Services
                     Email = @Email,
                     Address = @Address,
                     TaxNumber = @TaxNumber,
-                    Status = @Status
+                    KhmerSupAddress = @KhmerSupAddress,
+                    Country = @Country,
+                    FaxLine2 = @FaxLine2,
+                    Website = @Website,
+                    LEAOTime = @LEAOTime,
+                    Note = @Note,
+                    ChequeName = @ChequeName,
+                    Term = @Term,
+                    DayOrder = @DayOrder,
+                    CountryOfPurchase = @CountryOfPurchase,
+                    SetPercentOrderLevel = @SetPercentOrderLevel,
+                    VATTEMP = @VATTEMP,
+                    Status = @Status,
+                    SupplierNamekh = @SupplierNamekh,
+                    TermId  = @TermId
                 WHERE SupplierID = @SupplierID
             ";
 
@@ -99,18 +204,32 @@ namespace bingGooAPI.Services
             return rows > 0;
         }
 
-
         public async Task<bool> DeleteAsync(int id)
         {
             var sql = @"
-                UPDATE Suppliers
-                SET Status = 0
-                WHERE SupplierID = @Id
-            ";
+        DELETE FROM Suppliers
+        WHERE SupplierID = @Id
+    ";
 
-            var rows = await _connection.ExecuteAsync(sql, new { Id = id });
+            var rows = await _connection.ExecuteAsync(
+                sql,
+                new { Id = id });
 
             return rows > 0;
+        }
+
+        public async Task<bool> ExistsByNameAsync(string supplierName)
+        {
+            var sql = @"
+        SELECT COUNT(1)
+        FROM dbo.Suppliers
+        WHERE LOWER(SupplierName) = LOWER(@SupplierName)";
+
+            var count = await _connection.ExecuteScalarAsync<int>(
+                sql,
+                new { SupplierName = supplierName });
+
+            return count > 0;
         }
     }
 }

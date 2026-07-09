@@ -35,12 +35,12 @@ SELECT
     u.CreatedAt,
     u.LastLoginAt,
     o.OutletName,
-    o.Id AS OutletId
+    u.OutletId
 FROM Users u
 JOIN Roles r ON u.RoleId = r.Id
-JOIN Outlet o ON o.Id = u.OutletId
+LEFT JOIN Outlet o ON o.Id = u.OutletId
 WHERE u.Username = @Username
-and u.IsActive =1
+AND u.IsActive = 1
 ";
 
             return await _db.QueryFirstOrDefaultAsync<User>(

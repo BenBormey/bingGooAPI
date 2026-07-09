@@ -1,7 +1,6 @@
 ﻿using bingGooAPI.Entities;
 using bingGooAPI.Interfaces;
 using bingGooAPI.Models.Product;
-using bingGooAPI.Models.Product.bingGooAPI.Models.Product;
 using Microsoft.AspNetCore.Mvc;
 
 namespace bingGooAPI.Controllers
@@ -53,7 +52,7 @@ namespace bingGooAPI.Controllers
 
             return CreatedAtAction(
                 nameof(GetById),
-                new { id = created.prodid },
+                new { id = created.Id },
                 created
             );
         }
@@ -61,49 +60,34 @@ namespace bingGooAPI.Controllers
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] UpdateProductDto dto)
+        public async Task<IActionResult> Update(
+        int id,
+        [FromBody] UpdateProductDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            if (id != dto.ProductID)
+            if (id != dto.ProID)
                 return BadRequest(new { message = "ID mismatch" });
 
             var exists = await _product.ExistsAsync(id);
 
             if (!exists)
-                return NotFound(new { message = "Product not found" });                                                 
+                return NotFound(new { message = "Product not found" });
 
-            var product = new Product                                                                                   
-            {
-                ProductID = dto.ProductID,
-                ProductCode = dto.ProductCode,
-                ProductName = dto.ProductName,
-                BrandID = dto.BrandId,
-                CategoryId = dto.CategoryId,
-                SupplierId = dto.SupplierId,
-                ImageUrl = dto.ImageUrl,
-                CostPrice = dto.CostPrice,
-                SellingPrice = dto.SellingPrice,
-                DiscountPercent = dto.DiscountPercent,
-                DiscountAmount = dto.DiscountAmount,
-                TaxPercent = dto.TaxPercent,
-                Status = dto.Status,
-                OutletId = dto.OutletId,
-                StockQty = dto.StockQty,
-
-
-
-            };
-
-            var result = await _product.UpdateAsync(product);
+            var result = await _product.UpdateAsync(dto);
 
             if (!result)
-                return BadRequest(new { message = "Update failed" });
+                return BadRequest(new
+                {
+                    message = "Update failed"
+                });
 
-            return Ok(new { message = "Updated successfully" });
+            return Ok(new
+            {
+                message = "Updated successfully"
+            });
         }
-
 
 
         [HttpDelete("{id}")]
@@ -156,7 +140,21 @@ namespace bingGooAPI.Controllers
 
             return Ok(products);
         }
+        [HttpGet("barcode/{barcode}")]
+        public async Task<IActionResult> GetByBarcode(string barcode)
+        {
+            var product = await _product.GetByBarcodeAsync(barcode);
 
+            if (product == null)
+            {
+                return NotFound(new
+                {
+                    message = "Product not found."
+                });
+            }
+
+            return Ok(product);
+        }
 
 
     }

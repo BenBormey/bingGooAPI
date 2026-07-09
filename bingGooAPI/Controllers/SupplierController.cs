@@ -16,15 +16,12 @@ namespace bingGooAPI.Controllers
             _repo = repo;
         }
 
-
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
             var suppliers = await _repo.GetAllAsync();
-
             return Ok(suppliers);
         }
-
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -37,13 +34,20 @@ namespace bingGooAPI.Controllers
             return Ok(supplier);
         }
 
-
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateSupplierDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            bool exists = await _repo.ExistsByNameAsync(dto.SupplierName);
+            if (exists)
+            {
+                return BadRequest(new
+                {
+                    Message = $"Supplier '{dto.SupplierName}' already exists."
+                });
+            }
             var supplier = new Supplier
             {
                 SupplierCode = dto.SupplierCode,
@@ -53,7 +57,22 @@ namespace bingGooAPI.Controllers
                 Email = dto.Email,
                 Address = dto.Address,
                 TaxNumber = dto.TaxNumber,
-                Status = true
+
+                KhmerSupAddress = dto.KhmerSupAddress,
+                Country = dto.Country,
+                FaxLine2 = dto.FaxLine2,
+                Website = dto.Website,
+                LEAOTime = dto.LEAOTime,
+                Note = dto.Note,
+                ChequeName = dto.ChequeName,
+                Term = dto.Term,
+                DayOrder = dto.DayOrder,
+                CountryOfPurchase = dto.CountryOfPurchase,
+                SetPercentOrderLevel = dto.SetPercentOrderLevel,
+                VATTEMP = dto.VATTEMP,
+                SupplierNamekh = dto.SupplierNamekh,
+                Status = dto.Status,
+                TermId = dto.TermId
             };
 
             var result = await _repo.CreateAsync(supplier);
@@ -61,10 +80,8 @@ namespace bingGooAPI.Controllers
             return CreatedAtAction(
                 nameof(GetById),
                 new { id = result.SupplierID },
-                result
-            );
+                result);
         }
-
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateSupplierDto dto)
@@ -84,7 +101,22 @@ namespace bingGooAPI.Controllers
             existing.Email = dto.Email;
             existing.Address = dto.Address;
             existing.TaxNumber = dto.TaxNumber;
+
+            existing.KhmerSupAddress = dto.KhmerSupAddress;
+            existing.Country = dto.Country;
+            existing.FaxLine2 = dto.FaxLine2;
+            existing.Website = dto.Website;
+            existing.LEAOTime = dto.LEAOTime;
+            existing.Note = dto.Note;
+            existing.ChequeName = dto.ChequeName;
+            existing.Term = dto.Term ?? 0;
+            existing.DayOrder = dto.DayOrder ?? 0;
+            existing.CountryOfPurchase = dto.CountryOfPurchase;
+            existing.SetPercentOrderLevel = dto.SetPercentOrderLevel;
+            existing.VATTEMP = dto.VATTEMP;
+            existing.SupplierNamekh = dto.SupplierNamekh;
             existing.Status = dto.Status;
+            existing.TermId = dto.TermId;
 
             var success = await _repo.UpdateAsync(existing);
 
@@ -100,14 +132,19 @@ namespace bingGooAPI.Controllers
             var existing = await _repo.GetByIdAsync(id);
 
             if (existing == null)
-                return NotFound("Supplier not found");
+                return NotFound(new
+                {
+                    Success = false,
+                    Message = "Supplier not found."
+                });
 
-            var success = await _repo.DeleteAsync(id);
+            await _repo.DeleteAsync(id);
 
-            if (!success)
-                return BadRequest("Delete failed");
-
-            return Ok("Deleted successfully");
+            return Ok(new
+            {
+                Success = true,
+                Message = "Supplier deleted successfully."
+            });
         }
     }
 }

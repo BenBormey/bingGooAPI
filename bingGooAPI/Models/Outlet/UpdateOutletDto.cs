@@ -15,7 +15,7 @@ namespace bingGooAPI.Models.Outlet
         public string? Province { get; set; }
 
         [MaxLength(20)]
-        public string? Phone { get; set; }
+        public string? FrancisePhone { get; set; }
 
         [MaxLength(100)]
         public string? Manager { get; set; }
@@ -26,7 +26,7 @@ namespace bingGooAPI.Models.Outlet
         [EmailAddress]
         [MaxLength(100)]
         public string? Email { get; set; }
-
+        public int HourOperationId { get; set; }
         public decimal? Latitude { get; set; }
         public decimal? Longitude { get; set; }
 
@@ -34,11 +34,13 @@ namespace bingGooAPI.Models.Outlet
 
         public int? ProvinceId { get; set; }
         public DateTime GrandOpeningDate { get; set; }
+        public string? OutletPhone { get; set; }
 
         public string Position { get; set; }   
         public string PhotoPath { get; set; } = null!;
         public string VATNumber { get; set; }
         public List<string> PhotoPaths { get; set; } = new List<string>();
+        public List<string> CitizenshipPhotos { get; set; } = new List<string>();
         public int FranchiseId { get; set; }
 
         public bool? IsActive { get; set; }

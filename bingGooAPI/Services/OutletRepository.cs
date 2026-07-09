@@ -2,6 +2,7 @@
 using bingGooAPI.Interfaces;
 using bingGooAPI.Models.Outlet;
 using Dapper;
+using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace bingGooAPI.Services
@@ -20,16 +21,16 @@ namespace bingGooAPI.Services
             var sqlOutlet = @"
                 INSERT INTO [dbo].[Outlet]
                 (
-                    OutletCode, OutletName, Province, ProvinceId, Phone, Manager, 
+                    OutletCode, OutletName, Province, ProvinceId, FrancisePhone, Manager, HourOperationId,
                     Address, Email, Latitude, Longitude, HeadOffice, PhotoPath, 
-                    VATNumber, CreatedBy, CreatedAt, IsActive,FranchiseId,Position, GrandOpeningDate
+                    VATNumber, CreatedBy, CreatedAt, IsActive,FranchiseId,Position, GrandOpeningDate,OutletPhone
                 )
                 OUTPUT INSERTED.*
                 VALUES
                 (
-                    @OutletCode, @OutletName, @Province, @ProvinceId, @Phone, @Manager, 
+                    @OutletCode, @OutletName, @Province, @ProvinceId, @FrancisePhone, @Manager, @HourOperationId,
                     @Address, @Email, @Latitude, @Longitude, @HeadOffice, @PhotoPath, 
-                    @VATNumber, @CreatedBy, GETDATE(), 1, @FranchiseId, @Position, @GrandOpeningDate
+                    @VATNumber, @CreatedBy, GETDATE(), 1, @FranchiseId, @Position, @GrandOpeningDate,@OutletPhone
                 );";
 
             if (_dbConnection.State == ConnectionState.Closed) _dbConnection.Open();
@@ -46,6 +47,13 @@ namespace bingGooAPI.Services
 
                     await _dbConnection.ExecuteAsync(sqlPhoto, photoRecords, transaction);
                     newOutlet.Images = photoRecords.Select(p => new OutletPhoto { OutletId = p.OutletId, PhotoPath = p.PhotoPath }).ToList();
+                }
+                if(outletDto.CitizenshipPhotos != null && outletDto.CitizenshipPhotos.Any())
+                {
+                    var sqlCitizenshipPhoto = "INSERT INTO [DBJuJuBi].[dbo].[CitizenshipPhotos] (OutletId, ImageUrl) VALUES (@OutletId, @ImageUrl)";
+                    var citizenshipPhotoRecords = outletDto.CitizenshipPhotos.Select(path => new { OutletId = newOutlet.Id, ImageUrl = path });
+                    await _dbConnection.ExecuteAsync(sqlCitizenshipPhoto, citizenshipPhotoRecords, transaction);
+                    newOutlet.CitizenshipPhotos = citizenshipPhotoRecords.Select(p => new CitizenshipPhoto { OutletId = p.OutletId, ImageUrl = p.ImageUrl }).ToList();
                 }
 
                 transaction.Commit();
@@ -67,12 +75,12 @@ namespace bingGooAPI.Services
             try
             {
            
-                var sql = @"UPDATE [dbo].[Outlet]
+                var sql = @"UPDATE [DBJuJuBi].[dbo].[Outlet]
                     SET OutletCode = @OutletCode,
                         OutletName = @OutletName,
                         Province = @Province,
                         ProvinceId = @ProvinceId,
-                        Phone = @Phone,
+                        FrancisePhone = @FrancisePhone,
                         Manager = @Manager,
                         Address = @Address,
                         Email = @Email,
@@ -85,7 +93,11 @@ namespace bingGooAPI.Services
                         IsActive = @IsActive,
                         FranchiseId = @FranchiseId,
                         Position = @Position,
-                        GrandOpeningDate = @GrandOpeningDate
+                        HourOperationId = @HourOperationId,
+                        GrandOpeningDate = @GrandOpeningDate,
+                        CitizenshipPhotos= @CitizenshipPhotos,
+                        
+                        OutletPhone = @OutletPhone
                     WHERE Id = @Id";
 
                 var result = await _dbConnection.ExecuteAsync(sql, outletDto, transaction);
@@ -94,15 +106,26 @@ namespace bingGooAPI.Services
                 if (outletDto.PhotoPaths != null)
                 {
               
-                    var sqlDeletePhotos = "DELETE FROM [dbo].[OutletPhoto] WHERE OutletId = @Id";
+                    var sqlDeletePhotos = "DELETE FROM [DBJuJuBi].[dbo].[OutletPhoto] WHERE OutletId = @Id";
                     await _dbConnection.ExecuteAsync(sqlDeletePhotos, new { Id = outletDto.Id }, transaction);
 
                
                     if (outletDto.PhotoPaths.Any())
                     {
-                        var sqlInsertPhoto = "INSERT INTO [dbo].[OutletPhoto] (OutletId, PhotoPath) VALUES (@OutletId, @PhotoPath)";
+                        var sqlInsertPhoto = "INSERT INTO [DBJuJuBi].[dbo].[OutletPhoto] (OutletId, PhotoPath) VALUES (@OutletId, @PhotoPath)";
                         var photoRecords = outletDto.PhotoPaths.Select(path => new { OutletId = outletDto.Id, PhotoPath = path });
                         await _dbConnection.ExecuteAsync(sqlInsertPhoto, photoRecords, transaction);
+                    }
+                }
+                if(outletDto.CitizenshipPhotos != null)
+                {
+                    var sqlDeleteCitizenshipPhotos = "DELETE FROM [DBJuJuBi].[dbo].[CitizenshipPhotos] WHERE OutletId = @Id";
+                    await _dbConnection.ExecuteAsync(sqlDeleteCitizenshipPhotos, new { Id = outletDto.Id }, transaction);
+                    if (outletDto.CitizenshipPhotos.Any())
+                    {
+                        var sqlInsertCitizenshipPhoto = "INSERT INTO [DBJuJuBi].[dbo].[CitizenshipPhotos] (OutletId, ImageUrl) VALUES (@OutletId, @ImageUrl)";
+                        var citizenshipPhotoRecords = outletDto.CitizenshipPhotos.Select(path => new { OutletId = outletDto.Id, ImageUrl = path });
+                        await _dbConnection.ExecuteAsync(sqlInsertCitizenshipPhoto, citizenshipPhotoRecords, transaction);
                     }
                 }
 
@@ -118,21 +141,26 @@ namespace bingGooAPI.Services
 
         public async Task<bool> DeleteAsync(int id)
         {
-            if (_dbConnection.State == ConnectionState.Closed) _dbConnection.Open();
+            if (_dbConnection.State == ConnectionState.Closed)
+                _dbConnection.Open();
 
-   
             using var transaction = _dbConnection.BeginTransaction();
 
             try
             {
+                var sql = @"DELETE FROM [DBJuJuBi].[dbo].[Outlet] WHERE Id = @Id";
 
-                var sqlUpdateOutlet = "UPDATE [dbo].[Outlet] SET [IsActive] = 0, [UpdatedAt] = GETDATE() WHERE Id = @Id";
-
-                var result = await _dbConnection.ExecuteAsync(sqlUpdateOutlet, new { Id = id }, transaction);
+                var result = await _dbConnection.ExecuteAsync(sql, new { Id = id }, transaction);
 
                 transaction.Commit();
-
                 return result > 0;
+            }
+            catch (SqlException ex) when (ex.Number == 547) // 547 = foreign key / reference constraint
+            {
+                transaction.Rollback();
+                throw new InvalidOperationException(
+                    "Cannot delete this outlet because it is still linked to one or more users. " +
+                    "Please remove or reassign those users first.");
             }
             catch (Exception)
             {
@@ -145,13 +173,14 @@ namespace bingGooAPI.Services
         public async Task<IEnumerable<OutletListDto>> GetAllAsync()
         {
             var sql = @"
-                     SELECT 
+SELECT
     o.Id,
     o.OutletCode,
-    f.outletName as OutletName,
-	fty.TypeName,
-    o.Province,
-    o.Phone,
+    f.OutletName AS OutletName,
+    fty.TypeName,
+    p.ProvinceNameEN,
+	o.Address,
+    o.FrancisePhone,
     o.Manager,
     o.HeadOffice,
     o.PhotoPath,
@@ -160,45 +189,91 @@ namespace bingGooAPI.Services
     o.IsActive,
     o.FranchiseId,
     o.Position,
+    o.Email
+,
     o.GrandOpeningDate,
-    
-    p.PhotoPath AS Url -- ប្តូរឈ្មោះ Alias ឱ្យត្រូវនឹង Property 'Url' នៅក្នុង Photo Class
-FROM DBJuJuBi.[dbo].[Outlet] o
-LEFT JOIN DBJuJuBi.[dbo].[OutletPhoto] p ON o.Id = p.OutletId
-left join DBJuJuBi.[dbo].franchise f on f.franchiseId = o.FranchiseId 
-inner join DBJuJuBi.dbo.franchise_type  fty on fty.Id = f.FranchiseTypeId
-WHERE o.IsActive = 1
-ORDER BY o.Id DESC";
+	h.Id AS HourOperationId,
+ CONVERT(VARCHAR, h.OpenTime, 108) + ' - ' + CONVERT(VARCHAR, h.CloseTime, 108) AS HourOperation,
+    h.OpenTime,
+    h.CloseTime,
+    h.Is24Hours,
+o.OutletPhone,
+
+    op.PhotoPath AS Url,
+
+    cp.Id,
+    cp.OutletId,
+    cp.ImageUrl,
+    cp.CreatedAt
+
+FROM DBJuJuBi.dbo.Outlet o
+
+LEFT JOIN DBJuJuBi.dbo.HourOperation h
+    ON h.Id = o.HourOperationId
+
+LEFT JOIN DBJuJuBi.dbo.OutletPhoto op
+    ON op.OutletId = o.Id
+
+LEFT JOIN DBJuJuBi.dbo.CitizenshipPhotos cp
+    ON cp.OutletId = o.Id
+
+LEFT JOIN DBJuJuBi.dbo.Franchise f
+    ON f.FranchiseId = o.FranchiseId
+
+INNER JOIN DBJuJuBi.dbo.Franchise_Type fty
+    ON fty.Id = f.FranchiseTypeId
+
+INNER JOIN DBJuJuBi.dbo.Provinces p
+    ON p.ProvinceId = o.ProvinceId
+
+
+ORDER BY o.Id DESC;";
 
             var outletDict = new Dictionary<int, OutletListDto>();
 
-   
-            var result = await _dbConnection.QueryAsync<OutletListDto, Photo, OutletListDto>(
+            await _dbConnection.QueryAsync<
+                OutletListDto,
+                Photo,
+                CitizenshipPhoto,
+                OutletListDto>
+            (
                 sql,
-                (outlet, photo) =>
+                (outlet, photo, citizenshipPhoto) =>
                 {
                     if (!outletDict.TryGetValue(outlet.Id, out var current))
                     {
                         current = outlet;
+
                         current.Photos = new List<Photo>();
+                        current.CitizenshipPhotos = new List<CitizenshipPhoto>();
+
                         outletDict.Add(current.Id, current);
                     }
 
-               
-                    if (photo != null && !string.IsNullOrEmpty(photo.Url))
+          
+                    if (photo != null &&
+                        !string.IsNullOrWhiteSpace(photo.Url) &&
+                        !current.Photos.Any(x => x.Url == photo.Url))
                     {
                         current.Photos.Add(photo);
                     }
 
+      
+                    if (citizenshipPhoto != null &&
+                        citizenshipPhoto.Id > 0 &&
+                        !current.CitizenshipPhotos.Any(x => x.Id == citizenshipPhoto.Id))
+                    {
+                        current.CitizenshipPhotos.Add(citizenshipPhoto);
+                    }
+
                     return current;
                 },
-                splitOn: "Url"
+                splitOn: "Url,Id"
             );
 
             return outletDict.Values;
         }
 
-        
         public async Task<OutletListDto?> GetByIdAsync(int id)
         {
             var sql = @"

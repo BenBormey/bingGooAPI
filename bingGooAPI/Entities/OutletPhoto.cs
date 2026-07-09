@@ -8,8 +8,8 @@ namespace bingGooAPI.Entities
         public int OutletId { get; set; }
         public string PhotoPath { get; set; } = null!;
 
-        // បន្ថែមនេះដើម្បីងាយស្រួលក្នុង EF Core
-        [JsonIgnore] // ការពារកុំឱ្យវាបាញ់ទិន្នន័យវិលជុំ (Object Cycle)
+
+        [JsonIgnore] 
         public Outlet? Outlet { get; set; }
     }
 }

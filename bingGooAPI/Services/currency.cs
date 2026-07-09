@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 using bingGooAPI.Entities;
@@ -18,52 +19,108 @@ namespace bingGooAPI.Services
 
         public async Task<IEnumerable<Currency>> GetAllAsync()
         {
-            var sql = "SELECT Id, CurrencyCode, CurrencyName, BuyRate, SellRate, IsBase, Active, CreatedAt FROM Currency";
+            var sql = @"
+SELECT Id, CurrencyNo, CurrencyCode, CurrencyName, BuyRate, SellRate,
+       SupplierId, IsBase, Active, CreatedAt, UpdatedAt
+FROM Currency
+ORDER BY Id";
             var result = await _connection.QueryAsync<Currency>(sql);
             return result;
         }
 
         public async Task<Currency?> GetByIdAsync(int id)
         {
-            var sql = "SELECT Id, CurrencyCode, CurrencyName, BuyRate, SellRate, IsBase, Active, CreatedAt FROM Currency WHERE Id = @Id";
+            var sql = @"
+SELECT Id, CurrencyNo, CurrencyCode, CurrencyName, BuyRate, SellRate,
+       SupplierId, IsBase, Active, CreatedAt, UpdatedAt
+FROM Currency
+WHERE Id = @Id";
             var result = await _connection.QueryFirstOrDefaultAsync<Currency>(sql, new { Id = id });
             return result;
         }
 
         public async Task<Currency> CreateAsync(Currency model)
         {
-            try
-            {
-                var sql = @"
-INSERT INTO Currency (CurrencyCode, CurrencyName, BuyRate, SellRate, IsBase, Active, CreatedAt)
-VALUES (@CurrencyCode, @CurrencyName, @BuyRate, @SellRate, @IsBase, @Active, GETDATE());
-SELECT CAST(SCOPE_IDENTITY() as int);";
+            // Check duplicate CurrencyCode
+            var exists = await _connection.ExecuteScalarAsync<int>(
+                @"SELECT COUNT(*)
+          FROM Currency
+          WHERE UPPER(CurrencyCode) = UPPER(@CurrencyCode)",
+                new { model.CurrencyCode });
 
-                var id = await _connection.ExecuteScalarAsync<int>(sql, model);
-                model.Id = id;
-                return model;
-            }
-            catch (Exception ex)
+            if (exists > 0)
             {
-                throw new Exception(ex.Message);
+                throw new Exception($"Currency '{model.CurrencyCode}' already exists.");
             }
 
+            const string sql = @"
+    INSERT INTO Currency
+    (
+        CurrencyNo,
+        CurrencyCode,
+        CurrencyName,
+        BuyRate,
+        SellRate,
+        SupplierId,
+        IsBase,
+        Active,
+        CreatedAt
+    )
+    VALUES
+    (
+        @CurrencyNo,
+        @CurrencyCode,
+        @CurrencyName,
+        @BuyRate,
+        @SellRate,
+        @SupplierId,
+        @IsBase,
+        @Active,
+        GETDATE()
+    );
 
+    SELECT CAST(SCOPE_IDENTITY() AS INT);";
+
+            var id = await _connection.ExecuteScalarAsync<int>(sql, model);
+
+            model.Id = id;
+            return model;
         }
 
         public async Task<bool> UpdateAsync(Currency model)
         {
-            var sql = @"
-UPDATE Currency
-SET CurrencyCode = @CurrencyCode,
-    CurrencyName = @CurrencyName,
-    BuyRate = @BuyRate,
-    SellRate = @SellRate,
-    IsBase = @IsBase,
-    Active = @Active
-WHERE Id = @Id";
+            var exists = await _connection.ExecuteScalarAsync<int>(
+                @"SELECT COUNT(*)
+          FROM Currency
+          WHERE UPPER(CurrencyCode) = UPPER(@CurrencyCode)
+            AND Id <> @Id",
+                new
+                {
+                    model.CurrencyCode,
+                    model.Id
+                });
+
+            if (exists > 0)
+            {
+                throw new Exception($"Currency '{model.CurrencyCode}' already exists.");
+            }
+
+            const string sql = @"
+    UPDATE Currency
+    SET
+        CurrencyNo   = @CurrencyNo,
+        CurrencyCode = @CurrencyCode,
+        CurrencyName = @CurrencyName,
+        BuyRate      = @BuyRate,
+        SellRate     = @SellRate,
+        SupplierId   = @SupplierId,
+        IsBase       = @IsBase,
+        Active       = @Active,
+        UpdatedAt    = GETDATE()
+    WHERE Id = @Id;";
 
             var affected = await _connection.ExecuteAsync(sql, model);
+
             return affected > 0;
         }
 

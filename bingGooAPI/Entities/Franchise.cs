@@ -11,5 +11,10 @@
         public string FranchiseInformation { get; set; }
         public int FranchiseTypeId { get; set; }
         public string TypeName { get; set; }
+        public DateTime? AgreementDate { get; set; }
+
+        public DateTime? ExpirationDate { get; set; }
+
+        public DateTime? AfterDate { get; set; }
     }
 }

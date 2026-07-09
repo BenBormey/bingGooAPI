@@ -71,16 +71,22 @@ namespace bingGooAPI.Controllers
             return Ok(new { message = "Update Outlet complete" });
         }
 
-        // DELETE: api/outlet/5
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            var success = await _outletRepository.DeleteAsync(id);
+            try
+            {
+                var deleted = await _outletRepository.DeleteAsync(id);
+                if (!deleted)
+                    return NotFound(new { message = "Outlet not found." });
 
-            if (!success)
-                return NotFound(new { message = "Outlet not found" });
-
-            return Ok(new { message = "Delete Outlet complete" });
+                return Ok(new { message = "Outlet deleted successfully." });
+            }
+            catch (InvalidOperationException ex)
+            {
+             
+                return Conflict(new { message = ex.Message });
+            }
         }
     }
 }

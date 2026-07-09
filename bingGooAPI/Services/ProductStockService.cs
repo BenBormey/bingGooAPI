@@ -55,11 +55,7 @@ namespace bingGooAPI.Services
       ,ps.[LastUpdated]
       ,ps.[OutletId],
 	  o.OutletName,
-
 	  p.ProductName
-
-	  
-	  
   FROM [dbo].[ProductStocks] ps
 
   inner join Outlet o on o.Id = ps.[OutletId]

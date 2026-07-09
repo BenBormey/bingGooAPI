@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using System.Net;
 using System.Text.Json;
 
 namespace bingGooAPI.Middlewares
@@ -34,30 +36,52 @@ namespace bingGooAPI.Middlewares
         }
 
         private static Task HandleExceptionAsync(
-            HttpContext context,
-            Exception exception)
+      HttpContext context,
+      Exception exception)
         {
             context.Response.ContentType = "application/json";
 
-            int statusCode = exception switch
+            int statusCode;
+            string message;
+
+            switch (exception)
             {
-                UnauthorizedAccessException => StatusCodes.Status401Unauthorized,
-                KeyNotFoundException => StatusCodes.Status404NotFound,
-                ArgumentException => StatusCodes.Status400BadRequest,
-                _ => StatusCodes.Status500InternalServerError
-            };
+                case SqlException sqlEx when sqlEx.Number == 547:
+                    statusCode = StatusCodes.Status400BadRequest;
+                    message = "Cannot delete this supplier because it is being used by Create Product.";
+                    break;
+
+                case UnauthorizedAccessException:
+                    statusCode = StatusCodes.Status401Unauthorized;
+                    message = exception.Message;
+                    break;
+
+                case KeyNotFoundException:
+                    statusCode = StatusCodes.Status404NotFound;
+                    message = exception.Message;
+                    break;
+
+                case ArgumentException:
+                    statusCode = StatusCodes.Status400BadRequest;
+                    message = exception.Message;
+                    break;
+
+                default:
+                    statusCode = StatusCodes.Status500InternalServerError;
+                    message = exception.Message;
+                    break;
+            }
 
             context.Response.StatusCode = statusCode;
 
             var response = new
             {
-                statusCode = statusCode,
-                message = exception.Message
+                Success = false,
+                StatusCode = statusCode,
+                Message = message
             };
 
-            return context.Response.WriteAsync(
-                JsonSerializer.Serialize(response)
-            );
+            return context.Response.WriteAsync(JsonSerializer.Serialize(response));
         }
     }
 }

@@ -29,5 +29,6 @@
         public bool IsActive { get; set; } = true;
         public DateTime GrandOpeningDate { get; set; }
         public List<OutletPhoto> Images { get; set; } = new List<OutletPhoto>();
+        public List<CitizenshipPhoto> CitizenshipPhotos { get; set; } = new List<CitizenshipPhoto>();
     }
 }

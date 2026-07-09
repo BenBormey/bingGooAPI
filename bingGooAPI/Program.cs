@@ -1,76 +1,76 @@
-using bingGooAPI.Configurations;
+﻿using bingGooAPI.Configurations;
 using bingGooAPI.Middlewares;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddInfoConfiguration(builder.Configuration);
 builder.Services.RegisterServices();
-
 builder.Services.AddJwtAuthentication(builder.Configuration);
-
-
 builder.Services.AddAuthorization();
-
-
 builder.Services.AddControllers();
-
-
 builder.Services.AddEndpointsApiExplorer();
+
+
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new()
+    c.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "bingGooAPI",
         Version = "v1"
     });
 
-    c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
-        Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+        Type = SecuritySchemeType.Http,
         Scheme = "Bearer",
         BearerFormat = "JWT",
-        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        In = ParameterLocation.Header,
         Description = "Enter: Bearer {your JWT token}"
     });
 
-    c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
-            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            new OpenApiSecurityScheme
             {
-                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                Reference = new OpenApiReference
                 {
-                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Type = ReferenceType.SecurityScheme,
                     Id = "Bearer"
                 }
             },
-            new string[] {}
+            Array.Empty<string>()
         }
     });
 });
 
 var app = builder.Build();
 
-
-app.UseSwagger();
-app.UseSwaggerUI();
-
-// Global Exception
 app.UseMiddleware<ExceptionMiddleware>();
 
+if (app.Environment.IsDevelopment())
+{
+
+    app.UseSwagger(c =>
+    {
+        c.RouteTemplate = "JuJuBi/swagger/{documentName}/swagger.json";
+    });
+
+  
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/JuJuBi/swagger/v1/swagger.json", "bingGooAPI v1");
+        c.RoutePrefix = "JuJuBi/swagger";
+        c.DocumentTitle = "JuJuBi API";
+    });
+}
 
 app.UseStaticFiles();
-
-
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseStaticFiles();
 app.MapControllers();
-
 app.Run();

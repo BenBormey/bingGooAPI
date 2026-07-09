@@ -6,6 +6,9 @@
         public string CategoryName { get; set; }
         public string Remark { get; set; }
 
-    
+        public string KhmerCategoryName { get; set; }   
+
+
+
     }
 }

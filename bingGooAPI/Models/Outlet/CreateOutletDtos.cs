@@ -14,11 +14,13 @@ namespace bingGooAPI.Models.Outlet
 
         [MaxLength(100)]
         public string? Province { get; set; }
+        public string? OutletPhone { get; set; }
 
         public int? ProvinceId { get; set; }
 
         [MaxLength(20)]
-        public string? Phone { get; set; }
+        public string? FrancisePhone { get; set; }
+        public int HourOperationId { get; set; }
 
         [MaxLength(100)]
         public string? Manager { get; set; }
@@ -53,5 +55,7 @@ namespace bingGooAPI.Models.Outlet
         public string Position { get;set; } = null!;
         public DateTime GrandOpeningDate { get; set; }
         public List<string> PhotoPaths { get; set; } = new List<string>();
+        public List<string> CitizenshipPhotos { get; set; } = new List<string>();
+
     }
 }

@@ -37,8 +37,12 @@ namespace bingGooAPI.Configurations
             services.AddScoped<IProvincesRepository, ProvinceRepository>();
             services.AddScoped<IFranchiseRepository, FranchiseRepository>();
             services.AddScoped<IFranchiseTypeItemRepository, FranchiseTypeRepository>();
-
-
+            services.AddScoped<IProductScalRepository, ProductScalRepository>();
+            services.AddScoped<IHourOperationRepository, HourOperationRepository>();
+            services.AddScoped<IBankSetupRepository, BankSetupRepository>();
+            services.AddScoped<ISupplierReportRepository, SupplierReportService>();
+            services.AddScoped<IMenuItemRepository, MenuItemRepository>();
+            services.AddScoped<IUomRepository, UomRepository>();
         }
 
 

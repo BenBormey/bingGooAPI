@@ -1,4 +1,5 @@
 ﻿
+using bingGooAPI.Models.Report;
 using bingGooAPI.Models.Role;
 
 namespace bingGooAPI.Interfaces
@@ -11,5 +12,6 @@ namespace bingGooAPI.Interfaces
         Task<int> CreateAsync(CreateRoleDto dto);
         Task<bool> UpdateAsync(int id, UpdateRoleDto dto);
         Task<bool> DeleteAsync(int id);
+      //  Task<IEnumerable<SupplierReport>> GetSupplierReportAsync(SupplierReportFilter filter);
     }
 }
