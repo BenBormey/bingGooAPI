@@ -19,6 +19,8 @@
 
         public bool IsActive { get; set; }
 
-        public int OutletId { get; set; }
+        public int? OutletId { get; set; }
+
+        public bool HasSystemAccess { get; set; }
     }
 }

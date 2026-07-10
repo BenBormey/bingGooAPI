@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace bingGooAPI.Middlewares
 {
@@ -48,7 +49,7 @@ namespace bingGooAPI.Middlewares
             {
                 case SqlException sqlEx when sqlEx.Number == 547:
                     statusCode = StatusCodes.Status400BadRequest;
-                    message = "Cannot delete this supplier because it is being used by Create Product.";
+                    message = BuildForeignKeyMessage(sqlEx.Message);
                     break;
 
                 case UnauthorizedAccessException:
@@ -82,6 +83,31 @@ namespace bingGooAPI.Middlewares
             };
 
             return context.Response.WriteAsync(JsonSerializer.Serialize(response));
+        }
+
+        private static string BuildForeignKeyMessage(string sqlMessage)
+        {
+            var insertMatch = Regex.Match(
+                sqlMessage,
+                @"(?:INSERT|UPDATE) statement conflicted with the FOREIGN KEY constraint ""(?<fk>[^""]+)"".*table ""(?:dbo\.)?(?<table>[^""]+)""",
+                RegexOptions.Singleline);
+
+            if (insertMatch.Success)
+            {
+                return $"The selected {insertMatch.Groups["table"].Value} does not exist. Please choose a valid one.";
+            }
+
+            var deleteMatch = Regex.Match(
+                sqlMessage,
+                @"DELETE statement conflicted with the (?:REFERENCE|SAME TABLE REFERENCE) constraint ""(?<fk>[^""]+)"".*table ""(?:dbo\.)?(?<table>[^""]+)""",
+                RegexOptions.Singleline);
+
+            if (deleteMatch.Success)
+            {
+                return $"Cannot delete this record because it is still used by {deleteMatch.Groups["table"].Value}.";
+            }
+
+            return "This operation could not be completed because of a related data conflict.";
         }
     }
 }

@@ -17,6 +17,8 @@
         public string? Address { get; set; }
         public string? AddressKh { get; set; }
 
-        public int OutletId { get; set; }
+        public int? OutletId { get; set; }
+
+        public bool HasSystemAccess { get; set; } = true;
     }
 }

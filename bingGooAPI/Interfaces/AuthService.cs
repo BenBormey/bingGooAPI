@@ -34,6 +34,9 @@ namespace bingGooAPI.Services
             if (!isValidPassword)
                 return (false, "Invalid username or password", null, null);
 
+            if (!user.HasSystemAccess)
+                return (false, "You do not have permission to access this system", null, null);
+
             await _users.UpdateLastLoginAsync(user.Id);
 
             var token = _jwt.GenerateToken(user);
@@ -51,6 +54,9 @@ namespace bingGooAPI.Services
 
             if (user == null)
                 return (false, "Invalid password", null, null);
+
+            if (!user.HasSystemAccess)
+                return (false, "You do not have permission to access this system", null, null);
 
             await _users.UpdateLastLoginAsync(user.Id);
 

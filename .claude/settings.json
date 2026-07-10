@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet build *)",
+      "Bash(find \"e:/Setec/MVC\" -maxdepth 2 -type d)",
+      "Read(//e/Setec/MVC/**)",
+      "Bash(find \"e:/Setec/MVC/unt-bingooo/unt-bingooo\" -maxdepth 2 -type d)",
+      "Read(//e/Setec/MVC/unt-bingooo/unt-bingooo/**)",
+      "Bash(find \"e:/unt-bingoo/unt-bingoo/unt-bingoo\" -maxdepth 2 -type d)",
+      "Read(//e/unt-bingoo/unt-bingoo/unt-bingoo/**)",
+      "Bash(find \"e:/unt-bingoo/unt-bingoo/unt-bingoo/Frameworks\" \"e:/unt-bingoo/unt-bingoo/unt-bingoo/Declares\" \"e:/unt-bingoo/unt-bingoo/unt-bingoo/Controller\" \"e:/unt-bingoo/unt-bingoo/unt-bingoo/Interface\" -type f -name \"*.cs\")",
+      "Read(//e/unt-bingoo/unt-bingoo/unt-bingoo/Frameworks/**)",
+      "Read(//e/unt-bingoo/unt-bingoo/unt-bingoo/Controller/**)"
+    ]
+  }
+}

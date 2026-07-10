@@ -12,7 +12,7 @@ namespace unt_bingoo.Class
 
         public bool IsActive { get; set; }
 
-        // For ComboBox / LookUpEdit Display
+
         public string DisplayName
         {
             get

@@ -158,7 +158,8 @@ namespace bingGooAPI.Controllers
         [HttpGet("pos")]
         public async Task<IActionResult> GetForPOS([FromQuery] int? categoryId)
         {
-            int outletId = int.Parse(User.FindFirst("OutletId")!.Value);
+            if (!int.TryParse(User.FindFirst("OutletId")?.Value, out int outletId))
+                return BadRequest(new { message = "This user has no outlet assigned." });
 
             var products = await _product.GetForPosAsync(outletId, categoryId);
 

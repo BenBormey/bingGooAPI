@@ -33,6 +33,7 @@ SELECT
     u.address AS Address,
     u.addressKh AS AddressKh,
     u.IsActive,
+    u.HasSystemAccess,
     u.CreatedAt,
     u.LastLoginAt,
     o.OutletName,
@@ -67,6 +68,7 @@ SELECT
     u.address AS Address,
     u.addressKh AS AddressKh,
     u.IsActive,
+    u.HasSystemAccess,
     u.CreatedAt,
     u.LastLoginAt,
     o.OutletName,
@@ -117,6 +119,7 @@ INSERT INTO Users
     address,
     addressKh,
     IsActive,
+    HasSystemAccess,
     CreatedAt,
     OutletId
 )
@@ -132,6 +135,7 @@ VALUES
     @Address,
     @AddressKh,
     @IsActive,
+    @HasSystemAccess,
     @CreatedAt,
     @OutletId
 );
@@ -186,6 +190,7 @@ SET
     address    = @Address,
     addressKh  = @AddressKh,
     IsActive   = @IsActive,
+    HasSystemAccess = @HasSystemAccess,
     OutletId   = @OutletId
 WHERE Id = @Id
 ";

@@ -49,6 +49,7 @@ namespace bingGooAPI.Services
                 outLetId = req.OutletId,
 
                 IsActive = true,
+                HasSystemAccess = req.HasSystemAccess,
                 CreatedAt = DateTime.UtcNow
             };
 
@@ -84,6 +85,7 @@ namespace bingGooAPI.Services
                 AddressKh = req.AddressKh,
 
                 IsActive = req.IsActive,
+                HasSystemAccess = req.HasSystemAccess,
 
                 OutletId = req.OutletId
             };
