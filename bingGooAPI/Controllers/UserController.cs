@@ -29,6 +29,21 @@ namespace bingGooAPI.Controllers
         }
 
         [Authorize]
+        [HttpGet("me")]
+        public async Task<IActionResult> GetMe()
+        {
+            var userId = int.Parse(
+                User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+            var user = await _service.GetByIdAsync(userId);
+
+            if (user == null)
+                return NotFound("User not found");
+
+            return Ok(user);
+        }
+
+        [Authorize]
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -94,7 +109,7 @@ namespace bingGooAPI.Controllers
         }
 
 
-        [Authorize(Roles = "ADMIN")]
+        //[Authorize(Roles = "ADMIN")]
         [HttpPut("{id:int}/reset-password")]
         public async Task<IActionResult> ResetPassword(
             int id,
