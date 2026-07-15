@@ -6,9 +6,9 @@ namespace unt_bingoo.Class
     {
         public int UOMId { get; set; }
 
-        public string UOMCode { get; set; }
+        public string? UOMCode { get; set; }
 
-        public string UOMName { get; set; }
+        public string? UOMName { get; set; }
 
         public bool IsActive { get; set; }
 

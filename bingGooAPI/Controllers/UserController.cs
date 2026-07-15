@@ -55,7 +55,7 @@ namespace bingGooAPI.Controllers
             return Ok(user);
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUserRequest req)
         {
