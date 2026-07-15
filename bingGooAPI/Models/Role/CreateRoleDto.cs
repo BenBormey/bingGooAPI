@@ -1,4 +1,4 @@
-﻿namespace bingGooAPI.Models.Role
+﻿namespace JuJuBiAPI.Models.Role
 {
     public class CreateRoleDto
     {

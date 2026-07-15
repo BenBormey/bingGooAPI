@@ -1,4 +1,4 @@
-﻿namespace bingGooAPI.Models.Branch
+﻿namespace JuJuBiAPI.Models.Branch
 {
     public class CreateBranch
     {

@@ -1,7 +1,7 @@
-using bingGooAPI.Entities;
-using bingGooAPI.Models.Term;
+using JuJuBiAPI.Entities;
+using JuJuBiAPI.Models.Term;
 
-namespace bingGooAPI.Interfaces
+namespace JuJuBiAPI.Interfaces
 {
     public interface ITermDayRepository
     {

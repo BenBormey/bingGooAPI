@@ -1,6 +1,6 @@
-﻿using bingGooAPI.Entities;
+﻿using JuJuBiAPI.Entities;
 
-namespace bingGooAPI.Interfaces
+namespace JuJuBiAPI.Interfaces
 {
     public interface IExchangeRateRepository
     {

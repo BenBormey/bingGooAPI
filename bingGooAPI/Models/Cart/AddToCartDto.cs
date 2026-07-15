@@ -1,4 +1,4 @@
-﻿namespace bingGooAPI.Models.Cart
+﻿namespace JuJuBiAPI.Models.Cart
 {
     public class AddToCartDto
     {

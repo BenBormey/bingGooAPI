@@ -1,9 +1,9 @@
-﻿using bingGooAPI.Entities; // ឬ bingGooAPI.Models ទៅតាមទីតាំងរបស់ FranchiseType Class
-using bingGooAPI.Models;
+﻿using JuJuBiAPI.Entities; // ឬ JuJuBiAPI.Models ទៅតាមទីតាំងរបស់ FranchiseType Class
+using JuJuBiAPI.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace bingGooAPI.Interfaces
+namespace JuJuBiAPI.Interfaces
 {
     public interface IFranchiseTypeItemRepository
     {

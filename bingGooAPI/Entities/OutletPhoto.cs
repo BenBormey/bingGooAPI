@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace bingGooAPI.Entities
+namespace JuJuBiAPI.Entities
 {
     public class OutletPhoto
     {

@@ -1,4 +1,4 @@
-﻿namespace bingGooAPI.Models.Report
+﻿namespace JuJuBiAPI.Models.Report
 {
     /// <summary>
     /// Supplier Product Report

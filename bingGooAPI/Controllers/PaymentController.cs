@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using bingGooAPI.Entities;
-using bingGooAPI.Interfaces;
-using bingGooAPI.Models.Payment;
+using JuJuBiAPI.Entities;
+using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Models.Payment;
 using Microsoft.AspNetCore.Mvc;
 
-namespace bingGooAPI.Controllers
+namespace JuJuBiAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

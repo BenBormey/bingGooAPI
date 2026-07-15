@@ -1,8 +1,8 @@
 ﻿using Xunit;
 using Moq;
-using bingGooAPI.Controllers;
-using bingGooAPI.Interfaces;
-using bingGooAPI.Models.ProductStock;
+using JuJuBiAPI.Controllers;
+using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Models.ProductStock;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -120,7 +120,7 @@ namespace UnitTest
                 StockQty = 10
             };
 
-            _mockService.Setup(x => x.GetByProductBranchOutletAsync(1, 1, 1))
+            _mockService.Setup(x => x.GetByProductBranchOutletAsync(1, 1))
                         .ReturnsAsync(dto);
 
             var result = await _controller.GetByProductBranchOutlet(1, 1, 1);

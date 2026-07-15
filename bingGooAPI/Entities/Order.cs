@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace bingGooAPI.Entities
+namespace JuJuBiAPI.Entities
 {
     public class Order
     {

@@ -1,12 +1,12 @@
-﻿using bingGooAPI.Entities;
-using bingGooAPI.Interfaces;
-using bingGooAPI.Models.Branch;
+﻿using JuJuBiAPI.Entities;
+using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Models.Branch;
 using Dapper;
 using System.Data;
 
-namespace bingGooAPI.Services
+namespace JuJuBiAPI.Services
 {
-    public class BranchService : IbrandRepository
+    public class BranchService : IBrandRepository
     {
         private readonly IDbConnection _connection;
 

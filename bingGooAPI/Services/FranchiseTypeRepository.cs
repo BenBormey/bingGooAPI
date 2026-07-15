@@ -1,12 +1,12 @@
-﻿using bingGooAPI.Entities;
-using bingGooAPI.Interfaces;
-using bingGooAPI.Models; // ឬ bingGooAPI.Models.DTO ទៅតាមទីតាំងជាក់ស្តែង
+﻿using JuJuBiAPI.Entities;
+using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Models; // ឬ JuJuBiAPI.Models.DTO ទៅតាមទីតាំងជាក់ស្តែង
 using Dapper;
 using System.Data;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace bingGooAPI.Services
+namespace JuJuBiAPI.Services
 {
     public class FranchiseTypeRepository : IFranchiseTypeItemRepository
     {

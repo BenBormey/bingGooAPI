@@ -1,18 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using bingGooAPI.Interfaces;
-using bingGooAPI.Entities;
+using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Entities;
 using System.Threading.Tasks;
 
-namespace bingGooAPI.Controllers
+namespace JuJuBiAPI.Controllers
 {
    
     [Route("api/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly IcategoryRepository _service;
+        private readonly ICategoryRepository _service;
 
-        public CategoryController(IcategoryRepository service)
+        public CategoryController(ICategoryRepository service)
         {
             _service = service;
         }

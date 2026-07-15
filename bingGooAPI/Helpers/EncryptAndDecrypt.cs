@@ -3,7 +3,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace bingGooAPI.Helpers
+namespace JuJuBiAPI.Helpers
 {
     public static class AesEncryptionHelper
     {

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace bingGooAPI.Models.Supplier
+namespace JuJuBiAPI.Models.Supplier
 {
     public class UpdateSupplierDto
     {

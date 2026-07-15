@@ -1,7 +1,7 @@
-﻿using bingGooAPI.Entities;
-using bingGooAPI.Models.HouseOpration;
+﻿using JuJuBiAPI.Entities;
+using JuJuBiAPI.Models.HouseOpration;
 
-namespace bingGooAPI.Interfaces
+namespace JuJuBiAPI.Interfaces
 {
     public interface IHourOperationRepository
     {

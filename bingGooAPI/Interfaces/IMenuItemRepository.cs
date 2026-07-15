@@ -1,7 +1,7 @@
-﻿using bingGooAPI.Models;
+﻿using JuJuBiAPI.Models;
 using JuJuBis.Domain.Entities;
 
-namespace bingGooAPI.Interfaces
+namespace JuJuBiAPI.Interfaces
 {
     public interface IMenuItemRepository
     {

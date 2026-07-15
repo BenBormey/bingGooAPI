@@ -1,4 +1,4 @@
-﻿namespace bingGooAPI.Models.User
+﻿namespace JuJuBiAPI.Models.User
 {
     public class ResetPasswordDto
     {

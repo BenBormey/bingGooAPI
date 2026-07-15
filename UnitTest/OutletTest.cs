@@ -1,8 +1,9 @@
 ﻿using Xunit;
 using Moq;
-using bingGooAPI.Controllers;
-using bingGooAPI.Interfaces;
-using bingGooAPI.Models.Outlet;
+using JuJuBiAPI.Controllers;
+using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Entities;
+using JuJuBiAPI.Models.Outlet;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -79,7 +80,12 @@ namespace UnitTest
             // Assert
             var notFound = Assert.IsType<NotFoundObjectResult>(result.Result);
 
-            Assert.Equal("Outlet not found", notFound.Value);
+            var message = notFound.Value.GetType()
+                .GetProperty("message")
+                .GetValue(notFound.Value)
+                .ToString();
+
+            Assert.Equal("Outlet not found", message);
         }
 
         [Fact]
@@ -92,17 +98,17 @@ namespace UnitTest
             };
 
             _mockRepo.Setup(x => x.AddAsync(request))
-                     .Returns(Task.CompletedTask);
+                     .ReturnsAsync(new Outlet());
 
             // Act
             var result = await _controller.Create(request);
 
             // Assert
-            var okResult = Assert.IsType<OkObjectResult>(result);
+            var createdResult = Assert.IsType<CreatedAtActionResult>(result);
 
-            var message = okResult.Value.GetType()
+            var message = createdResult.Value.GetType()
                 .GetProperty("message")
-                .GetValue(okResult.Value)
+                .GetValue(createdResult.Value)
                 .ToString();
 
             Assert.Equal("Create Outlet complete", message);
@@ -124,7 +130,12 @@ namespace UnitTest
             // Assert
             var badRequest = Assert.IsType<BadRequestObjectResult>(result);
 
-            Assert.Equal("Id mismatch", badRequest.Value);
+            var message = badRequest.Value.GetType()
+                .GetProperty("message")
+                .GetValue(badRequest.Value)
+                .ToString();
+
+            Assert.Equal("Id mismatch", message);
         }
 
         [Fact]
@@ -138,7 +149,7 @@ namespace UnitTest
             };
 
             _mockRepo.Setup(x => x.UpdateAsync(request))
-                     .Returns(Task.CompletedTask);
+                     .ReturnsAsync(true);
 
             // Act
             var result = await _controller.Update(1, request);
@@ -159,7 +170,7 @@ namespace UnitTest
         {
             // Arrange
             _mockRepo.Setup(x => x.DeleteAsync(1))
-                     .Returns(Task.CompletedTask);
+                     .ReturnsAsync(true);
 
             // Act
             var result = await _controller.Delete(1);
@@ -172,7 +183,7 @@ namespace UnitTest
                 .GetValue(okResult.Value)
                 .ToString();
 
-            Assert.Equal("Delete Outlet complete", message);
+            Assert.Equal("Outlet deleted successfully.", message);
         }
     }
 }

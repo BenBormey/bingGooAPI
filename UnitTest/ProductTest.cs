@@ -1,9 +1,9 @@
 ﻿using Xunit;
 using Moq;
-using bingGooAPI.Controllers;
-using bingGooAPI.Interfaces;
-using bingGooAPI.Entities;
-using bingGooAPI.Models.Product;
+using JuJuBiAPI.Controllers;
+using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Entities;
+using JuJuBiAPI.Models.Product;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
@@ -48,24 +48,19 @@ namespace UnitTest
             // Arrange
             var dto = new CreateProductDto
             {
-                ProductCode = "P001",
-                ProductName = "Test Product",
-                BrandId = 1,
-                CategoryId = 1,
-                SupplierId = 1,
-                SellingPrice = 10,
-                Status = true
+                ProNumY = "P001",
+                ProName = "Test Product"
             };
 
-            var createdEntity = new Product
+            var createdDto = new CreateProductDto
             {
-                ProductID = 1,
-                ProductName = "Test Product"
+                Id = 1,
+                ProNumY = "P001",
+                ProName = "Test Product"
             };
 
-            // IMPORTANT FIX: specify Product explicitly
-            _repo.Setup(r => r.CreateAsync(It.IsAny<Product>()))
-                 .Returns(Task.FromResult<Product>(createdEntity));
+            _repo.Setup(r => r.CreateAsync(It.IsAny<CreateProductDto>()))
+                 .ReturnsAsync(createdDto);
 
             // Act
             var result = await _controller.Create(dto);
@@ -73,9 +68,9 @@ namespace UnitTest
             // Assert
             var createdResult = Assert.IsType<CreatedAtActionResult>(result);
 
-            var product = Assert.IsType<Product>(createdResult.Value);
+            var product = Assert.IsType<CreateProductDto>(createdResult.Value);
 
-            Assert.Equal(1, product.ProductID);
+            Assert.Equal(1, product.Id);
         }
 
         [Fact]
@@ -85,8 +80,8 @@ namespace UnitTest
             {
                 new ProductListDto
                 {
-                    ProductID = 1,
-                    ProductName = "Test"
+                    ProID = 1,
+                    ProName = "Test"
                 }
             };
 

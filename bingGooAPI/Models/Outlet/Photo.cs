@@ -1,4 +1,4 @@
-﻿namespace bingGooAPI.Models.Outlet
+﻿namespace JuJuBiAPI.Models.Outlet
 {
     public class Photo
     {

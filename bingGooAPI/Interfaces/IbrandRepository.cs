@@ -1,11 +1,11 @@
-﻿using bingGooAPI.Entities;
-using bingGooAPI.Models.Branch;
+﻿using JuJuBiAPI.Entities;
+using JuJuBiAPI.Models.Branch;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace bingGooAPI.Interfaces
+namespace JuJuBiAPI.Interfaces
 {
-    public interface IbrandRepository
+    public interface IBrandRepository
     {
         Task<IEnumerable<Branch>> GetAllAsync();
         Task<Branch?> GetByIdAsync(int id);

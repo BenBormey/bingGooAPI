@@ -1,4 +1,4 @@
-﻿namespace bingGooAPI.Models.ProductScale
+﻿namespace JuJuBiAPI.Models.ProductScale
 {
     public class ProductScaleDto
     {

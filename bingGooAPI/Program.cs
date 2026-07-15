@@ -1,5 +1,5 @@
-﻿using bingGooAPI.Configurations;
-using bingGooAPI.Middlewares;
+﻿using JuJuBiAPI.Configurations;
+using JuJuBiAPI.Middlewares;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,7 +17,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "bingGooAPI",
+        Title = "JuJuBiAPI",
         Version = "v1"
     });
 
@@ -62,7 +62,7 @@ if (app.Environment.IsDevelopment())
   
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/JuJuBi/swagger/v1/swagger.json", "bingGooAPI v1");
+        c.SwaggerEndpoint("/JuJuBi/swagger/v1/swagger.json", "JuJuBiAPI v1");
         c.RoutePrefix = "JuJuBi/swagger";
         c.DocumentTitle = "JuJuBi API";
     });

@@ -1,4 +1,4 @@
-﻿namespace bingGooAPI.Models.HouseOpration
+﻿namespace JuJuBiAPI.Models.HouseOpration
 {
     public class UpdateHourOperationDto
     {

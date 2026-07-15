@@ -1,9 +1,9 @@
-﻿using bingGooAPI.Interfaces;
-using bingGooAPI.Models.Role;
+﻿using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Models.Role;
 using Dapper;
 using System.Data;
 
-namespace bingGooAPI.Services
+namespace JuJuBiAPI.Services
 {
     public class RoleRepository : IRoleRepository
     {

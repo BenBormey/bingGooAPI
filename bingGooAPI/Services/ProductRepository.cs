@@ -1,14 +1,14 @@
-﻿using bingGooAPI.Entities;
-using bingGooAPI.Interfaces;
-using bingGooAPI.Models.Product;
-using bingGooAPI.Models.ProductScale;
+﻿using JuJuBiAPI.Entities;
+using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Models.Product;
+using JuJuBiAPI.Models.ProductScale;
 using Dapper;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace bingGooAPI.Services
+namespace JuJuBiAPI.Services
 {
     public class ProductRepository : IProductRepository
     {

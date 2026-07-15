@@ -1,4 +1,4 @@
-﻿namespace bingGooAPI.Models.MenuItem
+﻿namespace JuJuBiAPI.Models.MenuItem
 {
     public sealed class UpdateMenuItemRequest
     {

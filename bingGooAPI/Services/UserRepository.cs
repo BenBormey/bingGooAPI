@@ -1,11 +1,11 @@
-﻿using bingGooAPI.Entities;
-using bingGooAPI.Interfaces;
-using bingGooAPI.Models.User;
+﻿using JuJuBiAPI.Entities;
+using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Models.User;
 using Dapper;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 
-namespace bingGooAPI.Services
+namespace JuJuBiAPI.Services
 {
     public class UserRepository : IUserRepository
     {

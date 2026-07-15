@@ -1,9 +1,9 @@
 ﻿using System.Data;
 using Dapper;
-using bingGooAPI.Entities;
-using bingGooAPI.Interfaces;
+using JuJuBiAPI.Entities;
+using JuJuBiAPI.Interfaces;
 
-namespace bingGooAPI.Services
+namespace JuJuBiAPI.Services
 {
     public class OrderRepository : IOrderRepository
     {

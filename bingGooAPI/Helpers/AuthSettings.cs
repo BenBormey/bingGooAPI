@@ -1,4 +1,4 @@
-﻿namespace bingGooAPI.Helpers
+﻿namespace JuJuBiAPI.Helpers
 {
     public class AuthSettings
     {

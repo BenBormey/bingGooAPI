@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace bingGooAPI.Models.OutletProduct
+namespace JuJuBiAPI.Models.OutletProduct
 {
 
     public class OutletProductItem

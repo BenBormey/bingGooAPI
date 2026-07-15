@@ -1,4 +1,4 @@
-﻿namespace bingGooAPI.Models.Supplier
+﻿namespace JuJuBiAPI.Models.Supplier
 {
     public class CreateSupplierDto
     {

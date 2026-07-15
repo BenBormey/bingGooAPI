@@ -1,9 +1,9 @@
 ﻿using System.Data;
 using Dapper;
-using bingGooAPI.Interfaces;
-using bingGooAPI.Models.Report;
+using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Models.Report;
 
-namespace bingGooAPI.Services
+namespace JuJuBiAPI.Services
 {
     public class ReportRepository : IReportRepository
     {

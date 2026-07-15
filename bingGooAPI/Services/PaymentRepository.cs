@@ -4,10 +4,10 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
-using bingGooAPI.Entities;
-using bingGooAPI.Interfaces;
+using JuJuBiAPI.Entities;
+using JuJuBiAPI.Interfaces;
 
-namespace bingGooAPI.Services
+namespace JuJuBiAPI.Services
 {
     public class PaymentRepository : IPaymentRepository
     {

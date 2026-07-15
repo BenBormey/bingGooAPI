@@ -1,5 +1,5 @@
-﻿using bingGooAPI.Entities;
-using bingGooAPI.Models.User;
+﻿using JuJuBiAPI.Entities;
+using JuJuBiAPI.Models.User;
 
 public interface IUserRepository
 {

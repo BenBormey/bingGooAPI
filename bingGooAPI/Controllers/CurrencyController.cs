@@ -1,18 +1,18 @@
-﻿using bingGooAPI.Entities;
-using bingGooAPI.Interfaces;
+﻿using JuJuBiAPI.Entities;
+using JuJuBiAPI.Interfaces;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace bingGooAPI.Controllers
+namespace JuJuBiAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class CurrencyController : ControllerBase
     {
-        private readonly IcurrencyRepository _service;
+        private readonly ICurrencyRepository _service;
 
-        public CurrencyController(IcurrencyRepository service)
+        public CurrencyController(ICurrencyRepository service)
         {
             _service = service;
         }

@@ -1,7 +1,7 @@
-﻿using bingGooAPI.Entities;
+﻿using JuJuBiAPI.Entities;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 
-namespace bingGooAPI.Models.Outlet
+namespace JuJuBiAPI.Models.Outlet
 {
     public class OutletListDto
     {

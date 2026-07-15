@@ -1,4 +1,4 @@
-﻿namespace bingGooAPI.Databases
+﻿namespace JuJuBiAPI.Databases
 {
     public class ConnectionManager
     {

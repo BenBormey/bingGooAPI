@@ -1,6 +1,6 @@
-﻿using bingGooAPI.Controllers;
-using bingGooAPI.Entities;
-using bingGooAPI.Interfaces;
+﻿using JuJuBiAPI.Controllers;
+using JuJuBiAPI.Entities;
+using JuJuBiAPI.Interfaces;
 using Castle.Components.DictionaryAdapter;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -14,11 +14,11 @@ namespace UnitTest
 {
     public class CurrencyTest
     {
-        private readonly Mock<IcurrencyRepository> _mockService;
+        private readonly Mock<ICurrencyRepository> _mockService;
         private readonly CurrencyController _controller;
         public CurrencyTest()
         {
-            _mockService = new Mock<IcurrencyRepository>();
+            _mockService = new Mock<ICurrencyRepository>();
             _controller = new CurrencyController(_mockService.Object);
         }
 

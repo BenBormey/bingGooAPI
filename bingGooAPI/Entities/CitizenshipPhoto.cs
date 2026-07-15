@@ -1,4 +1,4 @@
-﻿namespace bingGooAPI.Entities
+﻿namespace JuJuBiAPI.Entities
 {
     public class CitizenshipPhoto
     {

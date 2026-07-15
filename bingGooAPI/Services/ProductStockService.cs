@@ -1,9 +1,9 @@
-﻿using bingGooAPI.Interfaces;
-using bingGooAPI.Models.ProductStock;
+﻿using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Models.ProductStock;
 using Dapper;
 using System.Data;
 
-namespace bingGooAPI.Services
+namespace JuJuBiAPI.Services
 {
     public class ProductStockService : IProductStockRepository
     {

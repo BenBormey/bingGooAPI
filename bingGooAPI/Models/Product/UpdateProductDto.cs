@@ -1,6 +1,6 @@
-﻿using bingGooAPI.Models.ProductScale;
+﻿using JuJuBiAPI.Models.ProductScale;
 
-namespace bingGooAPI.Models.Product
+namespace JuJuBiAPI.Models.Product
 {
     public class UpdateProductDto
     {

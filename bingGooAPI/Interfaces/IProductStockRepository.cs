@@ -1,6 +1,6 @@
-﻿namespace bingGooAPI.Interfaces
+﻿namespace JuJuBiAPI.Interfaces
 {
-    using bingGooAPI.Models.ProductStock;
+    using JuJuBiAPI.Models.ProductStock;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 

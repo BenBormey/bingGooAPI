@@ -1,18 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using bingGooAPI.Interfaces;
-using bingGooAPI.Entities;
+using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Entities;
 using System.Threading.Tasks;
-using bingGooAPI.Models.Branch;
+using JuJuBiAPI.Models.Branch;
 
-namespace bingGooAPI.Controllers
+namespace JuJuBiAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class BrandController : ControllerBase
     {
-        private readonly IbrandRepository _service;
+        private readonly IBrandRepository _service;
 
-        public BrandController(IbrandRepository service)
+        public BrandController(IBrandRepository service)
         {
             _service = service;
         }

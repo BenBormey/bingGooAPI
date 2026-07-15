@@ -1,9 +1,9 @@
-﻿using bingGooAPI.Entities;
-using bingGooAPI.Interfaces;
+﻿using JuJuBiAPI.Entities;
+using JuJuBiAPI.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace bingGooAPI.Controllers
+namespace JuJuBiAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

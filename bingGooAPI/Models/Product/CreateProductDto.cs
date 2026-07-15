@@ -1,4 +1,4 @@
-﻿using bingGooAPI.Models.ProductScale;
+﻿using JuJuBiAPI.Models.ProductScale;
 
 public class CreateProductDto
 {

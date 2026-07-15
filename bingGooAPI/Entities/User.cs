@@ -1,4 +1,4 @@
-﻿namespace bingGooAPI.Entities
+﻿namespace JuJuBiAPI.Entities
 {
     public class User
     {
@@ -21,8 +21,8 @@
         public bool IsActive { get; set; } = true;
         public bool HasSystemAccess { get; set; } = true;
 
-        public int? outLetId { get; set; }
-        public string OutLetName { get; set; } = null!;
+        public int? OutletId { get; set; }
+        public string OutletName { get; set; } = null!;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? LastLoginAt { get; set; }
     }

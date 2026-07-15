@@ -1,10 +1,10 @@
-using bingGooAPI.Entities;
-using bingGooAPI.Interfaces;
-using bingGooAPI.Models.ShelfLife;
+using JuJuBiAPI.Entities;
+using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Models.ShelfLife;
 using Dapper;
 using System.Data;
 
-namespace bingGooAPI.Services
+namespace JuJuBiAPI.Services
 {
     public class ShelfLifeRepository : IShelfLifeRepository
     {

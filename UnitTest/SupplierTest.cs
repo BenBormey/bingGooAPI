@@ -1,9 +1,9 @@
 ﻿using Xunit;
 using Moq;
-using bingGooAPI.Controllers;
-using bingGooAPI.Interfaces;
-using bingGooAPI.Entities;
-using bingGooAPI.Models.Supplier;
+using JuJuBiAPI.Controllers;
+using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Entities;
+using JuJuBiAPI.Models.Supplier;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -171,7 +171,12 @@ namespace UnitTest
 
             var notFound = Assert.IsType<NotFoundObjectResult>(result);
 
-            Assert.Equal("Supplier not found", notFound.Value);
+            var message = notFound.Value.GetType()
+                .GetProperty("Message")
+                .GetValue(notFound.Value)
+                .ToString();
+
+            Assert.Equal("Supplier not found.", message);
         }
 
         [Fact]
@@ -193,7 +198,12 @@ namespace UnitTest
 
             var ok = Assert.IsType<OkObjectResult>(result);
 
-            Assert.Equal("Deleted successfully", ok.Value);
+            var message = ok.Value.GetType()
+                .GetProperty("Message")
+                .GetValue(ok.Value)
+                .ToString();
+
+            Assert.Equal("Supplier deleted successfully.", message);
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿using bingGooAPI.Entities;
-using bingGooAPI.Models;
-using bingGooAPI.Models.User;
+﻿using JuJuBiAPI.Entities;
+using JuJuBiAPI.Models;
+using JuJuBiAPI.Models.User;
 
 public interface IUserService
 {

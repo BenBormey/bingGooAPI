@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace bingGooAPI.Models.MenuItem
+namespace JuJuBiAPI.Models.MenuItem
 {
     public class CreateMenuItemDto
     {

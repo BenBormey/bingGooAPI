@@ -1,10 +1,10 @@
-﻿using bingGooAPI.Interfaces;
-using bingGooAPI.Models;
-using bingGooAPI.Models.OutletProduct;
+﻿using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Models;
+using JuJuBiAPI.Models.OutletProduct;
 using Dapper;
 using System.Data;
 
-namespace bingGooAPI.Services
+namespace JuJuBiAPI.Services
 {
     public class OutletProductService : IOutletProductRepository
     {

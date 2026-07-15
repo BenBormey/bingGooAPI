@@ -1,4 +1,4 @@
-﻿namespace bingGooAPI.Models.Payment
+﻿namespace JuJuBiAPI.Models.Payment
 {
     public class QrConfirmDto
     {

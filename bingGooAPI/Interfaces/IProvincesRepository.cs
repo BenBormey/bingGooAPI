@@ -1,8 +1,8 @@
-﻿using bingGooAPI.Entities;
+﻿using JuJuBiAPI.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace bingGooAPI.Interfaces
+namespace JuJuBiAPI.Interfaces
 {
     public interface IProvincesRepository
     {

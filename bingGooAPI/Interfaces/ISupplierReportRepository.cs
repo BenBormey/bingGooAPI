@@ -1,6 +1,6 @@
-﻿using bingGooAPI.Models.Report;
+﻿using JuJuBiAPI.Models.Report;
 
-namespace bingGooAPI.Interfaces
+namespace JuJuBiAPI.Interfaces
 {
     public interface ISupplierReportRepository
     {

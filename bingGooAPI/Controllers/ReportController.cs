@@ -1,7 +1,7 @@
-﻿using bingGooAPI.Interfaces;
+﻿using JuJuBiAPI.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace bingGooAPI.Controllers
+namespace JuJuBiAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

@@ -1,9 +1,9 @@
 ﻿using Xunit;
 using Moq;
-using bingGooAPI.Controllers;
-using bingGooAPI.Interfaces;
-using bingGooAPI.Entities;
-using bingGooAPI.Models.Branch;
+using JuJuBiAPI.Controllers;
+using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Entities;
+using JuJuBiAPI.Models.Branch;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,12 +12,12 @@ namespace UnitTest
 {
     public class BrandTest
     {
-        private readonly Mock<IbrandRepository> _mockService;
+        private readonly Mock<IBrandRepository> _mockService;
         private readonly BrandController _controller;
 
         public BrandTest()
         {
-            _mockService = new Mock<IbrandRepository>();
+            _mockService = new Mock<IBrandRepository>();
             _controller = new BrandController(_mockService.Object);
         }
 

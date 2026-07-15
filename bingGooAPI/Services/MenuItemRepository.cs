@@ -1,10 +1,10 @@
-﻿using bingGooAPI.Entities;
-using bingGooAPI.Interfaces;
+﻿using JuJuBiAPI.Entities;
+using JuJuBiAPI.Interfaces;
 using Dapper;
 using JuJuBis.Domain.Entities;
 using System.Data;
 
-namespace bingGooAPI.Services
+namespace JuJuBiAPI.Services
 {
     public class MenuItemRepository : IMenuItemRepository
     {

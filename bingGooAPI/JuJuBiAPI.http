@@ -1,0 +1,6 @@
+@JuJuBiAPI_HostAddress = http://192.168.2.26:5189
+
+GET {{JuJuBiAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

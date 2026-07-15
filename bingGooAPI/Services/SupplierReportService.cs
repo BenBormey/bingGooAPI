@@ -1,9 +1,9 @@
-﻿using bingGooAPI.Interfaces;
-using bingGooAPI.Models.Report;
+﻿using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Models.Report;
 using Dapper;
 using System.Data;
 
-namespace bingGooAPI.Services
+namespace JuJuBiAPI.Services
 {
     public class SupplierReportService : ISupplierReportRepository
     {

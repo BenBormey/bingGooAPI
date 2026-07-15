@@ -1,4 +1,4 @@
-﻿namespace bingGooAPI.Models.ProductStock
+﻿namespace JuJuBiAPI.Models.ProductStock
 {
     public class CreateProductStockDto
     {

@@ -1,7 +1,7 @@
-﻿using bingGooAPI.Controllers;
-using bingGooAPI.Entities;
-using bingGooAPI.Interfaces;
-using bingGooAPI.Models.Cart;
+﻿using JuJuBiAPI.Controllers;
+using JuJuBiAPI.Entities;
+using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Models.Cart;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;

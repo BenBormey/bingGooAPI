@@ -1,11 +1,11 @@
-﻿using bingGooAPI.Interfaces;
-using bingGooAPI.Models;
-using bingGooAPI.Models.User;
+﻿using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Models;
+using JuJuBiAPI.Models.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace bingGooAPI.Controllers
+namespace JuJuBiAPI.Controllers
 {
     [ApiController]
     [Route("api/users")]
@@ -20,7 +20,7 @@ namespace bingGooAPI.Controllers
 
 
 
-  //     [Authorize(Roles = "Admin")]
+       [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -109,7 +109,7 @@ namespace bingGooAPI.Controllers
         }
 
 
-        //[Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "ADMIN")]
         [HttpPut("{id:int}/reset-password")]
         public async Task<IActionResult> ResetPassword(
             int id,

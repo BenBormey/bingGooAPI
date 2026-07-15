@@ -1,6 +1,6 @@
-﻿using bingGooAPI.Models.ProductScale;
+﻿using JuJuBiAPI.Models.ProductScale;
 
-namespace bingGooAPI.Entities
+namespace JuJuBiAPI.Entities
 {
     public class Product
     {

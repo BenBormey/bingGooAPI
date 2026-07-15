@@ -4,7 +4,7 @@ using System.Net;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
-namespace bingGooAPI.Middlewares
+namespace JuJuBiAPI.Middlewares
 {
     public class ExceptionMiddleware
     {

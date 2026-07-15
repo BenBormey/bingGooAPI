@@ -1,4 +1,4 @@
-namespace bingGooAPI
+namespace JuJuBiAPI
 {
     public class WeatherForecast
     {

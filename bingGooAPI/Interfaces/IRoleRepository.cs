@@ -1,8 +1,8 @@
 ﻿
-using bingGooAPI.Models.Report;
-using bingGooAPI.Models.Role;
+using JuJuBiAPI.Models.Report;
+using JuJuBiAPI.Models.Role;
 
-namespace bingGooAPI.Interfaces
+namespace JuJuBiAPI.Interfaces
 {
     public interface IRoleRepository
     {

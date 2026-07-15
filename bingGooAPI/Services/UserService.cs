@@ -1,10 +1,10 @@
-﻿using bingGooAPI.Entities;
-using bingGooAPI.Interfaces;
-using bingGooAPI.Models;
-using bingGooAPI.Models.User;
+﻿using JuJuBiAPI.Entities;
+using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Models;
+using JuJuBiAPI.Models.User;
 using Microsoft.AspNetCore.Identity;
 
-namespace bingGooAPI.Services
+namespace JuJuBiAPI.Services
 {
     public class UserService : IUserService
     {
@@ -46,7 +46,7 @@ namespace bingGooAPI.Services
                 address = req.Address,
                 addressKh = req.AddressKh,
 
-                outLetId = req.OutletId,
+                OutletId = req.OutletId,
 
                 IsActive = true,
                 HasSystemAccess = req.HasSystemAccess,

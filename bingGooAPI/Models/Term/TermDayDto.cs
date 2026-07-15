@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace bingGooAPI.Models.Term
+namespace JuJuBiAPI.Models.Term
 {
     public class CreateTermDayDto
     {

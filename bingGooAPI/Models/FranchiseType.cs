@@ -1,4 +1,4 @@
-﻿namespace bingGooAPI.Models
+﻿namespace JuJuBiAPI.Models
 {
     public class FranchiseType
     {

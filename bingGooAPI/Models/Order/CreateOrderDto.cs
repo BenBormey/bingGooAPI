@@ -1,4 +1,4 @@
-﻿namespace bingGooAPI.Models.Order
+﻿namespace JuJuBiAPI.Models.Order
 {
     public class CreateOrderDto
     {

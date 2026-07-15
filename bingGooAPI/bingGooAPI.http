@@ -1,6 +1,0 @@
-@bingGooAPI_HostAddress = http://192.168.2.26:5189
-
-GET {{bingGooAPI_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

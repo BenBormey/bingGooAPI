@@ -1,11 +1,11 @@
-﻿using bingGooAPI.Entities;
-using bingGooAPI.Interfaces;
+﻿using JuJuBiAPI.Entities;
+using JuJuBiAPI.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace bingGooAPI.Services
+namespace JuJuBiAPI.Services
 {
     public class JwtTokenService : IJwtTokenService
     {
@@ -22,7 +22,7 @@ namespace bingGooAPI.Services
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim("OutletId", user.outLetId.ToString()),
+                new Claim("OutletId", user.OutletId.ToString()),
           
                 new Claim(ClaimTypes.Role, user.RoleCode)
             };

@@ -4,7 +4,7 @@
     using System.Runtime.CompilerServices;
     using System.Security.Cryptography;
 
-        namespace bingGooAPI.Models
+        namespace JuJuBiAPI.Models
         {
     public static class PasswordHasher
         {

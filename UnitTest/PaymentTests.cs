@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
-using bingGooAPI.Controllers;
-using bingGooAPI.Entities;
-using bingGooAPI.Interfaces;
-using bingGooAPI.Models.Payment;
+using JuJuBiAPI.Controllers;
+using JuJuBiAPI.Entities;
+using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Models.Payment;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;

@@ -1,9 +1,9 @@
-﻿using bingGooAPI.Entities;
-using bingGooAPI.Interfaces;
-using bingGooAPI.Models;
+﻿using JuJuBiAPI.Entities;
+using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Models;
 using System.Linq;
 
-namespace bingGooAPI.Services
+namespace JuJuBiAPI.Services
 {
     public class AuthService : IAuthService
     {

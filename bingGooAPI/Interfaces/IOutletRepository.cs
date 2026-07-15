@@ -1,7 +1,7 @@
-﻿using bingGooAPI.Entities; 
-using bingGooAPI.Models.Outlet;
+﻿using JuJuBiAPI.Entities; 
+using JuJuBiAPI.Models.Outlet;
 
-namespace bingGooAPI.Interfaces
+namespace JuJuBiAPI.Interfaces
 {
     public interface IOutletRepository
     {

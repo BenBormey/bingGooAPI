@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
-using bingGooAPI.Entities;
-using bingGooAPI.Interfaces;
+using JuJuBiAPI.Entities;
+using JuJuBiAPI.Interfaces;
 using Dapper;
 
-namespace bingGooAPI.Services
+namespace JuJuBiAPI.Services
 {
-    public class CurrencyService : IcurrencyRepository
+    public class CurrencyService : ICurrencyRepository
     {
         private readonly IDbConnection _connection;
 

@@ -1,8 +1,8 @@
-﻿using bingGooAPI.Interfaces;
-using bingGooAPI.Models;
+﻿using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace bingGooAPI.Controllers
+namespace JuJuBiAPI.Controllers
 {
     [ApiController]
     [Route("api/auth")]
@@ -36,7 +36,7 @@ namespace bingGooAPI.Controllers
                     fullName = result.User.FullName,
                     roleName = result.User.RoleName,
                     roleCode = result.User.RoleCode,
-                    outletId = result.User.outLetId
+                    outletId = result.User.OutletId
                 }
             });
         }
@@ -61,7 +61,7 @@ namespace bingGooAPI.Controllers
                     fullName = result.User.FullName,
                     roleName = result.User.RoleName,
                     roleCode = result.User.RoleCode,
-                    outletId = result.User.outLetId
+                    outletId = result.User.OutletId
                 }
             });
         }

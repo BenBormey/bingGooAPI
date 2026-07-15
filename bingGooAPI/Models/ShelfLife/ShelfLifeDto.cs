@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace bingGooAPI.Models.ShelfLife
+namespace JuJuBiAPI.Models.ShelfLife
 {
     public class CreateShelfLifeDto
     {

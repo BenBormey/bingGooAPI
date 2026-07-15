@@ -1,10 +1,10 @@
-﻿using bingGooAPI.Entities;
+﻿using JuJuBiAPI.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace bingGooAPI.Interfaces
+namespace JuJuBiAPI.Interfaces
 {
-    public interface IcategoryRepository
+    public interface ICategoryRepository
     {
         Task<IEnumerable<Category>> GetAllAsync();
         Task<Category?> GetByIdAsync(int id);

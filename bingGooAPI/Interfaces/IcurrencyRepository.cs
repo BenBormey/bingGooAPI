@@ -1,10 +1,10 @@
-﻿using bingGooAPI.Entities;
+﻿using JuJuBiAPI.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace bingGooAPI.Interfaces
+namespace JuJuBiAPI.Interfaces
 {
-    public interface IcurrencyRepository
+    public interface ICurrencyRepository
     {
         Task<IEnumerable<Currency>> GetAllAsync();
         Task<Currency?> GetByIdAsync(int id);

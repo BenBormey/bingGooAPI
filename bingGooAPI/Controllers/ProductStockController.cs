@@ -1,8 +1,8 @@
-﻿using bingGooAPI.Interfaces;
-using bingGooAPI.Models.ProductStock;
+﻿using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Models.ProductStock;
 using Microsoft.AspNetCore.Mvc;
 
-namespace bingGooAPI.Controllers
+namespace JuJuBiAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

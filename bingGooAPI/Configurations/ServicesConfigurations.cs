@@ -1,8 +1,8 @@
-﻿using bingGooAPI.Databases;
-using bingGooAPI.Entities;
-using bingGooAPI.Interfaces;
-using bingGooAPI.Middlewares;
-using bingGooAPI.Services;
+﻿using JuJuBiAPI.Databases;
+using JuJuBiAPI.Entities;
+using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Middlewares;
+using JuJuBiAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 //using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,15 +11,15 @@ using Microsoft.IdentityModel.Tokens;
 using System.Data;
 using System.Text;
 
-namespace bingGooAPI.Configurations
+namespace JuJuBiAPI.Configurations
 {
     public static class ServicesConfigurations
     {
         public static void RegisterServices(this IServiceCollection services)
         {
-            services.AddScoped<IcurrencyRepository, CurrencyService>();
-            services.AddScoped<IcategoryRepository, CategoryService>();
-            services.AddScoped<IbrandRepository, BranchService>();
+            services.AddScoped<ICurrencyRepository, CurrencyService>();
+            services.AddScoped<ICategoryRepository, CategoryService>();
+            services.AddScoped<IBrandRepository, BranchService>();
             services.AddScoped<IProductStockRepository, ProductStockService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthService, AuthService>();
