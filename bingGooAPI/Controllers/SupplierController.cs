@@ -23,6 +23,13 @@ namespace JuJuBiAPI.Controllers
             return Ok(suppliers);
         }
 
+        [HttpGet("next-code")]
+        public async Task<IActionResult> GetNextCode()
+        {
+            var code = await _repo.GetNextCodeAsync();
+            return Ok(new { supplierCode = code });
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {

@@ -231,5 +231,13 @@ ORDER BY s.CreatedAt DESC;
 
             return count > 0;
         }
+
+        public async Task<string> GetNextCodeAsync()
+        {
+            var sql = "SELECT ISNULL(MAX([SupplierID]), 0) + 1 FROM [DBJuJuBi].[dbo].[Suppliers];";
+
+            var nextId = await _connection.ExecuteScalarAsync<int>(sql);
+            return $"SUP-{nextId:0000}";
+        }
     }
 }

@@ -872,5 +872,53 @@ ORDER BY p.ProductName;";
 
             return product;
         }
+
+        public async Task<bool> UpdateCaseNumberAsync(int id, string? caseNumber)
+        {
+            const string sql = @"
+UPDATE TPRProducts
+SET ProNumYC = @CaseNumber
+WHERE ProID = @Id;";
+
+            var rows = await _connection.ExecuteAsync(sql, new { Id = id, CaseNumber = caseNumber });
+
+            return rows > 0;
+        }
+
+        public async Task<bool> UpdateBarcodeAsync(int id, string? barcode)
+        {
+            const string sql = @"
+UPDATE TPRProducts
+SET ProNumY = @Barcode
+WHERE ProID = @Id;";
+
+            var rows = await _connection.ExecuteAsync(sql, new { Id = id, Barcode = barcode });
+
+            return rows > 0;
+        }
+
+        public async Task<bool> UpdateOldBarcodeAsync(int id, string? oldBarcode)
+        {
+            const string sql = @"
+UPDATE TPRProducts
+SET OldProNumY = @OldBarcode
+WHERE ProID = @Id;";
+
+            var rows = await _connection.ExecuteAsync(sql, new { Id = id, OldBarcode = oldBarcode });
+
+            return rows > 0;
+        }
+
+        public async Task<bool> UpdatePackNumberAsync(int id, string? packNumber)
+        {
+            const string sql = @"
+UPDATE TPRProducts
+SET ProNumYP = @PackNumber
+WHERE ProID = @Id;";
+
+            var rows = await _connection.ExecuteAsync(sql, new { Id = id, PackNumber = packNumber });
+
+            return rows > 0;
+        }
     }
 }

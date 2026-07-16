@@ -15,7 +15,7 @@ namespace JuJuBiAPI.Controllers
             _repository = repository;
         }
 
-        // GET: api/Uom
+
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -23,7 +23,7 @@ namespace JuJuBiAPI.Controllers
             return Ok(result);
         }
 
-        // GET: api/Uom/5
+
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById(int id)
         {
@@ -35,7 +35,7 @@ namespace JuJuBiAPI.Controllers
             return Ok(result);
         }
 
-        // POST: api/Uom
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] UOM uom)
         {
@@ -49,7 +49,7 @@ namespace JuJuBiAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { id }, uom);
         }
 
-        // PUT: api/Uom/5
+
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, [FromBody] UOM uom)
         {
@@ -64,7 +64,7 @@ namespace JuJuBiAPI.Controllers
             return NoContent();
         }
 
-        // DELETE: api/Uom/5
+ 
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

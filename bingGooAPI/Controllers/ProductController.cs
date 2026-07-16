@@ -181,6 +181,70 @@ namespace JuJuBiAPI.Controllers
             return Ok(product);
         }
 
+        [HttpPut("{id}/case-number")]
+        public async Task<IActionResult> UpdateCaseNumber(int id, [FromBody] UpdateCaseNumberDto dto)
+        {
+            var exists = await _product.ExistsAsync(id);
+
+            if (!exists)
+                return NotFound(new { message = "Product not found" });
+
+            var updated = await _product.UpdateCaseNumberAsync(id, dto.CaseNumber);
+
+            if (!updated)
+                return BadRequest(new { message = "Update failed" });
+
+            return Ok(new { message = "Updated successfully" });
+        }
+
+        [HttpPut("{id}/barcode")]
+        public async Task<IActionResult> UpdateBarcode(int id, [FromBody] UpdateProductFieldDto dto)
+        {
+            var exists = await _product.ExistsAsync(id);
+
+            if (!exists)
+                return NotFound(new { message = "Product not found" });
+
+            var updated = await _product.UpdateBarcodeAsync(id, dto.Value);
+
+            if (!updated)
+                return BadRequest(new { message = "Update failed" });
+
+            return Ok(new { message = "Updated successfully" });
+        }
+
+        [HttpPut("{id}/old-barcode")]
+        public async Task<IActionResult> UpdateOldBarcode(int id, [FromBody] UpdateProductFieldDto dto)
+        {
+            var exists = await _product.ExistsAsync(id);
+
+            if (!exists)
+                return NotFound(new { message = "Product not found" });
+
+            var updated = await _product.UpdateOldBarcodeAsync(id, dto.Value);
+
+            if (!updated)
+                return BadRequest(new { message = "Update failed" });
+
+            return Ok(new { message = "Updated successfully" });
+        }
+
+        [HttpPut("{id}/pack-number")]
+        public async Task<IActionResult> UpdatePackNumber(int id, [FromBody] UpdateProductFieldDto dto)
+        {
+            var exists = await _product.ExistsAsync(id);
+
+            if (!exists)
+                return NotFound(new { message = "Product not found" });
+
+            var updated = await _product.UpdatePackNumberAsync(id, dto.Value);
+
+            if (!updated)
+                return BadRequest(new { message = "Update failed" });
+
+            return Ok(new { message = "Updated successfully" });
+        }
+
 
     }
 }

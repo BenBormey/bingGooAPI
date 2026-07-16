@@ -52,7 +52,7 @@ namespace JuJuBiAPI.Controllers
             if (data == null || !data.Any())
                 return Ok(false); // no data today
 
-            return Ok(true); // already exists
+            return Ok(true); 
         }
     }
 }

@@ -27,6 +27,7 @@ namespace JuJuBiAPI.Configurations
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<ISupplierRepository, SupplierRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<ICartRepository, CartRepository>();
             services.AddScoped<IOutletRepository, OutletRepository>();
             services.AddScoped<IOutletCodeRepository, OutletCodeRepository>();

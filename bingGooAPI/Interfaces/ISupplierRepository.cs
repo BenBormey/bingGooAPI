@@ -16,5 +16,6 @@ namespace JuJuBiAPI.Interfaces
 
         Task<bool> DeleteAsync(int id);
         Task<bool> ExistsByNameAsync(string supplierName);
+        Task<string> GetNextCodeAsync();
     }
 }

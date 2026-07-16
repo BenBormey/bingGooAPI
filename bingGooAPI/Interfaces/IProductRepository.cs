@@ -23,5 +23,13 @@ namespace JuJuBiAPI.Interfaces
         Task<List<ProductPosDto>> GetForPosAsync(int outletId,int? categoryid);
 
         Task<Product?> GetByBarcodeAsync(string barcode);
+
+        Task<bool> UpdateCaseNumberAsync(int id, string? caseNumber);
+
+        Task<bool> UpdateBarcodeAsync(int id, string? barcode);
+
+        Task<bool> UpdateOldBarcodeAsync(int id, string? oldBarcode);
+
+        Task<bool> UpdatePackNumberAsync(int id, string? packNumber);
     }
 }
