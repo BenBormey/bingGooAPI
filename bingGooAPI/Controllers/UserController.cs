@@ -20,7 +20,7 @@ namespace JuJuBiAPI.Controllers
 
 
 
-       [Authorize(Roles = "Admin")]
+       [Authorize(Roles = "ADMIN")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -55,7 +55,7 @@ namespace JuJuBiAPI.Controllers
             return Ok(user);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUserRequest req)
         {

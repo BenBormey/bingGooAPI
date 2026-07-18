@@ -103,7 +103,8 @@ namespace JuJuBiAPI.Models.Product
         public string? ShelfLifeOfProduct { get; set; }
 
         public decimal? VOP { get; set; }
-        public ProductScaleDto ProductScale { get; set; }    
+        public string? Status { get; set; }
+        public ProductScaleDto ProductScale { get; set; }
 
     }
 }

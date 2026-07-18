@@ -278,7 +278,6 @@ INSERT INTO TblProductsScaleDelete
     ScaleId,
     ProId,
     CTNPerPallet,
-    UOMCode,
     Width,
     Length,
     Height,
@@ -287,14 +286,12 @@ INSERT INTO TblProductsScaleDelete
     GrossWeight,
     CreatedDate,
     Status,
-    ProNumY,
     DeletedDate
 )
 SELECT
     Id,
     ProId,
     CTNPerPallet,
-    UOMCode,
     Width,
     Length,
     Height,
@@ -303,7 +300,6 @@ SELECT
     GrossWeight,
     CreatedDate,
     Status,
-    ProNumY,
     GETDATE()
 FROM TblProductsScale
 WHERE Id = @Id;

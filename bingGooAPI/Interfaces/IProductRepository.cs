@@ -31,5 +31,7 @@ namespace JuJuBiAPI.Interfaces
         Task<bool> UpdateOldBarcodeAsync(int id, string? oldBarcode);
 
         Task<bool> UpdatePackNumberAsync(int id, string? packNumber);
+
+        Task<bool> UpdateStatusAsync(int id, string? status);
     }
 }

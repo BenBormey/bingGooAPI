@@ -253,6 +253,7 @@ SELECT
     p.ShelfLifeOfProduct,
     p.VOP,
     p.ProImage,
+    p.Status,
 
     s.Id,
     s.ProId,
@@ -270,7 +271,7 @@ SELECT
 FROM TPRProducts p
 LEFT JOIN TblProductsScale s
     ON p.ProID = s.ProId
-	inner join Category c 
+	inner join Category c
 	on c.Id = p.ProCat
 ORDER BY p.ProID DESC;";
 
@@ -348,6 +349,7 @@ SELECT
     p.ShelfLifeOfProduct,
     p.VOP,
     p.ProImage,
+    p.Status,
 
     s.Id,
     s.ProId,
@@ -445,6 +447,7 @@ SELECT
     p.ShelfLifeOfProduct,
     p.VOP,
     p.ProImage,
+    p.Status,
 
     s.Id,
     s.ProId,
@@ -543,6 +546,7 @@ SELECT
     p.ShelfLifeOfProduct,
     p.VOP,
     p.ProImage,
+    p.Status,
 
     s.Id,
     s.ProId,
@@ -870,6 +874,13 @@ ORDER BY p.ProductName;";
                 splitOn: "Id"
             )).FirstOrDefault();
 
+            if (product != null)
+            {
+                product.Status = await _connection.ExecuteScalarAsync<string?>(
+                    "SELECT Status FROM TPRProducts WHERE ProID = @Id",
+                    new { Id = product.ProID });
+            }
+
             return product;
         }
 
@@ -917,6 +928,18 @@ SET ProNumYP = @PackNumber
 WHERE ProID = @Id;";
 
             var rows = await _connection.ExecuteAsync(sql, new { Id = id, PackNumber = packNumber });
+
+            return rows > 0;
+        }
+
+        public async Task<bool> UpdateStatusAsync(int id, string? status)
+        {
+            const string sql = @"
+UPDATE TPRProducts
+SET Status = @Status
+WHERE ProID = @Id;";
+
+            var rows = await _connection.ExecuteAsync(sql, new { Id = id, Status = status });
 
             return rows > 0;
         }

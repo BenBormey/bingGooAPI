@@ -48,6 +48,9 @@ namespace JuJuBiAPI.Configurations
             services.AddScoped<IUomRepository, UomRepository>();
             services.AddScoped<IOutletProductRepository, OutletProductService>();
             services.AddScoped<IShelfLifeRepository, ShelfLifeRepository>();
+            services.AddScoped<IPurchaseOrderRepository, PurchaseOrderRepository>();
+            services.AddScoped<IOutletOrderRepository, OutletOrderRepository>();
+            services.AddScoped<IProductDeliveryLogisticRepository, ProductDeliveryLogisticRepository>();
         }
 
 

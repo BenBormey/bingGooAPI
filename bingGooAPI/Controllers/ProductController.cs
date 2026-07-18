@@ -245,6 +245,21 @@ namespace JuJuBiAPI.Controllers
             return Ok(new { message = "Updated successfully" });
         }
 
+        [HttpPut("{id}/status")]
+        public async Task<IActionResult> UpdateStatus(int id, [FromBody] UpdateProductFieldDto dto)
+        {
+            var exists = await _product.ExistsAsync(id);
+
+            if (!exists)
+                return NotFound(new { message = "Product not found" });
+
+            var updated = await _product.UpdateStatusAsync(id, dto.Value);
+
+            if (!updated)
+                return BadRequest(new { message = "Update failed" });
+
+            return Ok(new { message = "Updated successfully" });
+        }
 
     }
 }
