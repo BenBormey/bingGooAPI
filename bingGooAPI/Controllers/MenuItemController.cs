@@ -100,6 +100,47 @@ namespace JuJuBiAPI.Controllers
         }
 
  
+        // PATCH: api/MenuItem/outlet/1/discount?percent=15
+        // Applies one promotion across every product in the outlet's menu.
+        [HttpPatch("outlet/{outletId:int}/discount")]
+        public async Task<IActionResult> SetOutletDiscount(
+            int outletId,
+            [FromQuery] decimal percent,
+            [FromQuery] DateTime? startDate,
+            [FromQuery] DateTime? endDate,
+            [FromQuery] string updatedBy = "system")
+        {
+            if (percent <= 0 || percent >= 100)
+                return BadRequest("Percent must be between 0 and 100.");
+
+            if (startDate.HasValue && endDate.HasValue && startDate > endDate)
+                return BadRequest("Start date must be on or before the end date.");
+
+            var affected = await _repository.SetOutletDiscountAsync(
+                outletId, percent, startDate, endDate, updatedBy);
+
+            return Ok(new
+            {
+                Message = percent + "% discount applied to " + affected + " menu item(s).",
+                Affected = affected
+            });
+        }
+
+        // DELETE: api/MenuItem/outlet/1/discount — ends the promotion.
+        [HttpDelete("outlet/{outletId:int}/discount")]
+        public async Task<IActionResult> ClearOutletDiscount(
+            int outletId,
+            [FromQuery] string updatedBy = "system")
+        {
+            var affected = await _repository.ClearOutletDiscountAsync(outletId, updatedBy);
+
+            return Ok(new
+            {
+                Message = "Discount cleared on " + affected + " menu item(s).",
+                Affected = affected
+            });
+        }
+
         [HttpPatch("{id:int}/active")]
         public async Task<IActionResult> SetActive(
             int id,

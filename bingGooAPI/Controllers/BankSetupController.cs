@@ -21,6 +21,7 @@ namespace JuJuBiAPI.Controllers
         {
             return Ok(await _repository.GetAllAsync());
         }
+        [HttpGet("active")]
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)

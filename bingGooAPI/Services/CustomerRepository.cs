@@ -33,6 +33,39 @@ namespace JuJuBiAPI.Services
             return await _connection.QueryAsync<Customer>(sql);
         }
 
+        // Matches on phone, name or code so a cashier can type whichever the
+        // customer gives them. Active members only, best matches first.
+        public async Task<IEnumerable<Customer>> SearchAsync(string query)
+        {
+            const string sql = @"
+                SELECT TOP 20
+                    CustomerID,
+                    CustomerCode,
+                    CustomerName,
+                    Phone,
+                    Email,
+                    Address,
+                    Points,
+                    IsActive,
+                    CreatedAt
+                FROM Customer
+                WHERE IsActive = 1
+                  AND (
+                        Phone        LIKE @Like
+                     OR CustomerName LIKE @Like
+                     OR CustomerCode LIKE @Like
+                  )
+                ORDER BY
+                    CASE WHEN Phone = @Exact THEN 0 ELSE 1 END,
+                    CustomerName;";
+
+            return await _connection.QueryAsync<Customer>(sql, new
+            {
+                Like = "%" + query + "%",
+                Exact = query
+            });
+        }
+
         public async Task<Customer?> GetByIdAsync(int id)
         {
             const string sql = @"

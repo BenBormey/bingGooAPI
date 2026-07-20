@@ -23,6 +23,19 @@ namespace JuJuBiAPI.Entities
 
         public string OrderStatus { get; set; }
 
+        public string InvoiceNo { get; set; }
+
+        public string PaymentMethod { get; set; }
+
+        public int? ShiftId { get; set; }
+
+        public string VoidReason { get; set; }
+
+        // Joined for display in the POS order list.
+        public string CashierName { get; set; }
+
+        public string OutletName { get; set; }
+
         public DateTime CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }

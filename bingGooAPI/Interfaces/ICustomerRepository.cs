@@ -8,6 +8,9 @@ namespace JuJuBiAPI.Interfaces
 
         Task<Customer?> GetByIdAsync(int id);
 
+        // POS lookup: cashiers identify members by phone number.
+        Task<IEnumerable<Customer>> SearchAsync(string query);
+
         Task<int> CreateAsync(Customer customer);
 
         Task<bool> UpdateAsync(Customer customer);
