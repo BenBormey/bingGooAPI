@@ -31,5 +31,10 @@ namespace JuJuBiAPI.Interfaces
 
       
         Task<bool> SetActiveAsync(int menuItemId, bool isActive, string updatedBy);
+
+        Task<int> SetOutletDiscountAsync(
+            int outletId, decimal percent, DateTime? startDate, DateTime? endDate, string updatedBy);
+
+        Task<int> ClearOutletDiscountAsync(int outletId, string updatedBy);
     }
 }

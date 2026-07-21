@@ -23,6 +23,17 @@ namespace JuJuBiAPI.Controllers
             return Ok(result);
         }
 
+        // GET: api/Customer/search?q=096261 — POS member lookup
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] string q)
+        {
+            if (string.IsNullOrWhiteSpace(q))
+                return Ok(Array.Empty<Customer>());
+
+            var result = await _repository.SearchAsync(q.Trim());
+            return Ok(result);
+        }
+
         // GET: api/Customer/next-code
         [HttpGet("next-code")]
         public async Task<IActionResult> GetNextCode()

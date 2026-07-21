@@ -55,7 +55,7 @@ namespace JuJuBiAPI.Controllers
             return Ok(user);
         }
 
-        [Authorize(Roles = "ADMIN")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateUserRequest req)
         {
