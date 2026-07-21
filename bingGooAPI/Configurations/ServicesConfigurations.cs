@@ -2,6 +2,7 @@
 using JuJuBiAPI.Entities;
 using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Middlewares;
+using JuJuBiAPI.Repositories;
 using JuJuBiAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
@@ -52,6 +53,7 @@ namespace JuJuBiAPI.Configurations
             services.AddScoped<IPurchaseOrderRepository, PurchaseOrderRepository>();
             services.AddScoped<IOutletOrderRepository, OutletOrderRepository>();
             services.AddScoped<IProductDeliveryLogisticRepository, ProductDeliveryLogisticRepository>();
+            services.AddScoped<ITransferOrderRepository, TransferOrderRepository>();
         }
 
 

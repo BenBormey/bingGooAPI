@@ -27,6 +27,13 @@ namespace JuJuBiAPI.Controllers
         }
 
  
+        [HttpGet("next-code")]
+        public async Task<IActionResult> GetNextCode()
+        {
+            var code = await _roleRepository.GetNextCodeAsync();
+            return Ok(new { roleCode = code });
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {

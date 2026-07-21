@@ -12,6 +12,7 @@ namespace JuJuBiAPI.Interfaces
         Task<int> CreateAsync(CreateRoleDto dto);
         Task<bool> UpdateAsync(int id, UpdateRoleDto dto);
         Task<bool> DeleteAsync(int id);
+        Task<string> GetNextCodeAsync();
       //  Task<IEnumerable<SupplierReport>> GetSupplierReportAsync(SupplierReportFilter filter);
     }
 }
