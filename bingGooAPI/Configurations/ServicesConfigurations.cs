@@ -46,6 +46,7 @@ namespace JuJuBiAPI.Configurations
             services.AddScoped<IBankSetupRepository, BankSetupRepository>();
             services.AddScoped<ISupplierReportRepository, SupplierReportService>();
             services.AddScoped<IMenuItemRepository, MenuItemRepository>();
+            services.AddScoped<IVatSettingRepository, VatSettingRepository>();
             services.AddScoped<IShiftRepository, ShiftRepository>();
             services.AddScoped<IUomRepository, UomRepository>();
             services.AddScoped<IOutletProductRepository, OutletProductService>();

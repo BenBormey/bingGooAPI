@@ -119,7 +119,17 @@ namespace JuJuBiAPI.Repositories
                 redeemValue = Math.Min(Math.Max(request.RedeemValue, 0m), subTotal);
             }
 
-            decimal grandTotal = subTotal - redeemValue;
+            // --- VAT: one outlet-wide rate from VatSetting, added on top ---
+            // Read server-side (never trusts a client-sent tax) and applied to
+            // the taxable base (subtotal after any redemption). The POS shows
+            // the same figure; this is the authoritative copy stored on the
+            // order.
+            decimal vatPercent = await _connection.QuerySingleOrDefaultAsync<decimal>(
+                OrderQueries.GetVatPercent);
+
+            decimal vatAmount = Math.Round((subTotal - redeemValue) * vatPercent / 100m, 2);
+
+            decimal grandTotal = subTotal - redeemValue + vatAmount;
 
             var cartId = await _connection.QuerySingleAsync<int>(
                 OrderQueries.InsertCart,
@@ -129,6 +139,7 @@ namespace JuJuBiAPI.Repositories
                     OutletID = request.OutletId,
                     SubTotal = subTotal,
                     Discount = redeemValue,
+                    TaxAmount = vatAmount,
                     GrandTotal = grandTotal
                 });
 
@@ -199,9 +210,6 @@ namespace JuJuBiAPI.Repositories
                     new { Id = request.CustomerId.Value });
             }
 
-            // Deduct the sold quantities from this outlet's stock. A missing
-            // stock row is created at 0 first so the movement is still recorded
-            // (may go negative — the POS shows it as out of stock, not blocked).
             foreach (var line in request.Items)
             {
                 await _connection.ExecuteAsync(
