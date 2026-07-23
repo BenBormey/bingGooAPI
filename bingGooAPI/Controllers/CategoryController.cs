@@ -1,3 +1,4 @@
+using JuJuBiAPI.Attributes;
 ﻿using Microsoft.AspNetCore.Mvc;
 using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Entities;
@@ -36,6 +37,7 @@ namespace JuJuBiAPI.Controllers
             return Ok(data);
         }
 
+        [PermissionAuthorize("CATEGORY")]
         [HttpPost]
         public async Task<IActionResult> Create(Category model)
         {
@@ -43,6 +45,7 @@ namespace JuJuBiAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
+        [PermissionAuthorize("CATEGORY")]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, Category model)
         {
@@ -56,6 +59,7 @@ namespace JuJuBiAPI.Controllers
             return NoContent();
         }
 
+        [PermissionAuthorize("CATEGORY")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

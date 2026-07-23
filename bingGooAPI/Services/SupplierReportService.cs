@@ -32,7 +32,7 @@ SELECT
     p.ProCat AS Category,
     p.ProCurr AS Currency,
     p.ShelfLifeOfProduct AS ShelfLife,
-    p.ProUPriBY AS Buyin,
+    p.ProImpPri AS Buyin,
     p.ProDis AS DiscountPercent,
     p.ExciseTax AS ExciseTaxPercent,
     p.PublicLightingTax AS PublicLightingPercent,

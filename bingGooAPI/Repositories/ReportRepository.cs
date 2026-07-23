@@ -101,6 +101,23 @@ namespace JuJuBiAPI.Repositories
             return data.ToList();
         }
 
+        public async Task<DashboardDto> GetDashboardAsync()
+        {
+            using var multi = await _connection.QueryMultipleAsync(ReportQueries.Dashboard);
 
+            // Result sets arrive in the order the batch selects them — see
+            // ReportQueries.Dashboard's numbered comments.
+            var dto = await multi.ReadSingleAsync<DashboardDto>();
+
+            dto.SalesByDay = (await multi.ReadAsync<DashboardDatePoint>()).ToList();
+            dto.SalesByOutlet = (await multi.ReadAsync<DashboardNameValue>()).ToList();
+            dto.TopProducts = (await multi.ReadAsync<DashboardNameValue>()).ToList();
+            dto.SalesByPayment = (await multi.ReadAsync<DashboardNameValue>()).ToList();
+            dto.LowStock = (await multi.ReadAsync<DashboardLowStockRow>()).ToList();
+            dto.PendingOutletOrders = await multi.ReadSingleAsync<int>();
+            dto.RecentOutletOrders = (await multi.ReadAsync<DashboardOutletOrderRow>()).ToList();
+
+            return dto;
+        }
     }
 }

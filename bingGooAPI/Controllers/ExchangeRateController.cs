@@ -1,3 +1,4 @@
+using JuJuBiAPI.Attributes;
 ﻿using Microsoft.AspNetCore.Mvc;
 using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Entities;
@@ -32,6 +33,7 @@ namespace JuJuBiAPI.Controllers
             return Ok(data);
         }
 
+        [PermissionAuthorize("EXCHANGE_RATE")]
         [HttpPost]
         public async Task<IActionResult> Create(ExchangeRate model)
         {
@@ -39,6 +41,7 @@ namespace JuJuBiAPI.Controllers
             return Ok(result);
         }
 
+        [PermissionAuthorize("EXCHANGE_RATE")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

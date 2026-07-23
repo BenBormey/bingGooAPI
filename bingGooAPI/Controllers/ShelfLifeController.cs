@@ -1,5 +1,6 @@
 using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Models.ShelfLife;
+using JuJuBiAPI.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
@@ -38,6 +39,7 @@ namespace JuJuBiAPI.Controllers
         }
 
         // POST: api/shelflife
+        [PermissionAuthorize("PRODUCT")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateShelfLifeDto dto)
         {
@@ -50,6 +52,7 @@ namespace JuJuBiAPI.Controllers
         }
 
         // PUT: api/shelflife/5
+        [PermissionAuthorize("PRODUCT")]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateShelfLifeDto dto)
         {
@@ -68,6 +71,7 @@ namespace JuJuBiAPI.Controllers
         }
 
         // DELETE: api/shelflife/5
+        [PermissionAuthorize("PRODUCT")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

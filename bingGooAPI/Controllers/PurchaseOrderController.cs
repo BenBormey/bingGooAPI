@@ -1,5 +1,6 @@
 ﻿using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Models.PurchaseOrder;
+using JuJuBiAPI.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
@@ -49,6 +50,7 @@ namespace JuJuBiAPI.Controllers
             return Ok(purchaseOrders);
         }
 
+        [PermissionAuthorize("PURCHASE_ORDER")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreatePurchaseOrderDto dto)
         {
@@ -74,6 +76,7 @@ namespace JuJuBiAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("PURCHASE_ORDER")]
         [HttpPut("status/{id}")]
         public async Task<IActionResult> UpdateStatus(int id, [FromQuery] string status)
         {
@@ -88,6 +91,7 @@ namespace JuJuBiAPI.Controllers
             return Ok("Status updated");
         }
 
+        [PermissionAuthorize("PURCHASE_ORDER")]
         [HttpPost("receive/{id}")]
         public async Task<IActionResult> Receive(int id, [FromBody] ReceivePurchaseOrderDto dto)
         {
@@ -123,6 +127,7 @@ namespace JuJuBiAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("PURCHASE_ORDER")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

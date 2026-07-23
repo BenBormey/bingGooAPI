@@ -1,6 +1,7 @@
 ﻿using JuJuBiAPI.Entities;
 using JuJuBiAPI.Interfaces;
 using Microsoft.AspNetCore.Http;
+using JuJuBiAPI.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
@@ -36,6 +37,7 @@ namespace JuJuBiAPI.Controllers
             return Ok(bank);
         }
 
+        [PermissionAuthorize("BANK_MENU")]
         [HttpPost]
         public async Task<IActionResult> Create(BankSetup bank)
         {
@@ -46,6 +48,7 @@ namespace JuJuBiAPI.Controllers
             return Ok(bank);
         }
 
+        [PermissionAuthorize("BANK_MENU")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, BankSetup bank)
         {
@@ -59,6 +62,7 @@ namespace JuJuBiAPI.Controllers
             return Ok();
         }
 
+        [PermissionAuthorize("BANK_MENU")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

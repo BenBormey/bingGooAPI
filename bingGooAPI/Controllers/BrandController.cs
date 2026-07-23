@@ -1,3 +1,4 @@
+using JuJuBiAPI.Attributes;
 ﻿using Microsoft.AspNetCore.Mvc;
 using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Entities;
@@ -34,12 +35,14 @@ namespace JuJuBiAPI.Controllers
             return Ok(data);
         }
 
+        [PermissionAuthorize("PRODUCT")]
         [HttpPost]
         public async Task<IActionResult> Create(CreateBranch model)
         {
             var created = await _service.CreateAsync(model);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
+        [PermissionAuthorize("PRODUCT")]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, Branch model) { 
             if (model.Id != id) return BadRequest();
@@ -48,6 +51,7 @@ namespace JuJuBiAPI.Controllers
             return NoContent();
         }
 
+        [PermissionAuthorize("PRODUCT")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

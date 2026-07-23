@@ -1,6 +1,7 @@
 ﻿using JuJuBiAPI.Entities;
 using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Models.Supplier;
+using JuJuBiAPI.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
@@ -43,6 +44,7 @@ namespace JuJuBiAPI.Controllers
             return Ok(supplier);
         }
 
+        [PermissionAuthorize("SUPPLIER")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateSupplierDto dto)
         {
@@ -95,6 +97,7 @@ namespace JuJuBiAPI.Controllers
                 result);
         }
 
+        [PermissionAuthorize("SUPPLIER")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateSupplierDto dto)
         {
@@ -138,6 +141,7 @@ namespace JuJuBiAPI.Controllers
             return Ok(existing);
         }
 
+        [PermissionAuthorize("SUPPLIER")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

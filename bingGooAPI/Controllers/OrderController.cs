@@ -1,5 +1,6 @@
 ﻿using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Models.Order;
+using JuJuBiAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
@@ -11,10 +12,12 @@ namespace JuJuBiAPI.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IOrderRepository _orderRepo;
+        private readonly IAuditLogger _audit;
 
-        public OrderController(IOrderRepository orderRepo)
+        public OrderController(IOrderRepository orderRepo, IAuditLogger audit)
         {
             _orderRepo = orderRepo;
+            _audit = audit;
         }
 
 
@@ -34,6 +37,11 @@ namespace JuJuBiAPI.Controllers
             try
             {
                 var result = await _orderRepo.PosCheckoutAsync(request);
+
+                await _audit.LogAsync("CREATE", "POS", "Orders", result.InvoiceNo,
+                    newValue: request.Items.Count + " item(s)",
+                    remark: "Payment: " + (request.PaymentMethod ?? "Cash"));
+
                 return Ok(result);
             }
             catch (InvalidOperationException ex)
@@ -66,6 +74,10 @@ namespace JuJuBiAPI.Controllers
             try
             {
                 await _orderRepo.VoidOrderAsync(orderId, request.Reason.Trim(), request.VoidedBy ?? "unknown");
+
+                await _audit.LogAsync("VOID", "POS", "Orders", orderId.ToString(),
+                    remark: request.Reason.Trim());
+
                 return Ok(new { Message = "Order voided; stock and points restored." });
             }
             catch (InvalidOperationException ex)

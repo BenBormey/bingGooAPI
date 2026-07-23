@@ -1,6 +1,7 @@
 ﻿using JuJuBiAPI.Entities;
 using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Models;
+using JuJuBiAPI.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -38,6 +39,7 @@ namespace JuJuBiAPI.Controllers
         }
 
         // ៣. POST: api/FranchiseType
+        [PermissionAuthorize("OUTLET")]
         [HttpPost]
         public async Task<IActionResult> Create(FranchiseType model)
         {
@@ -48,6 +50,7 @@ namespace JuJuBiAPI.Controllers
         }
 
         // ៤. PUT: api/FranchiseType/5
+        [PermissionAuthorize("OUTLET")]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, FranchiseType model)
         {
@@ -60,6 +63,7 @@ namespace JuJuBiAPI.Controllers
         }
 
         // ៥. DELETE: api/FranchiseType/5
+        [PermissionAuthorize("OUTLET")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

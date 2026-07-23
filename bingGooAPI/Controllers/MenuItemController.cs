@@ -1,6 +1,7 @@
 ﻿using JuJuBiAPI.Entities;
 using JuJuBiAPI.Interfaces;
 using JuJuBis.Domain.Entities;
+using JuJuBiAPI.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
@@ -59,6 +60,7 @@ namespace JuJuBiAPI.Controllers
         }
 
         // POST: api/MenuItem
+        [PermissionAuthorize("OUTLET_MENU")]
         [HttpPost]
         public async Task<IActionResult> Create(MenuItem model)
         {
@@ -75,6 +77,7 @@ namespace JuJuBiAPI.Controllers
                 item);
         }
 
+        [PermissionAuthorize("OUTLET_MENU")]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, MenuItem model)
         {
@@ -90,6 +93,7 @@ namespace JuJuBiAPI.Controllers
         }
 
 
+        [PermissionAuthorize("OUTLET_MENU")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -104,6 +108,7 @@ namespace JuJuBiAPI.Controllers
  
         // PATCH: api/MenuItem/outlet/1/discount?percent=15
         // Applies one promotion across every product in the outlet's menu.
+        [PermissionAuthorize("OUTLET_MENU")]
         [HttpPatch("outlet/{outletId:int}/discount")]
         public async Task<IActionResult> SetOutletDiscount(
             int outletId,
@@ -129,6 +134,7 @@ namespace JuJuBiAPI.Controllers
         }
 
         // DELETE: api/MenuItem/outlet/1/discount — ends the promotion.
+        [PermissionAuthorize("OUTLET_MENU")]
         [HttpDelete("outlet/{outletId:int}/discount")]
         public async Task<IActionResult> ClearOutletDiscount(
             int outletId,
@@ -143,6 +149,7 @@ namespace JuJuBiAPI.Controllers
             });
         }
 
+        [PermissionAuthorize("OUTLET_MENU")]
         [HttpPatch("{id:int}/active")]
         public async Task<IActionResult> SetActive(
             int id,

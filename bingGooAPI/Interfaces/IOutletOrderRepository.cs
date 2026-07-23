@@ -18,5 +18,7 @@ namespace JuJuBiAPI.Interfaces
         Task<bool> FulfillAsync(int outletOrderId, FulfillOutletOrderDto dto);
 
         Task<bool> DeleteAsync(int outletOrderId);
+
+        Task<List<WarehouseStockDto>> GetWarehouseStockAsync();
     }
 }

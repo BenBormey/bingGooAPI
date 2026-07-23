@@ -1,6 +1,7 @@
 ﻿using JuJuBiAPI.Entities;
 using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Services;
+using JuJuBiAPI.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
@@ -72,6 +73,7 @@ namespace JuJuBiAPI.Controllers
             return Ok(data);
         }
 
+        [PermissionAuthorize("PRODUCT")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] ProductsScale productScale)
         {
@@ -96,6 +98,7 @@ namespace JuJuBiAPI.Controllers
             });
         }
 
+        [PermissionAuthorize("PRODUCT")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(decimal id, [FromBody] ProductsScale productScale)
         {
@@ -125,6 +128,7 @@ namespace JuJuBiAPI.Controllers
             });
         }
 
+        [PermissionAuthorize("PRODUCT")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(decimal id)
         {

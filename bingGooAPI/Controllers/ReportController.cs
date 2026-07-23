@@ -1,4 +1,5 @@
-﻿using JuJuBiAPI.Interfaces;
+﻿using JuJuBiAPI.Attributes;
+using JuJuBiAPI.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
@@ -35,6 +36,7 @@ namespace JuJuBiAPI.Controllers
             return Ok(data);
         }
       
+        [PermissionAuthorize("SALE_REPORT")]
         [HttpGet("sales")]
         public async Task<IActionResult> GetSalesReport(
     [FromQuery] DateTime from,
@@ -49,7 +51,13 @@ namespace JuJuBiAPI.Controllers
             return Ok(data);
         }
 
-
-
+        // GET: api/Report/dashboard — everything the MD dashboard shows,
+        // in one call.
+        [HttpGet("dashboard")]
+        public async Task<IActionResult> GetDashboard()
+        {
+            var data = await _repo.GetDashboardAsync();
+            return Ok(data);
+        }
     }
 }

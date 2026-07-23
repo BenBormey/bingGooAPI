@@ -1,5 +1,6 @@
 ﻿using JuJuBiAPI.Entities;
 using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
@@ -38,6 +39,7 @@ namespace JuJuBiAPI.Controllers
         }
 
 
+        [PermissionAuthorize("PRODUCT")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] UOM uom)
         {
@@ -52,6 +54,7 @@ namespace JuJuBiAPI.Controllers
         }
 
 
+        [PermissionAuthorize("PRODUCT")]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, [FromBody] UOM uom)
         {
@@ -67,6 +70,7 @@ namespace JuJuBiAPI.Controllers
         }
 
  
+        [PermissionAuthorize("PRODUCT")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

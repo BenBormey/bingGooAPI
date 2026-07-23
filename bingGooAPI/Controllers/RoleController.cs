@@ -2,6 +2,7 @@
 using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Models.Role;
 using Microsoft.AspNetCore.Authorization;
+using JuJuBiAPI.Attributes;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JuJuBiAPI.Controllers
@@ -47,6 +48,7 @@ namespace JuJuBiAPI.Controllers
         }
 
    
+        [PermissionAuthorize("USER")]
         [HttpPost]
         public async Task<IActionResult> Create(CreateRoleDto dto)
         {
@@ -60,6 +62,7 @@ namespace JuJuBiAPI.Controllers
         }
 
   
+        [PermissionAuthorize("USER")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, UpdateRoleDto dto)
         {
@@ -71,6 +74,7 @@ namespace JuJuBiAPI.Controllers
             return Ok("Role updated successfully");
         }
 
+        [PermissionAuthorize("USER")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

@@ -1,5 +1,7 @@
+using JuJuBiAPI.Attributes;
 using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Models.OutletOrder;
+using JuJuBiAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
@@ -11,10 +13,12 @@ namespace JuJuBiAPI.Controllers
     public class OutletOrderController : ControllerBase
     {
         private readonly IOutletOrderRepository _repo;
+        private readonly IAuditLogger _audit;
 
-        public OutletOrderController(IOutletOrderRepository repo)
+        public OutletOrderController(IOutletOrderRepository repo, IAuditLogger audit)
         {
             _repo = repo;
+            _audit = audit;
         }
 
         [HttpGet]
@@ -42,6 +46,15 @@ namespace JuJuBiAPI.Controllers
             return Ok(outletOrders);
         }
 
+        // GET: api/OutletOrder/warehouse-stock — the HeadOffice outlet's stock,
+        // shown on the approval screen next to each requested line.
+        [HttpGet("warehouse-stock")]
+        public async Task<IActionResult> GetWarehouseStock()
+        {
+            var rows = await _repo.GetWarehouseStockAsync();
+            return Ok(rows);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateOutletOrderDto dto)
         {
@@ -51,6 +64,11 @@ namespace JuJuBiAPI.Controllers
             try
             {
                 var outletOrder = await _repo.CreateAsync(dto);
+
+                await _audit.LogAsync("CREATE", "OutletOrder", "OutletOrders",
+                    outletOrder.OutletOrderNo ?? outletOrder.OutletOrderID.ToString(),
+                    newValue: (dto.Items?.Count ?? 0) + " item(s) for outlet " + dto.OutletID,
+                    remark: dto.Note);
 
                 return CreatedAtAction(
                     nameof(GetById),
@@ -71,6 +89,7 @@ namespace JuJuBiAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("OUTLET_ORDER")]
         [HttpPut("status/{id}")]
         public async Task<IActionResult> UpdateStatus(int id, [FromQuery] string status)
         {
@@ -82,9 +101,15 @@ namespace JuJuBiAPI.Controllers
             if (!updated)
                 return NotFound("Outlet order not found");
 
+            await _audit.LogAsync(
+                status.Equals("Rejected", StringComparison.OrdinalIgnoreCase) ? "REJECT" : "STATUS",
+                "OutletOrder", "OutletOrders", id.ToString(),
+                newValue: status);
+
             return Ok("Status updated");
         }
 
+        [PermissionAuthorize("OUTLET_ORDER")]
         [HttpPost("fulfill/{id}")]
         public async Task<IActionResult> Fulfill(int id, [FromBody] FulfillOutletOrderDto dto)
         {
@@ -99,6 +124,10 @@ namespace JuJuBiAPI.Controllers
                     return NotFound("Outlet order not found");
 
                 var outletOrder = await _repo.GetByIdAsync(id);
+
+                await _audit.LogAsync("FULFILL", "OutletOrder", "OutletOrders",
+                    outletOrder?.OutletOrderNo ?? id.ToString(),
+                    newValue: (dto.Items?.Count ?? 0) + " line(s) fulfilled → " + (outletOrder?.Status ?? ""));
 
                 return Ok(new
                 {
@@ -120,6 +149,7 @@ namespace JuJuBiAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("OUTLET_ORDER")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -136,6 +166,9 @@ namespace JuJuBiAPI.Controllers
                 });
 
             await _repo.DeleteAsync(id);
+
+            await _audit.LogAsync("DELETE", "OutletOrder", "OutletOrders",
+                outletOrder.OutletOrderNo ?? id.ToString());
 
             return Ok(new { Success = true, Message = "Outlet order deleted successfully." });
         }

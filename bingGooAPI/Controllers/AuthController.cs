@@ -1,5 +1,6 @@
-﻿using JuJuBiAPI.Interfaces;
+using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Models;
+using JuJuBiAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace JuJuBiAPI.Controllers
@@ -9,10 +10,12 @@ namespace JuJuBiAPI.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _auth;
+        private readonly IAuditLogger _audit;
 
-        public AuthController(IAuthService auth)
+        public AuthController(IAuthService auth, IAuditLogger audit)
         {
             _auth = auth;
+            _audit = audit;
         }
 
 
@@ -22,7 +25,16 @@ namespace JuJuBiAPI.Controllers
             var result = await _auth.LoginAsync(req.Username, req.Password);
 
             if (!result.Success)
+            {
+                // Failed attempts are worth a trail too (wrong password, etc.).
+                await _audit.LogAsync("LOGIN_FAILED", "Auth", "Users", req.Username ?? "",
+                    remark: result.Message, userNameOverride: req.Username);
+
                 return Unauthorized(result.Message);
+            }
+
+            await _audit.LogAsync("LOGIN", "Auth", "Users", result.User!.Id.ToString(),
+                userIdOverride: result.User.Id, userNameOverride: result.User.Username);
 
             return Ok(new
             {
@@ -47,7 +59,15 @@ namespace JuJuBiAPI.Controllers
             var result = await _auth.LoginMdAsync(req.Password);
 
             if (!result.Success)
+            {
+                await _audit.LogAsync("LOGIN_FAILED", "Auth", "Users", "md-login",
+                    remark: result.Message);
+
                 return Unauthorized(result.Message);
+            }
+
+            await _audit.LogAsync("LOGIN", "Auth", "Users", result.User!.Id.ToString(),
+                userIdOverride: result.User.Id, userNameOverride: result.User.Username);
 
             return Ok(new
             {

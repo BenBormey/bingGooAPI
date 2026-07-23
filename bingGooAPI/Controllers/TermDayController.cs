@@ -1,5 +1,6 @@
 using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Models.Term;
+using JuJuBiAPI.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
@@ -38,6 +39,7 @@ namespace JuJuBiAPI.Controllers
         }
 
         // POST: api/termday
+        [PermissionAuthorize("SUPPLIER")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateTermDayDto dto)
         {
@@ -50,6 +52,7 @@ namespace JuJuBiAPI.Controllers
         }
 
         // PUT: api/termday/5
+        [PermissionAuthorize("SUPPLIER")]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateTermDayDto dto)
         {
@@ -68,6 +71,7 @@ namespace JuJuBiAPI.Controllers
         }
 
         // DELETE: api/termday/5
+        [PermissionAuthorize("SUPPLIER")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

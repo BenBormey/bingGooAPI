@@ -1,5 +1,6 @@
 ﻿using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Models.HouseOpration;
+using JuJuBiAPI.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
@@ -38,6 +39,7 @@ namespace JuJuBiAPI.Controllers
         }
 
 
+        [PermissionAuthorize("OUTLET")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateHourOperationDto dto)
         {
@@ -49,6 +51,7 @@ namespace JuJuBiAPI.Controllers
             return Ok(result);
         }
 
+              [PermissionAuthorize("OUTLET")]
               [HttpPut]
         public async Task<IActionResult> Update([FromBody] UpdateHourOperationDto dto)
         {
@@ -67,6 +70,7 @@ namespace JuJuBiAPI.Controllers
         }
 
 
+        [PermissionAuthorize("OUTLET")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

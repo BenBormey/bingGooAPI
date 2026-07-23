@@ -1,5 +1,6 @@
 using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Models.Outlet;
+using JuJuBiAPI.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
@@ -46,6 +47,7 @@ namespace JuJuBiAPI.Controllers
         }
 
         // POST: api/outletcode
+        [PermissionAuthorize("OUTLET")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateOutletCodeDto dto)
         {
@@ -61,6 +63,7 @@ namespace JuJuBiAPI.Controllers
         }
 
         // PUT: api/outletcode/5
+        [PermissionAuthorize("OUTLET")]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, [FromBody] UpdateOutletCodeDto dto)
         {
@@ -82,6 +85,7 @@ namespace JuJuBiAPI.Controllers
         }
 
         // DELETE: api/outletcode/5
+        [PermissionAuthorize("OUTLET")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

@@ -1,6 +1,7 @@
 ﻿using JuJuBiAPI.Entities;
 using JuJuBiAPI.Interfaces;
 using Microsoft.AspNetCore.Http.HttpResults;
+using JuJuBiAPI.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -34,6 +35,7 @@ namespace JuJuBiAPI.Controllers
             return Ok(data);
         }
 
+        [PermissionAuthorize("CURRENCY")]
         [HttpPost]
         public async Task<IActionResult> Create(Currency model)
         {
@@ -43,6 +45,7 @@ namespace JuJuBiAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
+        [PermissionAuthorize("CURRENCY")]
         [HttpPut("{id:int}")]
         public async Task<IActionResult> Update(int id, Currency model)
         {
@@ -52,6 +55,7 @@ namespace JuJuBiAPI.Controllers
             return NoContent();
         }
 
+        [PermissionAuthorize("CURRENCY")]
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> Delete(int id)
         {

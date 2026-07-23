@@ -218,5 +218,13 @@ namespace JuJuBiAPI.Repositories
 
             return rows > 0;
         }
+
+        public async Task<List<WarehouseStockDto>> GetWarehouseStockAsync()
+        {
+            var rows = await _connection.QueryAsync<WarehouseStockDto>(
+                OutletOrderQueries.GetWarehouseStockAll);
+
+            return rows.ToList();
+        }
     }
 }

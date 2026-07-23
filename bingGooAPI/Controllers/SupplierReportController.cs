@@ -1,4 +1,5 @@
-﻿using JuJuBiAPI.Interfaces;
+﻿using JuJuBiAPI.Attributes;
+using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Models.Report;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -17,6 +18,7 @@ namespace JuJuBiAPI.Controllers
             _repository = repository;
         }
 
+        [PermissionAuthorize("SUPPLIER_REPORT")]
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] SupplierReportFilter filter)
         {

@@ -1,6 +1,7 @@
 ﻿using JuJuBiAPI.Entities;
 using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Models.Product;
+using JuJuBiAPI.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 
@@ -65,6 +66,7 @@ namespace JuJuBiAPI.Controllers
         } 
 
 
+        [PermissionAuthorize("PRODUCT")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateProductDto dto)  
         {
@@ -85,6 +87,7 @@ namespace JuJuBiAPI.Controllers
 
 
 
+        [PermissionAuthorize("PRODUCT")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(
         int id,
@@ -116,6 +119,7 @@ namespace JuJuBiAPI.Controllers
         }
 
 
+        [PermissionAuthorize("PRODUCT")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -191,6 +195,7 @@ namespace JuJuBiAPI.Controllers
             return Ok(product);
         }
 
+        [PermissionAuthorize("PRODUCT")]
         [HttpPut("{id}/case-number")]
         public async Task<IActionResult> UpdateCaseNumber(int id, [FromBody] UpdateCaseNumberDto dto)
         {
@@ -207,6 +212,7 @@ namespace JuJuBiAPI.Controllers
             return Ok(new { message = "Updated successfully" });
         }
 
+        [PermissionAuthorize("PRODUCT")]
         [HttpPut("{id}/barcode")]
         public async Task<IActionResult> UpdateBarcode(int id, [FromBody] UpdateProductFieldDto dto)
         {
@@ -223,6 +229,7 @@ namespace JuJuBiAPI.Controllers
             return Ok(new { message = "Updated successfully" });
         }
 
+        [PermissionAuthorize("PRODUCT")]
         [HttpPut("{id}/old-barcode")]
         public async Task<IActionResult> UpdateOldBarcode(int id, [FromBody] UpdateProductFieldDto dto)
         {
@@ -239,6 +246,7 @@ namespace JuJuBiAPI.Controllers
             return Ok(new { message = "Updated successfully" });
         }
 
+        [PermissionAuthorize("PRODUCT")]
         [HttpPut("{id}/pack-number")]
         public async Task<IActionResult> UpdatePackNumber(int id, [FromBody] UpdateProductFieldDto dto)
         {
@@ -255,6 +263,7 @@ namespace JuJuBiAPI.Controllers
             return Ok(new { message = "Updated successfully" });
         }
 
+        [PermissionAuthorize("PRODUCT")]
         [HttpPut("{id}/status")]
         public async Task<IActionResult> UpdateStatus(int id, [FromBody] UpdateProductFieldDto dto)
         {

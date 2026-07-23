@@ -86,6 +86,14 @@ namespace JuJuBiAPI.Queries
                         WHERE ProNumY = @ProNumY AND OutletId = @OutletId;
                     ";
 
+        // Whole warehouse stock list — the approval screen shows what's
+        // available next to each requested line.
+        public const string GetWarehouseStockAll = @"
+                        SELECT os.ProNumY, os.StockQty
+                        FROM OutletStock os
+                        WHERE os.OutletId = (SELECT TOP 1 Id FROM [dbo].[Outlet] WHERE HeadOffice = 1);
+                    ";
+
         public const string DeductWarehouseStock = @"
                         UPDATE OutletStock
                         SET StockQty = StockQty - @FulfilledQty, UpdatedAt = GETDATE()

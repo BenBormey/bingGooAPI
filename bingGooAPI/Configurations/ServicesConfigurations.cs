@@ -45,6 +45,9 @@ namespace JuJuBiAPI.Configurations
             services.AddScoped<ISupplierReportRepository, SupplierReportService>();
             services.AddScoped<IMenuItemRepository, MenuItemRepository>();
             services.AddScoped<IVatSettingRepository, VatSettingRepository>();
+            services.AddHttpContextAccessor();
+            services.AddScoped<IAuditLogRepository, AuditLogRepository>();
+            services.AddScoped<IAuditLogger, AuditLogger>();
             services.AddScoped<IShiftRepository, ShiftRepository>();
             services.AddScoped<IUomRepository, UomRepository>();
             services.AddScoped<IOutletProductRepository, OutletProductService>();
@@ -53,6 +56,7 @@ namespace JuJuBiAPI.Configurations
             services.AddScoped<IOutletOrderRepository, OutletOrderRepository>();
             services.AddScoped<IProductDeliveryLogisticRepository, ProductDeliveryLogisticRepository>();
             services.AddScoped<ITransferOrderRepository, TransferOrderRepository>();
+            services.AddScoped<IPermissionRepository, PermissionRepository>();
         }
 
 
