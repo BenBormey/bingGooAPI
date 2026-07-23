@@ -27,16 +27,16 @@
         public DateTime CreatedAt { get; set; }
 
         // Per-item prep instruction entered on the POS (sugar/ice level, etc.).
-        public string Note { get; set; }
+        public string Note { get; set; } = string.Empty;
 
         // Joined for display on the POS order detail panel / receipt reprint.
-        public string ProductName { get; set; }
+        public string ProductName { get; set; } = string.Empty;
 
-        public string ProductCode { get; set; }
+        public string ProductCode { get; set; } = string.Empty;
 
-        public string ImageUrl { get; set; }
+        public string ImageUrl { get; set; } = string.Empty;
 
 
-        public Order Order { get; set; }
+        public Order Order { get; set; } = null!;
     }
 }

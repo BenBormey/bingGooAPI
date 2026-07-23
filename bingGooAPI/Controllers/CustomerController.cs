@@ -1,9 +1,11 @@
 using JuJuBiAPI.Entities;
 using JuJuBiAPI.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JuJuBiAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CustomerController : ControllerBase

@@ -2,6 +2,6 @@ namespace JuJuBiAPI.Models
 {
     public class MdLoginRequest
     {
-        public string Password { get; set; }
+        public string Password { get; set; } = string.Empty;
     }
 }

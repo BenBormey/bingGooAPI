@@ -13,10 +13,10 @@
         public int RoleId { get; set; }
         public string RoleName { get; set; } = null!;
         public string RoleCode { get; set; } = null!;
-        public string Phone { get; set; }
-        public string address { get; set; }
-        public string addressKh { get; set; }
-        public string Email { get; set; }
+        public string? Phone { get; set; }
+        public string? address { get; set; }
+        public string? addressKh { get; set; }
+        public string? Email { get; set; }
 
         public bool IsActive { get; set; } = true;
         public bool HasSystemAccess { get; set; } = true;

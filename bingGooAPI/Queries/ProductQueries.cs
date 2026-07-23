@@ -406,51 +406,6 @@ VALUES
     FROM [DBJuJuBi].[dbo].[TPRProducts]
     WHERE ProID = @Id";
 
-        public const string GetForPos = @"
-SELECT
-    p.ProductID,
-    p.ProductCode,
-    p.ProductName,
-
-    p.BrandID,
-    b.BranchName AS BrandName,
-
-    p.CategoryId,
-    c.CategoryName,
-
-    p.SupplierId,
-    s.SupplierName,
-
-    p.ImageUrl,
-    p.CostPrice,
-    p.SellPrice AS SellingPrice,
-
-    p.DiscountPercent,
-    p.DiscountAmount,
-    p.TaxPercent,
-
-    p.Status,
-    p.CreatedAt,
-    p.UpdatedAt,
-
-    ISNULL(ps.StockQty, 0) AS StockQty,
-    o.OutletName
-
-FROM Products p
-INNER JOIN Suppliers s ON s.SupplierID = p.SupplierId
-INNER JOIN Branch b ON b.Id = p.BrandID
-INNER JOIN Category c ON c.Id = p.CategoryId
-INNER JOIN ProductStocks ps
-    ON ps.ProductID = p.ProductID
-    AND ps.OutletId = @OutletId
-INNER JOIN Outlet o ON o.Id = ps.OutletId
-
-WHERE
-    p.Status = 1
-    AND (@CategoryId IS NULL OR p.CategoryId = @CategoryId)
-
-ORDER BY p.ProductName;";
-
         // Stored procedure for exact-barcode lookup.
         public const string GetByBarcodeProc = "sp_GetProductByBarcode";
 

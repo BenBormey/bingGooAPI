@@ -46,13 +46,13 @@ namespace UnitTest
             // Assert
             var ok = Assert.IsType<OkObjectResult>(result);
 
-            var message = ok.Value.GetType()
-                .GetProperty("Message")
-                .GetValue(ok.Value)
+            var message = ok.Value!.GetType()
+                .GetProperty("Message")!
+                .GetValue(ok.Value)!
                 .ToString();
 
             var orderId = ok.Value.GetType()
-                .GetProperty("OrderID")
+                .GetProperty("OrderID")!
                 .GetValue(ok.Value);
 
             Assert.Equal("Checkout success", message);
@@ -103,7 +103,7 @@ namespace UnitTest
         {
             // Arrange
             _mockRepo.Setup(x => x.GetOrderByIdAsync(1))
-                     .ReturnsAsync((Order)null);
+                     .ReturnsAsync((Order?)null);
 
             // Act
             var result = await _controller.GetOrder(1);

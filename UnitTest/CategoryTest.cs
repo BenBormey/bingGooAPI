@@ -67,7 +67,7 @@ namespace UnitTest
         public async Task GetById_ReturnsNotFound_WhenNotFound()
         {
             _mockService.Setup(s => s.GetByIdAsync(1))
-                        .ReturnsAsync((Category)null);
+                        .ReturnsAsync((Category?)null);
 
             var result = await _controller.GetById(1);
 

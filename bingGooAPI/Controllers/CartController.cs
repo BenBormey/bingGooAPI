@@ -2,10 +2,11 @@
 using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Models.Cart;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JuJuBiAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CartController : ControllerBase
@@ -22,9 +23,6 @@ namespace JuJuBiAPI.Controllers
         public async Task<IActionResult> GetCart(int userId)
         {
             var cart = await _cartRepo.GetActiveCartByUserAsync(userId);
-
-            //if (cart == null)
-            //    return NotFound("No active cart found");
 
             return Ok(cart);
         }
@@ -55,16 +53,12 @@ namespace JuJuBiAPI.Controllers
 
             if (existingItem != null)
             {
-               
                 existingItem.Quantity += request.Quantity;
-
-                //     CalculateItem(existingItem);
 
                 await _cartRepo.UpdateCartItemAsync(existingItem);
             }
             else
             {
-               
                 var item = new CartItem
                 {
                     CartID = cart.CartID,
@@ -76,14 +70,11 @@ namespace JuJuBiAPI.Controllers
                     TaxPercent = request.TaxPercent
                 };
 
-                    //CalculateItem(item);
-
                 await _cartRepo.AddCartItemAsync(item);
             }
 
-  
-            await RecalculateCart(cart.CartID);
-
+            // Cart totals are maintained by CartRepository (UpdateCartTotal)
+            // on every item add/update/remove.
             return Ok("Item added to cart");
         }
 
@@ -93,9 +84,7 @@ namespace JuJuBiAPI.Controllers
         {
             if (request == null)
                 return BadRequest("Request is null");
-            int userId = int.Parse(
-     User.FindFirstValue(ClaimTypes.NameIdentifier)
- );
+
             var item = await _cartRepo.GetCartItemAsync(
                 request.CartId,
                 request.ProductId
@@ -104,24 +93,16 @@ namespace JuJuBiAPI.Controllers
             if (item == null)
                 return NotFound("Item not found");
 
-           
             if (request.Quantity <= 0)
             {
                 await _cartRepo.RemoveCartItemAsync(item);
 
-                await RecalculateCart(userId);
-
                 return Ok("Item removed");
             }
 
-   
             item.Quantity = request.Quantity;
 
-       //     CalculateItem(item);
-
             await _cartRepo.UpdateCartItemAsync(item);
-
-            await RecalculateCart(item.CartID);
 
             return Ok("Item updated");
         }
@@ -140,39 +121,5 @@ namespace JuJuBiAPI.Controllers
 
             return Ok("Item removed");
         }
-
-  
-
-        //private void CalculateItem(CartItem item)
-        //{
-        //    item.SubTotal = item.Quantity * item.UnitPrice;
-
-        //    item.DiscountAmount =
-        //        item.SubTotal * item.DiscountPercent / 100;
-
-        //    var afterDiscount = item.SubTotal - item.DiscountAmount;
-
-        //    item.TaxAmount =
-        //        afterDiscount * item.TaxPercent / 100;
-
-        //    item.TotalPrice =
-        //        afterDiscount + item.TaxAmount;
-        //}
-
-        private async Task RecalculateCart(int cartId)
-        {
-            var cart = await _cartRepo.GetActiveCartByUserAsync(cartId);
-
-            if (cart == null) return;
-
-            cart.SubTotal = cart.CartItems.Sum(x => x.SubTotal);
-            cart.DiscountAmount = cart.CartItems.Sum(x => x.DiscountAmount);
-            cart.TaxAmount = cart.CartItems.Sum(x => x.TaxAmount);
-            cart.GrandTotal = cart.CartItems.Sum(x => x.TotalPrice);
-
-            await _cartRepo.UpdateCartAsync(cart);
-        }
     }
-
-
 }

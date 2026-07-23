@@ -3,9 +3,11 @@ using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Entities;
 using System.Threading.Tasks;
 using JuJuBiAPI.Models.Branch;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JuJuBiAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BrandController : ControllerBase

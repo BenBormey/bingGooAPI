@@ -123,28 +123,33 @@ namespace JuJuBiAPI.Queries
                         WHERE PurchaseOrderItemID = @PurchaseOrderItemID;
                     ";
 
+        // Guard: the product must exist. TPRProducts is the product master.
         public const string GetProIdByProNumY = @"
                         SELECT ProID FROM TPRProducts WHERE ProNumY = @ProNumY;
                     ";
 
-        public const string GetExistingStock = @"
-                        SELECT StockID FROM ProductStocks
-                        WHERE ProductID = @ProductID AND OutletId = @OutletId;
+        // Stock now lives in OutletStock, keyed by ProNumY + OutletId
+        // (same table the OutletOrder / TransferOrder flows use).
+        public const string OutletStockExists = @"
+                        SELECT CASE WHEN EXISTS (
+                            SELECT 1 FROM OutletStock
+                            WHERE ProNumY = @ProNumY AND OutletId = @OutletId
+                        ) THEN 1 ELSE 0 END;
                     ";
 
         public const string AddProductStock = @"
-                            UPDATE ProductStocks
+                            UPDATE OutletStock
                             SET
                                 StockQty = StockQty + @ReceivedQty,
-                                LastUpdated = GETDATE()
-                            WHERE StockID = @StockID;
+                                UpdatedAt = GETDATE()
+                            WHERE ProNumY = @ProNumY AND OutletId = @OutletId;
                         ";
 
         public const string InsertProductStock = @"
-                            INSERT INTO ProductStocks
-                                (ProductID, OutletId, StockQty, LastUpdated)
+                            INSERT INTO OutletStock
+                                (OutletId, ProNumY, StockQty, CreatedAt)
                             VALUES
-                                (@ProductID, @OutletId, @StockQty, GETDATE());
+                                (@OutletId, @ProNumY, @StockQty, GETDATE());
                         ";
 
         public const string SetStatus = @"

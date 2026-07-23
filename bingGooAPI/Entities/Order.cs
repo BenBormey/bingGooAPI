@@ -21,26 +21,26 @@ namespace JuJuBiAPI.Entities
 
         public decimal GrandTotal { get; set; }
 
-        public string OrderStatus { get; set; }
+        public string OrderStatus { get; set; } = string.Empty;
 
-        public string InvoiceNo { get; set; }
+        public string InvoiceNo { get; set; } = string.Empty;
 
-        public string PaymentMethod { get; set; }
+        public string PaymentMethod { get; set; } = string.Empty;
 
         public int? ShiftId { get; set; }
 
-        public string VoidReason { get; set; }
+        public string VoidReason { get; set; } = string.Empty;
 
         // Joined for display in the POS order list.
-        public string CashierName { get; set; }
+        public string CashierName { get; set; } = string.Empty;
 
-        public string OutletName { get; set; }
+        public string OutletName { get; set; } = string.Empty;
 
         public DateTime CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
 
         // ✅ Navigation Property
-        public ICollection<OrderItem> OrderItems { get; set; }
+        public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }
 }

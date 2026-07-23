@@ -22,13 +22,17 @@ namespace JuJuBiAPI.Services
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim("OutletId", user.OutletId.ToString()),
+                new Claim("OutletId", user.OutletId?.ToString() ?? string.Empty),
           
                 new Claim(ClaimTypes.Role, user.RoleCode)
             };
 
+            var keyString = _config["Jwt:Key"]
+                ?? throw new InvalidOperationException(
+                    "Jwt:Key is not configured. In production set the Jwt__Key environment variable.");
+
             var key = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(_config["Jwt:Key"]!)
+                Encoding.UTF8.GetBytes(keyString)
             );
 
             var creds = new SigningCredentials(
@@ -41,7 +45,9 @@ namespace JuJuBiAPI.Services
                 audience: _config["Jwt:Audience"],
                 claims: claims,
                 expires: DateTime.UtcNow.AddMinutes(
-                    int.Parse(_config["Jwt:ExpireMinutes"]!)
+                    int.TryParse(_config["Jwt:ExpireMinutes"], out var expireMinutes)
+                        ? expireMinutes
+                        : 60
                 ),
                 signingCredentials: creds
             );

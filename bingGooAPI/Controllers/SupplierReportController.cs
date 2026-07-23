@@ -1,9 +1,11 @@
 ﻿using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Models.Report;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JuJuBiAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/reports/[controller]")]
     public class SupplierReportController : ControllerBase

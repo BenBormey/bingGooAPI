@@ -247,15 +247,6 @@ namespace JuJuBiAPI.Repositories
             var count = await _connection.ExecuteScalarAsync<int>(ProductQueries.Exists, new { Id = id });
             return count > 0;
         }
-        public async Task<List<ProductPosDto>> GetForPosAsync(int outletId, int? categoryId)
-        {
-            var data = await _connection.QueryAsync<ProductPosDto>(
-                ProductQueries.GetForPos,
-                new { OutletId = outletId, CategoryId = categoryId });
-
-            return data.ToList();
-        }
-
         public async Task<Product?> GetByBarcodeAsync(string barcode)
         {
             var product = (await _connection.QueryAsync<Product, ProductScaleDto, Product>(

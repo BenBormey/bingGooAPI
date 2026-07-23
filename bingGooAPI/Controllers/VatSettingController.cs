@@ -1,10 +1,12 @@
 using JuJuBiAPI.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JuJuBiAPI.Controllers
 {
     // The single outlet-wide VAT rate the POS applies to every order. Read by
     // the POS on startup; set from the management app's VAT settings form.
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class VatSettingController : ControllerBase

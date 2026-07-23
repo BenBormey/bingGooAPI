@@ -7,7 +7,7 @@ namespace JuJuBiAPI.Interfaces
     {
         Task<IEnumerable<HourOperation>> GetAllAsync();
 
-        Task<HourOperation> GetByIdAsync(int id);
+        Task<HourOperation?> GetByIdAsync(int id);
 
         Task<HourOperation> AddAsync(CreateHourOperationDto dto);
 

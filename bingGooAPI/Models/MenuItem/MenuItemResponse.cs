@@ -11,7 +11,7 @@
         public string CurrencyCode { get; set; } = string.Empty;
 
         public decimal SellingPrice { get; set; }
-        public string ProName { get; set; }
+        public string ProName { get; set; } = string.Empty;
         public bool IsPromotion { get; set; }
 
         public decimal? Discount { get; set; }

@@ -16,7 +16,7 @@ namespace JuJuBiAPI.Repositories
         }
 
 
-        public async Task<bool> ExistsAsync(string proNumY, string uomCode, decimal? excludeId = null)
+        public async Task<bool> ExistsAsync(string proNumY, string? uomCode, decimal? excludeId = null)
         {
             var count = await _connection.ExecuteScalarAsync<int>(
                 ProductScalQueries.Exists,

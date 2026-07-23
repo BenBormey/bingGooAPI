@@ -70,13 +70,13 @@ namespace UnitTest
             };
 
             _mockRepo.Setup(x => x.GetActiveCartByUserAsync(request.UserId))
-                     .ReturnsAsync((Cart)null);
+                     .ReturnsAsync((Cart?)null);
 
             _mockRepo.Setup(x => x.CreateCartAsync(It.IsAny<Cart>()))
                      .ReturnsAsync(newCart);
 
             _mockRepo.Setup(x => x.GetCartItemAsync(newCart.CartID, request.ProductId))
-                     .ReturnsAsync((CartItem)null);
+                     .ReturnsAsync((CartItem?)null);
 
             _mockRepo.Setup(x => x.AddCartItemAsync(It.IsAny<CartItem>()))
                      .Returns(Task.CompletedTask);
@@ -104,7 +104,7 @@ namespace UnitTest
             };
 
             _mockRepo.Setup(x => x.GetCartItemAsync(request.CartId, request.ProductId))
-                     .ReturnsAsync((CartItem)null);
+                     .ReturnsAsync((CartItem?)null);
 
        
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]

@@ -10,7 +10,7 @@ namespace JuJuBiAPI.Models.Product
         public string? ProNumS { get; set; }
         public string? ProNumYP { get; set; }
         public string? ProNumYC { get; set; }
-        public string ProImage { get; set; }
+        public string ProImage { get; set; } = string.Empty;
         public string? Sup1 { get; set; }
         public string? Sup2 { get; set; }
 

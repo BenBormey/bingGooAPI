@@ -20,11 +20,11 @@ namespace JuJuBiAPI.Models.Outlet
         public int ProvinceId { get; set; }
         public bool HeadOffice { get; set; }
         public string PhotoPath { get;set; } = null!;
-        public string VATNumber { get; set; }
+        public string VATNumber { get; set; } = string.Empty;
         public int FranchiseId { get; set; }
         public string Position { get; set; } = null!;
         public DateTime GrandOpeningDate { get; set; }
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
         //public string Position { get; set; } = null!;
 
         //    public List<string> Photos { get; set; } = new List<string>();

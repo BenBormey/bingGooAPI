@@ -36,8 +36,6 @@
 
 
 
-        public Cart Cart { get; set; }
-
-        public ProductStock ProductStock { get; set; }
+        public Cart Cart { get; set; } = null!;
     }
 }

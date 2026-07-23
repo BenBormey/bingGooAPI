@@ -2,11 +2,11 @@
 {
     public class Category : BaseEntity
     {
-        public string CategoryCode { get; set; }
-        public string CategoryName { get; set; }
-        public string Remark { get; set; }
+        public string CategoryCode { get; set; } = string.Empty;
+        public string CategoryName { get; set; } = string.Empty;
+        public string Remark { get; set; } = string.Empty;
 
-        public string KhmerCategoryName { get; set; }   
+        public string KhmerCategoryName { get; set; } = string.Empty;
 
 
 

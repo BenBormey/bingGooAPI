@@ -2,9 +2,11 @@
 using JuJuBiAPI.Models;
 using JuJuBiAPI.Models.OutletProduct;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JuJuBiAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]        // -> api/OutletProduct
     public class OutletProductController : ControllerBase

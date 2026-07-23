@@ -12,7 +12,7 @@
         public double? CBMPerCTN { get; set; }
         public double? NetWeight { get; set; }
         public double? GrossWeight { get; set; }
-        public string ProNumY { get; set; }
+        public string ProNumY { get; set; } = string.Empty;
 
         public bool Status { get; set; }
     }

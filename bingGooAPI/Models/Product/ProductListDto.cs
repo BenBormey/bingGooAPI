@@ -5,7 +5,7 @@ namespace JuJuBiAPI.Models.Product
     public class ProductListDto
     {
         public int ProID { get; set; }
-        public string ProImage { get; set; }
+        public string ProImage { get; set; } = string.Empty;
         public string? ProNumY { get; set; }
         public string? ProNumS { get; set; }
         public string? ProNumYP { get; set; }
@@ -104,7 +104,7 @@ namespace JuJuBiAPI.Models.Product
 
         public decimal? VOP { get; set; }
         public string? Status { get; set; }
-        public ProductScaleDto ProductScale { get; set; }
+        public ProductScaleDto? ProductScale { get; set; }
 
     }
 }

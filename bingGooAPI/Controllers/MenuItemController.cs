@@ -2,9 +2,11 @@
 using JuJuBiAPI.Interfaces;
 using JuJuBis.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JuJuBiAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class MenuItemController : ControllerBase

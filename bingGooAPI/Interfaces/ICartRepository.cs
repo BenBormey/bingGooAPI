@@ -21,9 +21,7 @@ namespace JuJuBiAPI.Interfaces
 
         Task RemoveCartItemAsync(CartItem item);
 
-   
-        Task UpdateCartAsync(Cart cart);
 
-        Task SaveAsync();
+        Task UpdateCartAsync(Cart cart);
     }
 }

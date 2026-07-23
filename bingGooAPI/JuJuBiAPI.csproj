@@ -14,8 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\NewFolder\" />
-    <Folder Include="Models\Provincesdto\" />
     <Folder Include="wwwroot\uploads\products\" />
   </ItemGroup>
 

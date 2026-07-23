@@ -22,7 +22,7 @@ namespace JuJuBiAPI.Repositories
             return result.AsList();
         }
 
-        public async Task<Franchise> GetByIdAsync(int id)
+        public async Task<Franchise?> GetByIdAsync(int id)
         {
             return await _connection.QueryFirstOrDefaultAsync<Franchise>(
                 FranchiseQueries.GetById,

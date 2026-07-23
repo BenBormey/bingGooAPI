@@ -25,7 +25,7 @@
             public double? GrossWeight { get; set; }
 
             public bool Status { get; set; }
-        public string ProNumY { get; set; }
+        public string ProNumY { get; set; } = string.Empty;
         public DateTime CreatedDate { get; set; }
         }
     }

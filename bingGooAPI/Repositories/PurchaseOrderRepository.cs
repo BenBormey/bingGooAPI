@@ -193,8 +193,7 @@ namespace JuJuBiAPI.Repositories
                         receiveItem.PurchaseOrderItemID
                     }, transaction);
 
-                    // ProNumY is the product's real primary key; ProductStocks keys off
-                    // the surrogate ProID, so resolve it before touching stock.
+                    // Guard: make sure the product exists in the master table.
                     var proId = await _connection.QueryFirstOrDefaultAsync<int?>(
                         PurchaseOrderQueries.GetProIdByProNumY,
                         new { item.ProNumY }, transaction);
@@ -203,15 +202,16 @@ namespace JuJuBiAPI.Repositories
                         throw new InvalidOperationException(
                             $"Product {item.ProNumY} was not found.");
 
-                    var existingStock = await _connection.QueryFirstOrDefaultAsync<int?>(
-                        PurchaseOrderQueries.GetExistingStock,
-                        new { ProductID = proId.Value, OutletId = purchaseOrder.OutletID }, transaction);
+                    // OutletStock is keyed by ProNumY + OutletId (no surrogate StockID).
+                    var stockExists = await _connection.ExecuteScalarAsync<int>(
+                        PurchaseOrderQueries.OutletStockExists,
+                        new { item.ProNumY, OutletId = purchaseOrder.OutletID }, transaction) == 1;
 
-                    if (existingStock.HasValue)
+                    if (stockExists)
                     {
                         await _connection.ExecuteAsync(
                             PurchaseOrderQueries.AddProductStock,
-                            new { receiveItem.ReceivedQty, StockID = existingStock.Value }, transaction);
+                            new { receiveItem.ReceivedQty, item.ProNumY, OutletId = purchaseOrder.OutletID }, transaction);
                     }
                     else
                     {
@@ -219,8 +219,8 @@ namespace JuJuBiAPI.Repositories
                             PurchaseOrderQueries.InsertProductStock,
                             new
                             {
-                                ProductID = proId.Value,
                                 OutletId = purchaseOrder.OutletID,
+                                item.ProNumY,
                                 StockQty = receiveItem.ReceivedQty
                             }, transaction);
                     }

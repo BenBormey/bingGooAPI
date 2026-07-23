@@ -2,9 +2,11 @@
 using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Entities;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JuJuBiAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProvinceController : ControllerBase

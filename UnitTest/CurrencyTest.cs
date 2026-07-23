@@ -66,7 +66,7 @@ namespace UnitTest
         [Fact]
         public async Task GetById_ReturnsNotFound_WhenMissing()
         {
-            _mockService.Setup(s => s.GetByIdAsync(1)).ReturnsAsync((Currency)null);
+            _mockService.Setup(s => s.GetByIdAsync(1)).ReturnsAsync((Currency?)null);
             var result = await _controller.GetById(1);
             Assert.IsType<NotFoundResult>(result);
         }

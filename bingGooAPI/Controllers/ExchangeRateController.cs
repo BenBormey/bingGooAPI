@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JuJuBiAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ExchangeRateController : ControllerBase

@@ -8,10 +8,12 @@ namespace JuJuBiAPI.Controllers
     public class HealthController : ControllerBase
     {
         private readonly IConfiguration _config;
+        private readonly ILogger<HealthController> _logger;
 
-        public HealthController(IConfiguration config)
+        public HealthController(IConfiguration config, ILogger<HealthController> logger)
         {
             _config = config;
+            _logger = logger;
         }
 
         [HttpGet("db")]
@@ -29,7 +31,10 @@ namespace JuJuBiAPI.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, "❌ ERROR: " + ex.Message);
+                // This endpoint is anonymous; raw SqlException text exposes
+                // server names/network detail, so log it and answer generically.
+                _logger.LogError(ex, "Database health check failed");
+                return StatusCode(500, "❌ Database connection failed");
             }
         }
     }

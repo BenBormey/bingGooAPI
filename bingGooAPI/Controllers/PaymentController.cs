@@ -4,9 +4,11 @@ using JuJuBiAPI.Entities;
 using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Models.Payment;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JuJuBiAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class PaymentController : ControllerBase
@@ -27,6 +29,9 @@ namespace JuJuBiAPI.Controllers
         {
             if (dto == null || dto.OrderId <= 0)
                 return BadRequest("Invalid order id");
+
+            if (dto.Amount <= 0)
+                return BadRequest("Amount must be greater than zero");
 
             await _orderRepo.UpdateOrderStatusAsync(dto.OrderId, "Paid");
 
@@ -54,6 +59,9 @@ namespace JuJuBiAPI.Controllers
             if (dto == null || dto.OrderId <= 0)
                 return BadRequest("Invalid order id");
 
+            if (dto.Amount <= 0)
+                return BadRequest("Amount must be greater than zero");
+
             string qrData =
                 $"KHQR|ORDER:{dto.OrderId}|AMOUNT:{dto.Amount:0.00}";
 
@@ -71,6 +79,9 @@ namespace JuJuBiAPI.Controllers
             if (dto == null || dto.OrderId <= 0)
                 return BadRequest("Invalid order id");
 
+            if (dto.Amount <= 0)
+                return BadRequest("Amount must be greater than zero");
+
             await _orderRepo.UpdateOrderStatusAsync(dto.OrderId, "Paid");
 
             var payment = new Payment
@@ -78,7 +89,7 @@ namespace JuJuBiAPI.Controllers
                 OrderID = dto.OrderId,
                 PaymentMethod = "QR",
                 AmountPaid = dto.Amount,
-                CashReceived = Convert.ToInt32(null),
+                CashReceived = 0,
                 PaymentStatus = "Paid",
                 TransactionNo = dto.TransactionNo
             };

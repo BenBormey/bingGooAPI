@@ -1,9 +1,11 @@
 using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Models.OutletOrder;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JuJuBiAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class OutletOrderController : ControllerBase

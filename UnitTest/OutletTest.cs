@@ -72,7 +72,7 @@ namespace UnitTest
         {
             // Arrange
             _mockRepo.Setup(x => x.GetByIdAsync(1))
-                     .ReturnsAsync((OutletListDto)null);
+                     .ReturnsAsync((OutletListDto?)null);
 
             // Act
             var result = await _controller.GetById(1);
@@ -80,9 +80,9 @@ namespace UnitTest
             // Assert
             var notFound = Assert.IsType<NotFoundObjectResult>(result.Result);
 
-            var message = notFound.Value.GetType()
-                .GetProperty("message")
-                .GetValue(notFound.Value)
+            var message = notFound.Value!.GetType()
+                .GetProperty("message")!
+                .GetValue(notFound.Value)!
                 .ToString();
 
             Assert.Equal("Outlet not found", message);
@@ -106,9 +106,9 @@ namespace UnitTest
             // Assert
             var createdResult = Assert.IsType<CreatedAtActionResult>(result);
 
-            var message = createdResult.Value.GetType()
-                .GetProperty("message")
-                .GetValue(createdResult.Value)
+            var message = createdResult.Value!.GetType()
+                .GetProperty("message")!
+                .GetValue(createdResult.Value)!
                 .ToString();
 
             Assert.Equal("Create Outlet complete", message);
@@ -130,9 +130,9 @@ namespace UnitTest
             // Assert
             var badRequest = Assert.IsType<BadRequestObjectResult>(result);
 
-            var message = badRequest.Value.GetType()
-                .GetProperty("message")
-                .GetValue(badRequest.Value)
+            var message = badRequest.Value!.GetType()
+                .GetProperty("message")!
+                .GetValue(badRequest.Value)!
                 .ToString();
 
             Assert.Equal("Id mismatch", message);
@@ -157,9 +157,9 @@ namespace UnitTest
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
 
-            var message = okResult.Value.GetType()
-                .GetProperty("message")
-                .GetValue(okResult.Value)
+            var message = okResult.Value!.GetType()
+                .GetProperty("message")!
+                .GetValue(okResult.Value)!
                 .ToString();
 
             Assert.Equal("Update Outlet complete", message);
@@ -178,9 +178,9 @@ namespace UnitTest
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
 
-            var message = okResult.Value.GetType()
-                .GetProperty("message")
-                .GetValue(okResult.Value)
+            var message = okResult.Value!.GetType()
+                .GetProperty("message")!
+                .GetValue(okResult.Value)!
                 .ToString();
 
             Assert.Equal("Outlet deleted successfully.", message);

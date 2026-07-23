@@ -6,7 +6,7 @@ namespace JuJuBiAPI.Interfaces
     {
         Task<List<Franchise>> GetAllAsync();
 
-        Task<Franchise> GetByIdAsync(int id);
+        Task<Franchise?> GetByIdAsync(int id);
 
         Task<int> InsertAsync(Franchise franchise);
 

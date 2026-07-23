@@ -17,6 +17,6 @@
         public decimal NetAmount { get; set; }
 
         public DateTime SaleDate { get; set; }
-        public string InvoiceNo { get; set; }
+        public string InvoiceNo { get; set; } = string.Empty;
     }
 }

@@ -2,9 +2,11 @@
 using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Models.Supplier;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JuJuBiAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SupplierController : ControllerBase
@@ -46,6 +48,9 @@ namespace JuJuBiAPI.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+
+            if (string.IsNullOrWhiteSpace(dto.SupplierName))
+                return BadRequest(new { Message = "SupplierName is required." });
 
             bool exists = await _repo.ExistsByNameAsync(dto.SupplierName);
             if (exists)

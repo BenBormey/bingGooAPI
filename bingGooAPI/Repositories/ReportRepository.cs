@@ -44,11 +44,13 @@ namespace JuJuBiAPI.Repositories
             });
 
 
+            // TODO: no supplier-invoice/AP tracking exists yet, so Accounts
+            // Payable cannot be computed — report 0 rather than a fake figure.
             bs.Liabilities.Add(new BalanceSheetItemDto
             {
                 Code = "AP",
                 Name = "Accounts Payable",
-                Amount = 112120
+                Amount = 0
             });
 
 

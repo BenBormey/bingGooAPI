@@ -24,7 +24,7 @@ namespace JuJuBiAPI.Entities
 
         public string Status { get; set; } = "Open";
 
-        public string Notes { get; set; }
+        public string Notes { get; set; } = string.Empty;
     }
 
     // Totals for one shift, used for the close screen and the Z-report.

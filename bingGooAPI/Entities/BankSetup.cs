@@ -4,25 +4,25 @@
     {
         public int BankId { get; set; }
 
-        public string BankCode { get; set; }
+        public string BankCode { get; set; } = string.Empty;
 
-        public string BankName { get; set; }
+        public string BankName { get; set; } = string.Empty;
 
-        public string BankType { get; set; }
+        public string BankType { get; set; } = string.Empty;
 
-        public string MerchantId { get; set; }
+        public string MerchantId { get; set; } = string.Empty;
 
-        public string MerchantName { get; set; }
+        public string MerchantName { get; set; } = string.Empty;
 
-        public string ApiUrl { get; set; }
+        public string ApiUrl { get; set; } = string.Empty;
 
-        public string ApiKey { get; set; }
+        public string ApiKey { get; set; } = string.Empty;
 
-        public string ApiSecret { get; set; }
+        public string ApiSecret { get; set; } = string.Empty;
 
-        public string CallbackUrl { get; set; }
+        public string CallbackUrl { get; set; } = string.Empty;
 
-        public string Currency { get; set; }
+        public string Currency { get; set; } = string.Empty;
 
         public bool IsDefault { get; set; }
 

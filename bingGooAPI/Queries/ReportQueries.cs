@@ -12,46 +12,53 @@ namespace JuJuBiAPI.Queries
 
         public const string BalanceSheetInventory = @"
 SELECT
-    ISNULL(SUM(ps.StockQty * pr.CostPrice), 0)
-FROM ProductStocks ps
-JOIN Products pr ON ps.ProductID = pr.ProductID
+    ISNULL(SUM(os.StockQty * ISNULL(t.ProImpPri, 0)), 0)
+FROM OutletStock os
+JOIN TPRProducts t ON t.ProNumY = os.ProNumY
 
     ";
 
+        // Sales and cost are aggregated in separate subqueries: joining
+        // Payments and OrderItems together multiplies AmountPaid by the item
+        // count (and cost by the payment count) on orders with several of each.
         public const string BalanceSheetRetainedEarnings = @"
         SELECT
-            ISNULL(SUM(p.AmountPaid),0)
-          - ISNULL(SUM(oi.Quantity * pr.CostPrice),0)
-        FROM Orders o
-        JOIN Payments p ON o.OrderID = p.OrderID
-        JOIN OrderItems oi ON o.OrderID = oi.OrderID
-        JOIN Products pr ON oi.ProductID = pr.ProductID
-        WHERE o.OrderStatus = 'Paid'
-          AND o.CreatedAt <= @AsOfDate
+            (SELECT ISNULL(SUM(p.AmountPaid), 0)
+             FROM Orders o
+             JOIN Payments p ON o.OrderID = p.OrderID
+             WHERE o.OrderStatus = 'Paid'
+               AND o.CreatedAt <= @AsOfDate)
+          - (SELECT ISNULL(SUM(oi.Quantity * ISNULL(t.ProImpPri, 0)), 0)
+             FROM Orders o
+             JOIN OrderItems oi ON o.OrderID = oi.OrderID
+             JOIN TPRProducts t ON t.ProNumY = oi.ProductID
+             WHERE o.OrderStatus = 'Paid'
+               AND o.CreatedAt <= @AsOfDate)
     ";
 
+        // Same separation as BalanceSheetRetainedEarnings — sales and cost
+        // must not share one join or both sums get inflated.
         public const string PnL = @"
+                WITH Sales AS (
+                    SELECT ISNULL(SUM(p.AmountPaid), 0) AS TotalSales
+                    FROM Orders o
+                    JOIN Payments p ON o.OrderID = p.OrderID
+                    WHERE o.OrderStatus = 'Paid'
+                      AND o.CreatedAt BETWEEN @From AND @To
+                ),
+                Cost AS (
+                    SELECT ISNULL(SUM(oi.Quantity * ISNULL(t.ProImpPri, 0)), 0) AS TotalCost
+                    FROM Orders o
+                    JOIN OrderItems oi ON o.OrderID = oi.OrderID
+                    JOIN TPRProducts t ON t.ProNumY = oi.ProductID
+                    WHERE o.OrderStatus = 'Paid'
+                      AND o.CreatedAt BETWEEN @From AND @To
+                )
                 SELECT
-
-
-                    SUM(p.AmountPaid) AS TotalSales,
-
-                    SUM(oi.Quantity * pr.CostPrice) AS TotalCost,
-
-                    SUM(p.AmountPaid)
-                      - SUM(oi.Quantity * pr.CostPrice) AS Profit
-
-                FROM Orders o
-                JOIN Payments p ON o.OrderID = p.OrderID
-                JOIN OrderItems oi ON o.OrderID = oi.OrderID
-                JOIN Products pr ON oi.ProductID = pr.ProductID
-
-                WHERE
-                    o.OrderStatus = 'Paid'
-                    AND o.CreatedAt BETWEEN @From AND @To
-
-
-
+                    s.TotalSales,
+                    c.TotalCost,
+                    s.TotalSales - c.TotalCost AS Profit
+                FROM Sales s CROSS JOIN Cost c;
             ";
 
         // Stored procedure name for the sales-by-outlet report.

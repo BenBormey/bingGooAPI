@@ -16,6 +16,6 @@
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-        public List<CartItem> CartItems { get; set; }
+        public List<CartItem> CartItems { get; set; } = new List<CartItem>();
     }
 }

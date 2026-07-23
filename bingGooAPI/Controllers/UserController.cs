@@ -7,6 +7,7 @@ using System.Security.Claims;
 
 namespace JuJuBiAPI.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/users")]
     public class UserController : ControllerBase

@@ -48,17 +48,17 @@ namespace UnitTest
          
             var okResult = Assert.IsType<OkObjectResult>(result);
 
-            var value = okResult.Value;
+            var value = okResult.Value!;
 
-            var accessTokenProperty = value.GetType().GetProperty("access_token");
+            var accessTokenProperty = value.GetType().GetProperty("access_token")!;
             var accessToken = accessTokenProperty.GetValue(value)?.ToString();
-            var userProperty = value.GetType().GetProperty("user");
-            var userObject = userProperty.GetValue(value);
+            var userProperty = value.GetType().GetProperty("user")!;
+            var userObject = userProperty.GetValue(value)!;
 
-            var usernameProperty = userObject.GetType().GetProperty("username");
+            var usernameProperty = userObject.GetType().GetProperty("username")!;
             var username = usernameProperty.GetValue(userObject)?.ToString();
 
-            var roleProperty = userObject.GetType().GetProperty("roleName");
+            var roleProperty = userObject.GetType().GetProperty("roleName")!;
             var role = roleProperty.GetValue(userObject)?.ToString();
 
         

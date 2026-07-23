@@ -1,5 +1,4 @@
-﻿using JuJuBiAPI.Databases;
-using JuJuBiAPI.Entities;
+﻿using JuJuBiAPI.Entities;
 using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Middlewares;
 using JuJuBiAPI.Repositories;
@@ -21,7 +20,6 @@ namespace JuJuBiAPI.Configurations
             services.AddScoped<ICurrencyRepository, CurrencyService>();
             services.AddScoped<ICategoryRepository, CategoryService>();
             services.AddScoped<IBrandRepository, BranchService>();
-            services.AddScoped<IProductStockRepository, ProductStockService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IJwtTokenService, JwtTokenService>();
@@ -62,7 +60,14 @@ namespace JuJuBiAPI.Configurations
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            var key = configuration["Jwt:Key"];
+            var key = configuration["Jwt:Key"]
+                ?? throw new InvalidOperationException(
+                    "Jwt:Key is not configured. In production set the Jwt__Key environment variable.");
+
+            // JwtTokenService stamps these onto every token it issues, so
+            // reject any token that was signed for a different app.
+            var issuer = configuration["Jwt:Issuer"];
+            var audience = configuration["Jwt:Audience"];
 
             services.AddAuthentication(options =>
             {
@@ -80,8 +85,10 @@ namespace JuJuBiAPI.Configurations
                 options.TokenValidationParameters =
                     new TokenValidationParameters
                     {
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
+                        ValidateIssuer = !string.IsNullOrEmpty(issuer),
+                        ValidIssuer = issuer,
+                        ValidateAudience = !string.IsNullOrEmpty(audience),
+                        ValidAudience = audience,
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
 
@@ -100,15 +107,13 @@ namespace JuJuBiAPI.Configurations
             IConfiguration configuration)
         {
             var defaultConnection =
-                configuration.GetConnectionString("DefaultConnection");
+                configuration.GetConnectionString("DefaultConnection")
+                ?? throw new InvalidOperationException("Connection string 'DefaultConnection' is not configured.");
 
             services.AddScoped<IDbConnection>(sp =>
             {
                 return new SqlConnection(defaultConnection);
             });
-
-            services.AddSingleton<ConnectionManager>(sp =>
-                new ConnectionManager(defaultConnection));
 
             return services;
         }

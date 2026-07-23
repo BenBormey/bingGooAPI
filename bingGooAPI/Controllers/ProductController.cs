@@ -2,9 +2,11 @@
 using JuJuBiAPI.Interfaces;
 using JuJuBiAPI.Models.Product;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JuJuBiAPI.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
@@ -129,11 +131,29 @@ namespace JuJuBiAPI.Controllers
 
             return Ok(new { message = "Deleted successfully" });
         }
+        // Images only — uploads land in wwwroot and are served publicly, so
+        // never accept executable/script files here.
+        private static readonly string[] AllowedImageExtensions =
+            { ".jpg", ".jpeg", ".png", ".gif", ".webp" };
+
+        private const long MaxImageBytes = 5 * 1024 * 1024; // 5 MB
+
         [HttpPost("upload")]
         public async Task<IActionResult> UploadImage(IFormFile file)
         {
             if (file == null || file.Length == 0)
                 return BadRequest("No file uploaded");
+
+            if (file.Length > MaxImageBytes)
+                return BadRequest(new { message = "File too large. Maximum size is 5 MB." });
+
+            var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+
+            if (!AllowedImageExtensions.Contains(extension))
+                return BadRequest(new
+                {
+                    message = $"File type '{extension}' is not allowed. Allowed: {string.Join(", ", AllowedImageExtensions)}"
+                });
 
             var folder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "products");
 
@@ -154,16 +174,6 @@ namespace JuJuBiAPI.Controllers
             {
                 imageUrl
             });
-        }
-        [HttpGet("pos")]
-        public async Task<IActionResult> GetForPOS([FromQuery] int? categoryId)
-        {
-            if (!int.TryParse(User.FindFirst("OutletId")?.Value, out int outletId))
-                return BadRequest(new { message = "This user has no outlet assigned." });
-
-            var products = await _product.GetForPosAsync(outletId, categoryId);
-
-            return Ok(products);
         }
         [HttpGet("barcode/{barcode}")]
         public async Task<IActionResult> GetByBarcode(string barcode)

@@ -70,7 +70,7 @@ namespace UnitTest
         public async Task GetById_ReturnsNotFound_WhenMissing()
         {
             _mockRepo.Setup(x => x.GetByIdAsync(1))
-                     .ReturnsAsync((Supplier)null);
+                     .ReturnsAsync((Supplier?)null);
 
             var result = await _controller.GetById(1);
 
@@ -121,7 +121,7 @@ namespace UnitTest
             };
 
             _mockRepo.Setup(x => x.GetByIdAsync(1))
-                     .ReturnsAsync((Supplier)null);
+                     .ReturnsAsync((Supplier?)null);
 
             var result = await _controller.Update(1, dto);
 
@@ -165,15 +165,15 @@ namespace UnitTest
         public async Task Delete_ReturnsNotFound_WhenMissing()
         {
             _mockRepo.Setup(x => x.GetByIdAsync(1))
-                     .ReturnsAsync((Supplier)null);
+                     .ReturnsAsync((Supplier?)null);
 
             var result = await _controller.Delete(1);
 
             var notFound = Assert.IsType<NotFoundObjectResult>(result);
 
-            var message = notFound.Value.GetType()
-                .GetProperty("Message")
-                .GetValue(notFound.Value)
+            var message = notFound.Value!.GetType()
+                .GetProperty("Message")!
+                .GetValue(notFound.Value)!
                 .ToString();
 
             Assert.Equal("Supplier not found.", message);
@@ -198,9 +198,9 @@ namespace UnitTest
 
             var ok = Assert.IsType<OkObjectResult>(result);
 
-            var message = ok.Value.GetType()
-                .GetProperty("Message")
-                .GetValue(ok.Value)
+            var message = ok.Value!.GetType()
+                .GetProperty("Message")!
+                .GetValue(ok.Value)!
                 .ToString();
 
             Assert.Equal("Supplier deleted successfully.", message);

@@ -96,12 +96,6 @@ namespace JuJuBiAPI.Repositories
             await _connection.ExecuteAsync(CartQueries.UpdateCart, cart);
         }
 
-        public Task SaveAsync()
-        {
-            return Task.CompletedTask;
-        }
-
-
         private async Task LoadItems(Cart cart)
         {
             var items = await _connection

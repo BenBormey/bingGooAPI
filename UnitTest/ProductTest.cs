@@ -25,23 +25,6 @@ namespace UnitTest
             _controller = new ProductController(_repo.Object);
         }
 
-        private void SetOutletClaim(int outletId)
-        {
-            var user = new ClaimsPrincipal(
-                new ClaimsIdentity(
-                    new Claim[] { new Claim("OutletId", outletId.ToString()) }
-                )
-            );
-
-            _controller.ControllerContext = new ControllerContext
-            {
-                HttpContext = new DefaultHttpContext
-                {
-                    User = user
-                }
-            };
-        }
-
         [Fact]
         public async Task Create_ReturnsCreatedAtAction()
         {
@@ -96,34 +79,10 @@ namespace UnitTest
         }
 
         [Fact]
-        public async Task GetForPOS_ReturnsOk()
-        {
-            SetOutletClaim(1);
-
-            var list = new List<ProductPosDto>
-            {
-                new ProductPosDto
-                {
-                    ProductID = 1,
-                    ProductName = "POS Product"
-                }
-            };
-
-            _repo.Setup(r => r.GetForPosAsync(1, null))
-                 .ReturnsAsync(list);
-
-            var result = await _controller.GetForPOS(null);
-
-            var ok = Assert.IsType<OkObjectResult>(result);
-
-            Assert.Equal(list, ok.Value);
-        }
-
-        [Fact]
-        public async Task UploadImage_ReturnsOk()
+        public async Task UploadImage_ReturnsOk_ForImageFile()
         {
             var stream = new MemoryStream(Encoding.UTF8.GetBytes("test"));
-            var file = new FormFile(stream, 0, stream.Length, "file", "test.txt");
+            var file = new FormFile(stream, 0, stream.Length, "file", "test.png");
 
             _controller.ControllerContext = new ControllerContext
             {
@@ -135,6 +94,22 @@ namespace UnitTest
             var ok = Assert.IsType<OkObjectResult>(result);
 
             Assert.NotNull(ok.Value);
+        }
+
+        [Fact]
+        public async Task UploadImage_RejectsNonImageFile()
+        {
+            var stream = new MemoryStream(Encoding.UTF8.GetBytes("test"));
+            var file = new FormFile(stream, 0, stream.Length, "file", "test.txt");
+
+            _controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = new DefaultHttpContext()
+            };
+
+            var result = await _controller.UploadImage(file);
+
+            Assert.IsType<BadRequestObjectResult>(result);
         }
     }
 }

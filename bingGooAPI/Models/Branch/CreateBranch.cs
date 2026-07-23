@@ -2,9 +2,9 @@
 {
     public class CreateBranch
     {
-        public string BranchCode { get; set; }
+        public string BranchCode { get; set; } = string.Empty;
 
-        public string BranchName { get; set; }
+        public string BranchName { get; set; } = string.Empty;
 
         public bool IsMainBranch { get; set; }
 
