@@ -143,6 +143,7 @@ namespace JuJuBiAPI.Controllers
         private const long MaxImageBytes = 5 * 1024 * 1024; // 5 MB
 
         [HttpPost("upload")]
+        [AllowAnonymous]
         public async Task<IActionResult> UploadImage(IFormFile file)
         {
             if (file == null || file.Length == 0)

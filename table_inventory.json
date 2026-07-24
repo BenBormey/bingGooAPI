@@ -1,0 +1,243 @@
+[
+    {
+        "Table":  "AuditLogs",
+        "QueryFiles":  "AuditLogQueries"
+    },
+    {
+        "Table":  "BankSetup",
+        "QueryFiles":  "BankSetupQueries"
+    },
+    {
+        "Table":  "CartItems",
+        "QueryFiles":  [
+                           "CartQueries",
+                           "OrderQueries"
+                       ]
+    },
+    {
+        "Table":  "Carts",
+        "QueryFiles":  [
+                           "CartQueries",
+                           "OrderQueries"
+                       ]
+    },
+    {
+        "Table":  "Category",
+        "QueryFiles":  [
+                           "MenuItemQueries",
+                           "ProductQueries"
+                       ]
+    },
+    {
+        "Table":  "CitizenshipPhotos",
+        "QueryFiles":  "OutletQueries"
+    },
+    {
+        "Table":  "Currency",
+        "QueryFiles":  "MenuItemQueries"
+    },
+    {
+        "Table":  "Customer",
+        "QueryFiles":  [
+                           "CustomerQueries",
+                           "OrderQueries"
+                       ]
+    },
+    {
+        "Table":  "DBJuJuBi",
+        "QueryFiles":  [
+                           "HourOperationQueries",
+                           "OutletQueries"
+                       ]
+    },
+    {
+        "Table":  "Franchise",
+        "QueryFiles":  "FranchiseQueries"
+    },
+    {
+        "Table":  "franchise_type",
+        "QueryFiles":  [
+                           "FranchiseQueries",
+                           "FranchiseTypeQueries"
+                       ]
+    },
+    {
+        "Table":  "MenuItem",
+        "QueryFiles":  "MenuItemQueries"
+    },
+    {
+        "Table":  "OrderItems",
+        "QueryFiles":  [
+                           "OrderQueries",
+                           "ReportQueries"
+                       ]
+    },
+    {
+        "Table":  "Orders",
+        "QueryFiles":  [
+                           "OrderQueries",
+                           "ReportQueries",
+                           "ShiftQueries"
+                       ]
+    },
+    {
+        "Table":  "Outlet",
+        "QueryFiles":  [
+                           "MenuItemQueries",
+                           "OrderQueries",
+                           "OutletOrderQueries",
+                           "OutletQueries",
+                           "PurchaseOrderQueries",
+                           "ReportQueries",
+                           "TransferOrderQueries",
+                           "UserQueries"
+                       ]
+    },
+    {
+        "Table":  "OutletCode",
+        "QueryFiles":  "OutletCodeQueries"
+    },
+    {
+        "Table":  "OutletOrderItems",
+        "QueryFiles":  [
+                           "OutletOrderQueries",
+                           "ReportQueries"
+                       ]
+    },
+    {
+        "Table":  "OutletOrders",
+        "QueryFiles":  [
+                           "OutletOrderQueries",
+                           "ReportQueries"
+                       ]
+    },
+    {
+        "Table":  "OutletPhoto",
+        "QueryFiles":  "OutletQueries"
+    },
+    {
+        "Table":  "OutletStock",
+        "QueryFiles":  [
+                           "MenuItemQueries",
+                           "OrderQueries",
+                           "OutletOrderQueries",
+                           "PurchaseOrderQueries",
+                           "ReportQueries",
+                           "TransferOrderQueries"
+                       ]
+    },
+    {
+        "Table":  "Payments",
+        "QueryFiles":  [
+                           "PaymentQueries",
+                           "ReportQueries"
+                       ]
+    },
+    {
+        "Table":  "PointTransactions",
+        "QueryFiles":  "OrderQueries"
+    },
+    {
+        "Table":  "ProductDeliveryLogistics",
+        "QueryFiles":  "ProductDeliveryLogisticQueries"
+    },
+    {
+        "Table":  "Provinces",
+        "QueryFiles":  [
+                           "ProductDeliveryLogisticQueries",
+                           "ProvinceQueries"
+                       ]
+    },
+    {
+        "Table":  "PurchaseOrderItems",
+        "QueryFiles":  "PurchaseOrderQueries"
+    },
+    {
+        "Table":  "PurchaseOrders",
+        "QueryFiles":  "PurchaseOrderQueries"
+    },
+    {
+        "Table":  "Roles",
+        "QueryFiles":  [
+                           "RoleQueries",
+                           "UserQueries"
+                       ]
+    },
+    {
+        "Table":  "ShelfLife",
+        "QueryFiles":  "ShelfLifeQueries"
+    },
+    {
+        "Table":  "Shifts",
+        "QueryFiles":  "ShiftQueries"
+    },
+    {
+        "Table":  "source",
+        "QueryFiles":  "TransferOrderQueries"
+    },
+    {
+        "Table":  "Suppliers",
+        "QueryFiles":  "SupplierQueries"
+    },
+    {
+        "Table":  "TblProductsScale",
+        "QueryFiles":  [
+                           "ProductQueries",
+                           "ProductScalQueries"
+                       ]
+    },
+    {
+        "Table":  "TblProductsScaleDelete",
+        "QueryFiles":  "ProductScalQueries"
+    },
+    {
+        "Table":  "tblTermDay",
+        "QueryFiles":  [
+                           "SupplierQueries",
+                           "TermDayQueries"
+                       ]
+    },
+    {
+        "Table":  "through",
+        "QueryFiles":  "OrderQueries"
+    },
+    {
+        "Table":  "TPRProducts",
+        "QueryFiles":  [
+                           "MenuItemQueries",
+                           "OrderQueries",
+                           "ProductQueries",
+                           "PurchaseOrderQueries",
+                           "ReportQueries"
+                       ]
+    },
+    {
+        "Table":  "TransferOrderItems",
+        "QueryFiles":  "TransferOrderQueries"
+    },
+    {
+        "Table":  "TransferOrders",
+        "QueryFiles":  "TransferOrderQueries"
+    },
+    {
+        "Table":  "UOM",
+        "QueryFiles":  [
+                           "ProductScalQueries",
+                           "UomQueries"
+                       ]
+    },
+    {
+        "Table":  "Users",
+        "QueryFiles":  [
+                           "OrderQueries",
+                           "UserQueries"
+                       ]
+    },
+    {
+        "Table":  "VatSetting",
+        "QueryFiles":  [
+                           "OrderQueries",
+                           "VatSettingQueries"
+                       ]
+    }
+]

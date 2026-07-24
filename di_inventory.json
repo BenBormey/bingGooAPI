@@ -1,0 +1,158 @@
+[
+    {
+        "Interface":  "ICurrencyRepository",
+        "Implementation":  "CurrencyService"
+    },
+    {
+        "Interface":  "ICategoryRepository",
+        "Implementation":  "CategoryService"
+    },
+    {
+        "Interface":  "IBrandRepository",
+        "Implementation":  "BranchService"
+    },
+    {
+        "Interface":  "IUserRepository",
+        "Implementation":  "UserRepository"
+    },
+    {
+        "Interface":  "IAuthService",
+        "Implementation":  "AuthService"
+    },
+    {
+        "Interface":  "IJwtTokenService",
+        "Implementation":  "JwtTokenService"
+    },
+    {
+        "Interface":  "IUserService",
+        "Implementation":  "UserService"
+    },
+    {
+        "Interface":  "IRoleRepository",
+        "Implementation":  "RoleRepository"
+    },
+    {
+        "Interface":  "ISupplierRepository",
+        "Implementation":  "SupplierRepository"
+    },
+    {
+        "Interface":  "ICustomerRepository",
+        "Implementation":  "CustomerRepository"
+    },
+    {
+        "Interface":  "ICartRepository",
+        "Implementation":  "CartRepository"
+    },
+    {
+        "Interface":  "IOutletRepository",
+        "Implementation":  "OutletRepository"
+    },
+    {
+        "Interface":  "IOutletCodeRepository",
+        "Implementation":  "OutletCodeRepository"
+    },
+    {
+        "Interface":  "ITermDayRepository",
+        "Implementation":  "TermDayRepository"
+    },
+    {
+        "Interface":  "IProductRepository",
+        "Implementation":  "ProductRepository"
+    },
+    {
+        "Interface":  "IOrderRepository",
+        "Implementation":  "OrderRepository"
+    },
+    {
+        "Interface":  "IPaymentRepository",
+        "Implementation":  "PaymentRepository"
+    },
+    {
+        "Interface":  "IReportRepository",
+        "Implementation":  "ReportRepository"
+    },
+    {
+        "Interface":  "IExchangeRateRepository",
+        "Implementation":  "ExchangeRateService"
+    },
+    {
+        "Interface":  "IProvincesRepository",
+        "Implementation":  "ProvinceRepository"
+    },
+    {
+        "Interface":  "IFranchiseRepository",
+        "Implementation":  "FranchiseRepository"
+    },
+    {
+        "Interface":  "IFranchiseTypeItemRepository",
+        "Implementation":  "FranchiseTypeRepository"
+    },
+    {
+        "Interface":  "IProductScalRepository",
+        "Implementation":  "ProductScalRepository"
+    },
+    {
+        "Interface":  "IHourOperationRepository",
+        "Implementation":  "HourOperationRepository"
+    },
+    {
+        "Interface":  "IBankSetupRepository",
+        "Implementation":  "BankSetupRepository"
+    },
+    {
+        "Interface":  "ISupplierReportRepository",
+        "Implementation":  "SupplierReportService"
+    },
+    {
+        "Interface":  "IMenuItemRepository",
+        "Implementation":  "MenuItemRepository"
+    },
+    {
+        "Interface":  "IVatSettingRepository",
+        "Implementation":  "VatSettingRepository"
+    },
+    {
+        "Interface":  "IAuditLogRepository",
+        "Implementation":  "AuditLogRepository"
+    },
+    {
+        "Interface":  "IAuditLogger",
+        "Implementation":  "AuditLogger"
+    },
+    {
+        "Interface":  "IShiftRepository",
+        "Implementation":  "ShiftRepository"
+    },
+    {
+        "Interface":  "IUomRepository",
+        "Implementation":  "UomRepository"
+    },
+    {
+        "Interface":  "IOutletProductRepository",
+        "Implementation":  "OutletProductService"
+    },
+    {
+        "Interface":  "IShelfLifeRepository",
+        "Implementation":  "ShelfLifeRepository"
+    },
+    {
+        "Interface":  "IPurchaseOrderRepository",
+        "Implementation":  "PurchaseOrderRepository"
+    },
+    {
+        "Interface":  "IOutletOrderRepository",
+        "Implementation":  "OutletOrderRepository"
+    },
+    {
+        "Interface":  "IProductDeliveryLogisticRepository",
+        "Implementation":  "ProductDeliveryLogisticRepository"
+    },
+    {
+        "Interface":  "ITransferOrderRepository",
+        "Implementation":  "TransferOrderRepository"
+    },
+    {
+        "Interface":  "IPermissionRepository",
+        "Implementation":  "PermissionRepository"
+    }
+]
